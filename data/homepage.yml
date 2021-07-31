@@ -1,0 +1,300 @@
+# showcase
+showcase:
+  enable: true
+  title: "Dein Partner für"
+  subtitle: "Innovationsfinanzierung"
+  description: "<a target='_blank' href='https://skale.io/'>skale.io</a> kooperiert mit
+  besonderen Gründer*Innen in der Seed- oder Wachstumsphase und hilft bei der Finanzierung innovativer Produkte."
+  image:
+    x: "img/showcase/showcase.png"
+    _2x: "img/showcase/showcase@2x.png"
+  imageMobile:
+    x: "img/showcase/showcase-mobile.jpg"
+
+  button:
+    icon: "icon-mail-fill"
+    btnText: "Contact"
+    URL: "mailto:hi@skale.io"
+
+  socialLinks:
+    - icon: "linkedin"
+      URL: "https://www.linkedin.com/in/johannwaldherr/"
+
+    #    - icon: "product-hunt"
+    #      URL: "https://www.producthunt.com/@hans_waldherr"
+
+#    - icon: "github"
+#      URL: "https://github.com/radity"
+
+    - icon: "twitter"
+      URL: "https://twitter.com/woodmastr"
+
+#   - icon: "dribbble"
+#     URL: "https://dribbble.com/radity"
+
+#   - icon: "behance"
+#     URL: "https://www.behance.net/radity-digital"
+#
+#   - icon: "youtube"
+#     URL: "https://www.youtube.com/channel/UCojEc6SPO-W1_CoeHhK9-Zw"
+#
+#   - icon: "instagram"
+#     URL: "https://www.instagram.com/teamradity/"
+#
+#   - icon: "facebook"
+#     URL: "https://www.facebook.com/raditycom/"
+
+    - icon: "codepen"
+      URL: "https://www.producthunt.com/@hans_waldherr"
+
+#   - icon: "yelp"
+#     URL: "https://www.yelp.com/"
+#
+#   - icon: "icon-smile-fill"
+#     URL: "https://producthunt.com/"
+
+# about
+about:
+  enable: true
+  title: "Über Mich"
+  content: '<p class="lead">
+    Ich bin Hans, Gründer von skale.io. </br>
+    </p>
+    <p class="lead">
+    Mein beruflicher Hintergrund kommt einerseits aus meiner Zeit als Entwicklungsingenieur und andererseits aus meinen
+    Tätigkeiten im Business Development internationaler Technologiefirmen.
+    Meine Leidenschaft ist es Innovationen voranzutreiben. Als Founder von skale.io helfe
+    ich besonderen Gründer*Innen aus einer Idee einen klar formulierten Businessplan zu machen.
+    Dies ist wichtig um die dazu passende Innovationsfinanzierung zu bekommen.
+    
+
+    </p>'
+  button:
+    icon: "icon-smile-fill"
+    btnText: "About Me"
+    URL: "https://www.linkedin.com/in/johannwaldherr/"
+  image:
+    x: "img/who-am-i/mee.png"
+    _2x: "img/who-am-i/meg@2x.png"
+
+# education
+education:
+  enable: true
+  title: "Ausbildung"
+  items:
+    - university: "Technische Universität (TU) Wien"
+      year: "MSc"
+      degree: "Computer Science"
+
+    - university: "Donau Universität Krems (DUK)"
+      year: "MBA"
+      degree: "Entrepreneurial Finance"
+
+# experience
+experience:
+  enable: true
+  title: "Berufserfahrung"
+  description: "Über 15+ Jahre als Entwicklung und im Business Development in internationalen Firmen und Startups. Als Gründer von skale.io arbeite ich an digitalen Produkten oder Deeptech Projekten und helfe bei der Venture Finanzierung."
+  button:
+    icon: "icon-linkedin-fill"
+    btnText: "Linkedin"
+    URL: "https://www.linkedin.com/company/radity/"
+#  button2:
+#    icon: "icon-profile-fill"
+#    btnText: "Download My Resume"
+#    URL: "#"
+
+  items:
+    - title: "System Architect"
+      company: "Mediornet (heute Riedel Communications)"
+      # duration: "Feb 2011 - Sep 2019"
+
+    - title: "Business Development"
+      company: "StreamUnlimited Engineering (heute Google)"
+      # duration: "Apr 2010 - Jan 2011"
+
+    - title: "Founding Partner"
+      company: "skale.io venture development"
+      duration: "2012 - heute"
+
+# Client & Work
+client_and_work:
+  title: "Kunden & Arbeit"
+  enable: true
+
+  clients:
+    - logo:
+        x: "img/clients/meduni.png"
+        _2x: "img/clients/meduni@2x.png"
+      alt: "Med Uni Wien"
+
+    - logo:
+        x: "img/clients/bionana.png"
+        _2x: "img/clients/bionana@2x.png"
+      alt: "Bionana"
+
+    - logo:
+        x: "img/clients/sylents.png"
+        _2x: "img/clients/sylents@2x.png"
+      alt: "Sylents"
+
+    - logo:
+        x: "img/clients/skyability.png"
+        _2x: "img/clients/skyability@2x.png"
+      alt: "Skyability"
+
+    - logo:
+        x: "img/clients/spectralmind.png"
+        _2x: "img/clients/spectralmind@2x.png"
+      alt: "Spectralmind"
+
+    - logo:
+        x: "img/clients/zelix.jpg"
+        _2x: "img/clients/zelix@2x.jpg"
+      alt: "Zelix"
+
+    - logo:
+        x: "img/clients/descom.png"
+        _2x: "img/clients/descom@2x.png"
+      alt: "Descom"
+
+    - logo:
+        x: "img/clients/chimaira.png"
+        _2x: "img/clients/chimaira@2x.png"
+      alt: "Chimaira"
+
+    - logo:
+        x: "img/clients/atomicboy.png"
+        _2x: "img/clients/atomicboy@2x.png"
+      alt: "Atomicboy"
+
+    - logo:
+        x: "img/clients/sonarflow.png"
+        _2x: "img/clients/sonarflow@2x.png"
+      alt: "Sonarflow"
+    
+    - logo:
+        x: "img/clients/stromkind.png"
+        _2x: "img/clients/stromkind@2x.png"
+      alt: "Stromkind"
+
+    - logo:
+        x: "img/clients/blueinvest.png"
+        _2x: "img/clients/blueinvest@2x.png"
+      alt: "Blueinvest EU Fund"
+
+    - logo:
+        x: "img/clients/cncmonster.png"
+        _2x: "img/clients/cncmonster@2x.png"
+      alt: "cncMonster"
+
+    - logo:
+        x: "img/clients/wko.png"
+        _2x: "img/clients/wko@2x.png"
+      alt: "Wirtschaftskammer Österreich"
+
+    - logo:
+        x: "img/clients/fburgenland.png"
+        _2x: "img/clients/fburgenland@2x.png"
+      alt: "Forschung Burgenland"
+
+    - logo:
+        x: "img/clients/greenpilot.png"
+        _2x: "img/clients/greenpilot@2x.png"
+      alt: "Greenpilot"
+
+  works:
+    - title: "Medizinische Universität Wien"
+      description: "Finanzierung des Meduni Wien Spinoffs RetinSight, das eine AI basierte Technologie entwickelt um Netzhauterkrankungen frühzeitig zu diagnostizieren."
+      button:
+        icon: "icon-arrow-right"
+        btnText: "Case Study"
+        URL: "#"
+      image:
+        x: "img/works/meduni-work.jpg"
+        _2x: "img/works/meduni-work@2x.jpg"
+      is_even: true
+
+    - title: "Pino Robotics"
+      description: "Businessplan + Seed Finanzierung. Entwicklung eines Machine Vision Moduls um den Einsatzbereich für industrielle Roboterarme zu erweitern."
+      button:
+        icon: "icon-arrow-right"
+        btnText: "Case Study"
+        URL: "#"
+      image:
+        x: "img/works/pino-work.jpg"
+        _2x: "img/works/pino-work@2x.jpg"
+      is_even: false
+
+    - title: "Biodiversität eShop"
+      description: "Das ecommerce startup bionana vertreibt konsequent nachhaltige Lebensmittel und Pflanzen mit dem Ziel die Vielfalt zurück in den Garten und auf die Teller zu bringne. Der Vertrieb erfolgt online sowie offline über eigene Greisslereien. skale.io begleitete die Gründung mit Consulting, Businessplan und Seedfinanzierung."
+      button:
+        icon: "icon-arrow-right"
+        btnText: "Case Study"
+        URL: "#"
+      image:
+        x: "img/works/bionana-work.jpg"
+        _2x: "img/works/bionana-work@2x.jpg"
+      is_even: true
+
+# testimonial
+testimonial:
+  enable: true
+  title: "Referenzen"
+  items:
+    - name: "Simona Nitschinger"
+      position: "Gründerin, bionana.shop"
+      content: "Als bionana noch eine Idee war, begann die wertvolle Unterstützung durch skale.io. Wir konnten mit unserem Businessplan 
+      einen lokalen Investor gewinnen der unsere Vision für biologische Vielfalt teilt und mit uns mitgestalten will."
+      image:
+        x: "img/testimonials/simona.jpg"
+        _2x: "img/testimonials/simona@2x.jpg"
+
+    - name: "Tom Lidy"
+      position: "Head of Innovation, Musimap"
+      content: "Die Business Development Aktivitäten von skale.io hatten einen großen Einfluss auf die 
+      Funding Performance und Firmenentwicklung unseres Machine Learning Startups. 
+      Der Gewinn mehrerer Awards erhöhte die Aufmerksamkeit enorm. Das Ergebnis waren Finanzierungszusagen von internationalen Tech-Investoren sowie mehrere F&E Förderungen."
+      image:
+        x: "img/testimonials/tom.png"
+        _2x: "img/testimonials/tom@2x.png"
+
+    - name: "Ursula Schmidt-Erfurth, Univ. Prof."
+      position: "Leitung Universitätsklinik für Augenheilkunde und Optometrie, Meduni Wien"
+      content: "Unser Ziel ist es mit einer am Institut entwickelten AI Software Millionen Menschen vor einer drohenden Erblindung zu schützen. Mit skale.io haben wir einen Partner gefunden der es versteht aus einer komplexen Technologie 
+      einen klaren und profitablen Business Case für Investoren und Förderungen zu entwickeln. Die Zusammenarbeit führte
+      zur erfolgreichen Ausgründung eines Uni Spin Offs."
+      image:
+        x: "img/testimonials/ursula.jpg"
+        _2x: "img/testimonials/ursula@2x.jpg"
+
+# contact
+contact:
+  enable: true
+  title: "Contact"
+  form:
+    method : "POST"
+    action: "https://formspree.io/f/mjvjorka"
+    full_name: "Name"
+    email: "Email"
+    message: "Deine Nachricht"
+  phone:
+    title: "Telefon"
+    number: "+43 (660) 7383285"
+  email:
+    title: "Email"
+    email: '<a href="mailto:hi@skale.io">hi@skale.io</a>'
+  address:
+    title: "Addresse"
+    address: "skale.io<br />Austria, 7100 Neusiedl am See"
+  button:
+    icon: "icon-mail-fill"
+    btnText: "Nachricht Senden"
+
+# newsletter
+newsletter:
+  enable: true
+  title: "Newsletter anmelden"
+  success_message: "Erfolg"
+  error_message: "Fehler bei der Anmeldung."
+  note: "Wir werden niemals Deine emailadresse an irgendjemanden weitergeben."

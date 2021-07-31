@@ -1,0 +1,24 @@
+enable: true
+title: Produktangebot
+
+product:
+  - title: "Online Beratungseinheit"
+    description: "60min Beratung zu Ihrem Innovationsvorhaben. "
+    button:
+      icon: "icon-arrow-right"
+      btnText: "Case Study"
+      URL: "#"
+    image:
+      x: "img/showcase/showcase.png"
+      _2x: "img/showcase/showcase@2x.png"
+    is_even: true
+  - title: "Consulting Abo"
+    description: "Ich begleite Ihr Innovationsvorhaben."
+    button:
+      icon: "icon-arrow-right"
+      btnText: "Case Study"
+      URL: "#"
+    image:
+      x: "img/showcase/showcase.png"
+      _2x: "img/showcase/showcase@2x.png"
+    is_even: false

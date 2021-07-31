@@ -1,0 +1,3 @@
+[submodule "themes/skalego_theme"]
+	path = themes/skalego_theme
+	url = https://github.com/devskale/skalego_theme.git
