@@ -1,6 +1,6 @@
 # baseURL = "http://127.0.0.1:5500/public"
-#baseURL = "https://skale.io"
-baseURL = "https://skalenew.netlify.app"
+baseURL = "https://skale.io"
+#baseURL = "https://skalenew.netlify.app"
 relativeURLs = "True"
 languageCode = "de"
 theme = "skalego_theme"
