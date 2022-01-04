@@ -1,8 +1,9 @@
-baseURL = "http://127.0.0.1:5500/public"
-# baseURL = "https://skale.io"
+# baseURL = "http://127.0.0.1:5500/public"
+baseURL = "https://skale.io"
 relativeURLs = "True"
 languageCode = "de"
 theme = "skalego_theme"
+disableKinds = ["taxonomyTerm"]
 
 # Plugins
 [params.plugins]
@@ -43,25 +44,25 @@ theme = "skalego_theme"
   weight = 4
 
 
-  [[menu.footer]]
-  name = "About"
-  URL = "#about"
-  weight = 2
+#  [[menu.footer]]
+#  name = "About"
+#  URL = "#about"
+#  weight = 2
 
-  [[menu.footer]]
-  name = "Portfolio"
-  URL = "#portfolio"
-  weight = 3
+#  [[menu.footer]]
+#  name = "Portfolio"
+#  URL = "#portfolio"
+#  weight = 3
 
-  [[menu.footer]]
-  name = "Contact"
-  URL = "#contact"
-  weight = 4
+#  [[menu.footer]]
+#  name = "Contact"
+#  URL = "#contact"
+#  weight = 4
 
   [[menu.footer]]
   name = "Impressum"
   URL = "/tos/index.html"
-  weight = 5
+  weight = 2
 
 
 [params]

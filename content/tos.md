@@ -1,7 +1,7 @@
 ---
-title: My Second Post
-date: 2017-02-21
-description: This is my second post.
+title: Nutzungsbedingungen Impressum und Datenschutz
+date: 2021-12-21
+description: Nutzungsbedingungen Impressum und Datenschutz
 type: tos
 layout: tos
 ---

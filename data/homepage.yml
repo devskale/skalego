@@ -1,3 +1,8 @@
+---
+title: "skale.io Venture Development"
+date: 2021-12-31
+draft: false
+
 # showcase
 showcase:
   enable: true
@@ -98,7 +103,7 @@ experience:
   button:
     icon: "icon-linkedin-fill"
     btnText: "Linkedin"
-    URL: "https://www.linkedin.com/company/radity/"
+    URL: "https://www.linkedin.com/in/johannwaldherr/"
 #  button2:
 #    icon: "icon-profile-fill"
 #    btnText: "Download My Resume"
@@ -280,13 +285,13 @@ contact:
     message: "Deine Nachricht"
   phone:
     title: "Telefon"
-    number: "+43 (660) 7383285"
+    number: "+43 660 7383285"
   email:
     title: "Email"
     email: '<a href="mailto:hi@skale.io">hi@skale.io</a>'
   address:
     title: "Addresse"
-    address: "skale.io<br />Austria, 7100 Neusiedl am See"
+    address: "skale.io<br />7100 Neusiedl am See, Austria"
   button:
     icon: "icon-mail-fill"
     btnText: "Nachricht Senden"
@@ -298,3 +303,4 @@ newsletter:
   success_message: "Erfolg"
   error_message: "Fehler bei der Anmeldung."
   note: "Wir werden niemals Deine emailadresse an irgendjemanden weitergeben."
+---
