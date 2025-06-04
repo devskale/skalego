@@ -1,1 +1,1 @@
-pip install git+https://github.com/devskale/python-utils.git#subdirectory=packages/md2pdfs
+git+https://github.com/devskale/python-utils.git#subdirectory=packages/md2pdfs

@@ -1,1 +1,1 @@
-pip install git+https://github.com/devskale/python-utils.git#subdirectory=packages/md2blank
+git+https://github.com/devskale/python-utils.git#subdirectory=packages/md2blank

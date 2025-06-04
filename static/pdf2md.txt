@@ -1,1 +1,1 @@
-pip install git+https://github.com/devskale/python-utils.git#subdirectory=packages/pdf2md.skale
+git+https://github.com/devskale/python-utils.git#subdirectory=packages/pdf2md.skale
