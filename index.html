@@ -4,8 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>skale.dev – AI Engineering</title>
+  <meta name="description" content="KI Apps für Unternehmen. AI Engineering, LLM Integration, Dashboards, Edge Devices." />
   <link rel="icon" type="image/png" href="/skalelogo_red_trans.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/src/style.css" />
 </head>
 <body>
@@ -13,62 +16,204 @@
   <!-- NAV -->
   <nav id="nav">
     <div class="nav-inner">
-      <a href="#" class="logo">s<span style="color:#E53935">kale</span>.dev</a>
+      <a href="#" class="nav-logo">
+        <span class="logo-box">skale</span><span class="logo-text">.dev</span>
+      </a>
       <div class="nav-links">
-        <a href="#services">Services</a>
-        <a href="#projects">Projekte</a>
+        <a href="#projekte">Services</a>
+        <a href="#projekte">Projekte</a>
+        <a href="#referenzen">Referenzen</a>
         <a href="#about">Über uns</a>
-        <a href="#contact" class="btn">Kontakt</a>
+        <a href="#contact" class="btn btn-nav-cta">Kontakt</a>
       </div>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
     </div>
   </nav>
 
   <!-- HERO -->
   <section id="hero">
-    <h1>Wir bauen KI für Unternehmen.</h1>
-    <p>Maßgeschneiderte KI-Lösungen — von LLM-Integration bis Edge Devices.</p>
-    <a href="#contact" class="btn btn-primary">Projektanfrage →</a>
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-content">
+      <div class="hero-badge">AI Engineering</div>
+      <h1 class="hero-title">
+        <span class="hero-line hero-line-1">Wir bauen <span class="hero-ki"><span class="hero-k">K</span><span class="hero-i">I</span></span> in Ihr Unternehmen.</span>
+      </h1>
+      <p class="hero-sub">Maßgeschneiderte KI-Applikationen für maximale Produktivitätssteigerung.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary btn-lg">Projektanfrage →</a>
+        <a href="#projects" class="btn btn-outline">Projekte ansehen</a>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">↓</div>
   </section>
 
-  <!-- SERVICES -->
-  <section id="services">
-    <h2>Services</h2>
-    <div class="grid">
-      <div class="card"><h3>KI Integration</h3><p>LLMs mit Unternehmensdaten verbinden.</p></div>
-      <div class="card"><h3>SW Entwicklung</h3><p>Apps, Webapps, Embedded Firmware.</p></div>
-      <div class="card"><h3>Dashboards</h3><p>Daten visualisieren und verstehen.</p></div>
-      <div class="card"><h3>Edge Devices</h3><p>Industrielle Hardware entwickeln.</p></div>
+  <!-- CLIENTS BAR -->
+  <section id="clients" class="clients-bar">
+    <div class="container">
+      <p class="clients-label">Vertraut von</p>
+      <div class="clients-logos">
+        <span class="client-name">sylents e-jets</span>
+        <span class="client-name">Wiener Wohnen</span>
+        <span class="client-name">MedUni Wien</span>
+        <span class="client-name">gwen.at</span>
+        <span class="client-name">atomicboy</span>
+        <span class="client-name">bionana</span>
+      </div>
     </div>
   </section>
 
-  <!-- PROJECTS -->
-  <section id="projects">
-    <h2>Projekte</h2>
-    <div class="grid">
-      <div class="card"><h3>E-Antrieb Module</h3><p>sylents e-jets</p></div>
-      <div class="card"><h3>Telemetrie Dashboard</h3><p>Multiroom Facility</p></div>
-      <div class="card"><h3>vergabePilot ✈️</h3><p>Öffentlicher Sektor</p></div>
-      <div class="card"><h3>Lawki Ordnungsbot</h3><p>Wiener Wohnen</p></div>
+  <!-- PROJEKTE & REFERENZEN -->
+  <section id="projekte">
+    <div class="container">
+      <div class="section-header">
+        <h2>Digitalisierung von Unternehmensprozessen</h2>
+      </div>
+
+      <!-- Services — LLM-style reveal -->
+      <div class="llm-section" id="services">
+        <div class="llm-row" data-delay="0">
+          <span class="llm-cursor"></span>
+          <div class="llm-body"><strong>KI Integration</strong> · LLMs mit Unternehmensdaten verbinden · Summarization · Bilderkennung</div>
+        </div>
+        <div class="llm-row" data-delay="200">
+          <span class="llm-cursor"></span>
+          <div class="llm-body"><strong>SW / App Entwicklung</strong> · Embedded Firmware · Apps · Webapps · Webshops</div>
+        </div>
+        <div class="llm-row" data-delay="400">
+          <span class="llm-cursor"></span>
+          <div class="llm-body"><strong>Daten Dashboards</strong> · InfluxDB · Grafana · Custom Frontends</div>
+        </div>
+        <div class="llm-row" data-delay="600">
+          <span class="llm-cursor"></span>
+          <div class="llm-body"><strong>Edge Devices</strong> · Industrielle Hardware · Kundenspezifische Entwicklungen</div>
+        </div>
+        <div class="llm-row" data-delay="800">
+          <span class="llm-cursor"></span>
+          <div class="llm-body"><strong>IT Services</strong> · Digitalisierung von Arbeitsabläufen · Strategie bis Umsetzung</div>
+        </div>
+      </div>
+
+      <!-- Referenzen -->
+      <div class="ref-section">
+        <div class="ref-item" data-delay="1200">
+          <span class="ref-name">Wiener Wohnen</span>
+          <span class="ref-desc">KI im Vergaberecht</span>
+        </div>
+        <div class="ref-item" data-delay="1400">
+          <span class="ref-name">MedUni Wien</span>
+          <span class="ref-desc">AI Retina Früherkennung</span>
+        </div>
+        <div class="ref-item" data-delay="1600">
+          <span class="ref-name">Sonarflow</span>
+          <span class="ref-desc">Visual Music Discovery</span>
+        </div>
+        <div class="ref-item" data-delay="1800">
+          <span class="ref-name">Stromkind</span>
+          <span class="ref-desc">Drohnentechnik</span>
+        </div>
+        <div class="ref-item" data-delay="2000">
+          <span class="ref-name">Sylents</span>
+          <span class="ref-desc">E-Mobility · E-Antrieb Module</span>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- ABOUT -->
   <section id="about">
-    <h2>Über uns</h2>
-    <p>skale.tech — AI Engineering aus Neusiedl am See, Österreich.</p>
-    <p>DI Johann Waldherr · dev@skale.dev · USt: ATU60635904</p>
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <span class="section-tag">Über uns</span>
+          <h2>skale.tech<br/><span style="color:var(--red)">AI Engineering</span></h2>
+          <p>Erfahrene Fachleute in Industrieller Entwicklung, Unternehmensberatung und IT-Dienstleistung.</p>
+          <p>Mit Fokus auf Innovation und Qualität bieten wir maßgeschneiderte KI-Lösungen.</p>
+          <div class="about-stats">
+            <div class="stat"><span class="stat-num" data-target="14">0</span><span class="stat-label">Kunden</span></div>
+            <div class="stat"><span class="stat-num" data-target="10">0</span><span class="stat-label">Projekte</span></div>
+            <div class="stat"><span class="stat-num" data-target="5">0</span><span class="stat-label">Jahre</span></div>
+          </div>
+        </div>
+        <div class="about-visual reveal">
+          <div class="code-block">
+            <pre><code><span class="c1">// skale.dev</span>
+<span class="kw">const</span> skale = {
+  name: <span class="str">"AI Engineering"</span>,
+  focus: [
+    <span class="str">"LLM Integration"</span>,
+    <span class="str">"Dashboards"</span>,
+    <span class="str">"Edge Devices"</span>,
+    <span class="str">"Custom Apps"</span>
+  ],
+  location: <span class="str">"Neusiedl am See, AT"</span>,
+  contact: <span class="str">"dev@skale.dev"</span>
+};
+
+<span class="kw">export default</span> skale;</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <!-- CONTACT -->
+  <!-- TESTIMONIAL -->
+  <section id="testimonials" class="alt-bg">
+    <div class="container">
+      <blockquote class="testimonial reveal">
+        <p>"skale.dev hat als Komplettanbieter die Elektronik und Software unseres Emobility Produktes geliefert und CE zertifiziert."</p>
+        <cite>Hilmar Unterrainer<span>CEO, sylents e-jets</span></cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- CONTACT / CTA -->
   <section id="contact">
-    <h2>Kontakt</h2>
-    <a href="mailto:dev@skale.dev" class="btn btn-primary">dev@skale.dev</a>
+    <div class="container">
+      <div class="cta-box reveal">
+        <span class="section-tag">Projektanfrage</span>
+        <h2>Lassen Sie uns Ihr nächstes Projekt bauen.</h2>
+        <p>In einem unverbindlichen Erstgespräch erörtern wir Umsetzungsmöglichkeiten.</p>
+        <div class="cta-actions">
+          <a href="mailto:dev@skale.dev" class="btn btn-primary btn-lg">dev@skale.dev</a>
+          <a href="mailto:store@skale.dev" class="btn btn-outline btn-lg">store@skale.dev</a>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- FOOTER -->
-  <footer>
-    <p>© 2026 skale.tech</p>
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="logo-box">skale</span><span class="logo-text">.dev</span>
+          <p>AI Engineering<br/>Neusiedl am See, Österreich</p>
+        </div>
+        <div class="footer-links">
+          <h4>Services</h4>
+          <a href="#services">KI Integration</a>
+          <a href="#services">SW Entwicklung</a>
+          <a href="#services">Dashboards</a>
+          <a href="#services">Edge Devices</a>
+        </div>
+        <div class="footer-links">
+          <h4>Rechtliches</h4>
+          <a href="#">Impressum</a>
+          <a href="#">Datenschutz</a>
+          <a href="#">AGB</a>
+        </div>
+        <div class="footer-links">
+          <h4>Weiteres</h4>
+          <a href="https://github.com/devskale" target="_blank" rel="noopener">GitHub</a>
+          <a href="mailto:dev@skale.dev">Email</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 skale.tech — DI Johann Waldherr | USt: ATU60635904</p>
+      </div>
+    </div>
   </footer>
 
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>
