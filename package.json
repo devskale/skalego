@@ -1,0 +1,19 @@
+{
+  "name": "pretexts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@chenglou/pretext": "^0.0.6",
+    "animejs": "^3.2.2",
+    "vite": "^8.0.10"
+  }
+}
