@@ -283,31 +283,116 @@ section { padding: 90px 0; }
 }
 
 /* ---- REFERENZEN (compact) ---- */
+/* ---- REFERENZEN BELT ---- */
 .ref-section {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 28px;
-  max-width: 720px;
-  margin: 0 auto;
-  padding-top: 20px;
+  overflow: hidden;
+  padding: 32px 0 0;
   border-top: 1px solid var(--border);
 }
-.ref-item {
-  opacity: 0;
-  display: inline-flex;
-  align-items: baseline;
-  gap: 10px;
-  padding: 6px 0;
+.ref-belt-row {
+  display: flex;
+  overflow: hidden;
+  margin-bottom: 16px;
 }
-.ref-name {
-  font-size: 0.82rem;
+.ref-belt-row:hover .ref-belt,
+.ref-belt-row.paused .ref-belt {
+  animation-play-state: paused;
+}
+.ref-belt-row:last-child { margin-bottom: 0; }
+.ref-belt {
+  display: flex;
+  width: max-content;
+  gap: 48px;
+  align-items: center;
+  animation: belt-scroll 30s linear infinite;
+}
+.ref-belt-row:last-child .ref-belt {
+  animation-direction: reverse;
+  animation-duration: 35s;
+}
+@keyframes belt-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.ref-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: opacity 0.3s, background 0.3s;
+  border-radius: var(--radius);
+}
+.ref-item:hover {
+  opacity: 1 !important;
+  background: rgba(229,57,53,0.06);
+}
+.ref-item .ref-logo {
+  height: 24px;
+  width: auto;
+  object-fit: contain;
+  filter: grayscale(100%) brightness(0.55);
+  opacity: 0.5;
+  transition: filter 0.4s, opacity 0.4s;
+}
+.ref-item:hover .ref-logo {
+  filter: grayscale(0%) brightness(1);
+  opacity: 1;
+}
+.ref-item .ref-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  letter-spacing: -0.2px;
+  transition: color 0.3s;
+}
+.ref-item:hover .ref-name { color: var(--text-bright); }
+
+/* Detail panel */
+.ref-detail {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  margin-top: 16px;
+  padding: 0 24px;
+  transition: none;
+}
+.ref-detail.open {
+  /* animated via JS */
+}
+.ref-detail-inner {
+  padding: 24px 28px;
+  border-radius: var(--radius-lg);
+  background: rgba(229,57,53,0.03);
+  border-left: 3px solid var(--red);
+}
+.ref-detail-inner .rd-row {
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+.ref-detail-inner .rd-row:last-child { margin-bottom: 0; }
+.ref-detail-inner .rd-label {
+  font-size: 0.7rem;
   font-weight: 700;
   color: var(--red);
-  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 3px;
 }
-.ref-desc {
-  font-size: 0.84rem;
+.ref-detail-inner .rd-text {
+  font-size: 0.9rem;
   color: var(--text-dim);
+}
+.ref-detail-inner .rd-intro {
+  font-size: 0.95rem;
+  color: var(--text-bright);
+  font-weight: 500;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
 }
 
 /* ---- PROJECTS (merged into LLM reveal) ---- */

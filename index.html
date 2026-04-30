@@ -15,7 +15,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/src/style.css" />
+
   </head>
   <body>
     <!-- NAV -->
@@ -125,26 +125,62 @@
 
         <!-- Referenzen -->
         <div class="ref-section">
-          <div class="ref-item" data-delay="1200">
-            <span class="ref-name">Wiener Wohnen</span>
-            <span class="ref-desc">KI im Vergaberecht</span>
+          <!-- Row 1 → -->
+          <div class="ref-belt-row">
+            <div class="ref-belt">
+              <div class="ref-item" data-ref="wiener-wohnen"
+                   data-intro="KI-gestützte Vergabeprüfung für Wiens größten Wohnbauträger."
+                   data-aufgabe="Automatisierung der Vergaberechts-Prüfung für tausende Ausschreibungen pro Jahr."
+                   data-methodik="LLM-basierte Dokumentenanalyse, RAG über Vergaberichtlinien, Klassifikation nach Risikokriterien."
+                   data-resultat="Prüfzeit von Stunden auf Minuten reduziert, konsistente Entscheidungsgrundlage.">
+                <img src="/logos/wiener-wohnen.png" alt="" class="ref-logo" loading="lazy"><span class="ref-name">Wiener Wohnen</span>
+              </div>
+              <div class="ref-item" data-ref="meduni-wien"
+                   data-intro="KI-gestützte Früherkennung von Augenerkrankungen an der MedUni Wien."
+                   data-aufgabe="Entwicklung eines Systems zur automatisierten Analyse von Retina-Bildern auf pathologische Auffälligkeiten."
+                   data-methodik="Computer Vision mit CNNs, Training auf klinischen Datensätzen, Integration in bestehende Diagnose-Workflows."
+                   data-resultat="Erhöhte Trefferquote bei Früherkennung, Entlastung des klinischen Personals.">
+                <img src="/logos/meduni-wien.png" alt="" class="ref-logo" loading="lazy"><span class="ref-name">MedUni Wien</span>
+              </div>
+              <div class="ref-item" data-ref="sonarflow"
+                   data-intro="Intelligente Musiksuche und -entdeckung durch visuelle Interaktion."
+                   data-aufgabe="Aufbau einer Plattform, die Musik nicht durch Text, sondern durch visuelle Karten und Ähnlichkeit erschließbar macht."
+                   data-methodik="Audio Feature Extraction, Embedding Spaces, Nearest-Neighbor Search, interaktives Frontend mit WebGL-Visualisierung."
+                   data-resultat="Plattform mit Millionen Tracks, intuitive Musikentdeckung ohne Suchbegriff.">
+                <img src="/logos/sonarflow.png" alt="" class="ref-logo" loading="lazy"><span class="ref-name">Sonarflow</span>
+              </div>
+              <!-- dup -->
+              <div class="ref-item" data-ref="wiener-wohnen"><img src="/logos/wiener-wohnen.png" alt="" class="ref-logo" loading="lazy"><span class="ref-name">Wiener Wohnen</span></div>
+              <div class="ref-item" data-ref="meduni-wien"><img src="/logos/meduni-wien.png" alt="" class="ref-logo" loading="lazy"><span class="ref-name">MedUni Wien</span></div>
+              <div class="ref-item" data-ref="sonarflow"><img src="/logos/sonarflow.png" alt="" class="ref-logo" loading="lazy"><span class="ref-name">Sonarflow</span></div>
+            </div>
           </div>
-          <div class="ref-item" data-delay="1400">
-            <span class="ref-name">MedUni Wien</span>
-            <span class="ref-desc">AI Retina Früherkennung</span>
+          <!-- Row 2 ← -->
+          <div class="ref-belt-row">
+            <div class="ref-belt">
+              <div class="ref-item" data-ref="stromkind"
+                   data-intro="Autonome Drohnenplattform für industrielle Inspektionsaufgaben."
+                   data-aufgabe="Entwicklung der Flugsteuerungssoftware und Missionsplanung für Inspektionsdrohnen."
+                   data-methodik="Embedded C/C++ Software, Path Planning Algorithmen, Echtzeit-Bildverarbeitung, Telemetrie-Backend."
+                   data-resultat="Vollautonome Inspektionsflüge, reduzierter Personaleinsatz, präzise Bildaufnahme.">
+                <img src="/logos/stromkind.png" alt="" class="ref-logo" loading="lazy"><span class="ref-name">Stromkind</span>
+              </div>
+              <div class="ref-item" data-ref="sylents"
+                   data-intro="Eigene Entwicklung von E-Antriebsmodulen für Elektromobilität."
+                   data-aufgabe="Konstruktion und Produktion kundenspezifischer E-Motoren und Steuerungselektronik."
+                   data-methodik="Hardware-Design, Firmware-Entwicklung, Motorsteuerungsalgorithmen, Prototyping bis Serie."
+                   data-resultat="Serienreife E-Antrieb Module, CE-Zertifizierung, Einsatz in diversen E-Mobility Produkten.">
+                <img src="/logos/sylents.png" alt="" class="ref-logo" loading="lazy"><span class="ref-name">Sylents</span>
+              </div>
+              <div class="ref-item" data-ref="wiener-wohnen"><img src="/logos/wiener-wohnen.png" alt="" class="ref-logo" loading="lazy"><span class="ref-name">Wiener Wohnen</span></div>
+              <!-- dup -->
+              <div class="ref-item" data-ref="stromkind"><img src="/logos/stromkind.png" alt="" class="ref-logo" loading="lazy"><span class="ref-name">Stromkind</span></div>
+              <div class="ref-item" data-ref="sylents"><img src="/logos/sylents.png" alt="" class="ref-logo" loading="lazy"><span class="ref-name">Sylents</span></div>
+              <div class="ref-item" data-ref="wiener-wohnen"><img src="/logos/wiener-wohnen.png" alt="" class="ref-logo" loading="lazy"><span class="ref-name">Wiener Wohnen</span></div>
+            </div>
           </div>
-          <div class="ref-item" data-delay="1600">
-            <span class="ref-name">Sonarflow</span>
-            <span class="ref-desc">Visual Music Discovery</span>
-          </div>
-          <div class="ref-item" data-delay="1800">
-            <span class="ref-name">Stromkind</span>
-            <span class="ref-desc">Drohnentechnik</span>
-          </div>
-          <div class="ref-item" data-delay="2000">
-            <span class="ref-name">Sylents</span>
-            <span class="ref-desc">E-Mobility · E-Antrieb Module</span>
-          </div>
+          <!-- Detail panel (appears on click) -->
+          <div class="ref-detail" id="ref-detail"></div>
         </div>
       </div>
     </section>
