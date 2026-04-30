@@ -341,6 +341,73 @@ function runLLMAnimation() {
   })
 }
 
+/* ---- CLICK TO RE-ANIMATE ROW ---- */
+function initRowClick() {
+  const rows = document.querySelectorAll('.llm-row')
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*'
+  let openRow = null
+  let animating = false
+
+  rows.forEach(row => {
+    row.style.cursor = 'pointer'
+    
+    const descText = row.dataset.desc || ''
+    if (descText && !row.querySelector('.llm-desc')) {
+      const descEl = document.createElement('div')
+      descEl.className = 'llm-desc'
+      descEl.textContent = descText
+      row.appendChild(descEl)
+    }
+
+    row.addEventListener('click', () => {
+      if (animating) return
+      
+      if (openRow && openRow !== row) {
+        const prevDesc = openRow.querySelector('.llm-desc')
+        if (prevDesc) {
+          anime({ targets: prevDesc, maxHeight: [prevDesc.scrollHeight + 'px', '0'], opacity: [1, 0], paddingTop: [12, 0], paddingBottom: [12, 0], duration: 300, easing: 'easeInCubic' })
+        }
+        openRow.classList.remove('open')
+      }
+
+      const descEl = row.querySelector('.llm-desc')
+      const isOpen = row.classList.contains('open')
+
+      if (isOpen) {
+        animating = true
+        anime({ targets: descEl, maxHeight: [descEl.scrollHeight + 'px', '0'], opacity: [1, 0], paddingTop: [12, 0], paddingBottom: [12, 0], duration: 350, easing: 'easeInCubic', complete: () => { row.classList.remove('open'); openRow = null; animating = false } })
+      } else {
+        animating = true
+        row.classList.add('open')
+        openRow = row
+        const cursor = row.querySelector('.llm-cursor')
+        cursor.style.left = '0%'; cursor.style.top = '100%'; cursor.style.height = '0'; cursor.style.opacity = '1'
+        descEl.style.maxHeight = '200px'; descEl.style.opacity = '0'; descEl.style.paddingTop = '12px'; descEl.style.paddingBottom = '12px'
+        const originalDesc = descText
+        descEl.textContent = ''
+
+        anime.timeline({ complete: () => { animating = false } })
+          .add({ targets: cursor, height: ['0', '40px'], boxShadow: ['0 0 4px rgba(229,57,53,0)', '0 0 20px rgba(229,57,53,1), 0 0 50px rgba(229,57,53,0.5)'], duration: 200, easing: 'easeOutExpo' })
+          .add({ targets: cursor, left: ['0%', '105%'], duration: 1200, easing: 'easeInOutCubic', begin: () => {
+            descEl.style.opacity = '1'
+            let charIndex = 0
+            const interval = setInterval(() => {
+              if (charIndex < originalDesc.length) {
+                // LLM-like: variable chunk size (1-5 chars), variable delay (10-45ms)
+                const chunk = Math.floor(Math.random() * 4) + 1
+                descEl.textContent = originalDesc.slice(0, Math.min(charIndex + chunk, originalDesc.length))
+                charIndex += chunk
+              } else {
+                clearInterval(interval)
+              }
+            }, 18 + Math.random() * 28)
+          }})
+          .add({ targets: cursor, height: ['40px', '0'], opacity: [1, 0], duration: 180, easing: 'easeInExpo' }, '-=80')
+      }
+    })
+  })
+}
+
 // ---- GO ----
 function init() {
   runHeroAnimation()
@@ -349,6 +416,7 @@ function init() {
   initNav()
   initMobileMenu()
   initLLMReveal()
+  initRowClick()
 }
 
 // Handle both normal load and Vite HMR
