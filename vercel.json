@@ -1,1 +1,1 @@
-{"version": 2, "builds": [{"src": "package.json", "use": "@vercel/static-build", "config": {"distDir": "dist"}}], "redirects": [{"src": "/meet", "destination": "https://meet.google.com/uti-zsep-efw", "permanent": true}], "routes": [{"src": "/(.*)", "dest": "/$1"}]}
+{"version": 2, "builds": [{"src": "package.json", "use": "@vercel/static-build", "config": {"distDir": "dist"}}], "redirects": [{"src": "/meet", "destination": "https://meet.google.com/uti-zsep-efw", "permanent": true}]}
