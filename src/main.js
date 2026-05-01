@@ -241,7 +241,7 @@ function scrambleText(el) {
 
 /* ---- LLM CURSOR REVEAL (cinematic) ---- */
 function initLLMReveal() {
-  const section = document.getElementById('services')
+  const section = document.querySelector('.llm-section')
   if (!section) return
   let triggered = false
   const observer = new IntersectionObserver((entries) => {
@@ -388,107 +388,6 @@ function initRowClick() {
   })
 }
 
-/* ---- REF CLICK → LLM DETAIL STREAM ---- */
-function initRefClick() {
-  const panel = document.getElementById('ref-detail')
-  if (!panel) return
-  let openRef = null
-  let animating = false
-
-  // Event delegation — works for ALL items including duplicates in the loop
-  document.querySelectorAll('.ref-belt-row').forEach(row => {
-    row.addEventListener('click', (e) => {
-      const clickedItem = e.target.closest('.ref-item')
-      if (!clickedItem) return
-      
-      // Find master item (first with same data-ref that has full data)
-      const refName = clickedItem.dataset.ref
-      if (!refName) return
-      const master = document.querySelector(`.ref-item[data-ref="${refName}"][data-intro]`) || clickedItem
-      
-      // Pause this belt row while detail is open
-      row.classList.add('paused')
-      
-      if (openRef === master) { closeDetail(); return }
-      
-      // Always allow switch — cancel previous streams and restart
-      if (openRef) closeDetail(true)
-      openRef = master
-      openRefDetail(master)
-    })
-  })
-
-  function openRefDetail(master) {
-      animating = true
-      const intro = master.dataset.intro || ''
-      const aufgabe = master.dataset.aufgabe || ''
-      const methodik = master.dataset.methodik || ''
-      const resultat = master.dataset.resultat || ''
-
-      openRef = master
-      panel.classList.add('open')
-      panel.style.maxHeight = '500px'
-      panel.style.opacity = '1'
-
-      panel.innerHTML = `<div class="ref-detail-inner">
-        <div class="rd-row rd-intro" id="rd-intro"></div>
-        <div class="rd-row"><div class="rd-label">Aufgabe</div><div class="rd-text" id="rd-aufgabe"></div></div>
-        <div class="rd-row"><div class="rd-label">Methodik</div><div class="rd-text" id="rd-methodik"></div></div>
-        <div class="rd-row"><div class="rd-label">Resultat</div><div class="rd-text" id="rd-resultat"></div></div>
-      </div>`
-
-      const elIntro = document.getElementById('rd-intro')
-      const elAufg  = document.getElementById('rd-aufgabe')
-      const elMeth  = document.getElementById('rd-methodik')
-      const elRes   = document.getElementById('rd-resultat')
-
-      const stream = (el, text, startDelay) => {
-        setTimeout(() => {
-          let i = 0
-          const iv = setInterval(() => {
-            if (i < text.length) {
-              const chunk = Math.floor(Math.random() * 3) + 1
-              el.textContent = text.slice(0, Math.min(i + chunk, text.length))
-              i += chunk
-            } else { clearInterval(iv) }
-          }, 16 + Math.random() * 24)
-        }, startDelay)
-      }
-
-      stream(elIntro, intro, 100)
-      stream(elAufg, aufgabe, 100 + intro.length * 18 + 300)
-      stream(elMeth, methodik, 100 + intro.length * 18 + 300 + aufgabe.length * 18 + 200)
-      stream(elRes, resultat, 100 + intro.length * 18 + 300 + aufgabe.length * 18 + 200 + methodik.length * 18 + 200)
-
-      setTimeout(() => { animating = false }, 4000)
-    }
-
-  function closeDetail(immediate = false) {
-    if (!panel) return
-    if (immediate) {
-      // Instant reset — no animation
-      panel.style.maxHeight = '0'
-      panel.style.opacity = '0'
-      panel.style.paddingTop = '0'
-      panel.style.paddingBottom = '0'
-      panel.classList.remove('open')
-      openRef = null
-      document.querySelectorAll('.ref-belt-row.paused').forEach(r => r.classList.remove('paused'))
-      return
-    }
-    anime({
-      targets: panel,
-      maxHeight: [panel.scrollHeight + 'px', '0'],
-      opacity: [1, 0],
-      paddingTop: [20, 0],
-      paddingBottom: [20, 0],
-      duration: 350,
-      easing: 'easeInCubic',
-      complete: () => { panel.classList.remove('open'); openRef = null; document.querySelectorAll('.ref-belt-row.paused').forEach(r => r.classList.remove('paused')) }
-    })
-  }
-}
-
 // ---- GO ----
 function init() {
   runHeroAnimation()
@@ -498,7 +397,6 @@ function init() {
   initMobileMenu()
   initLLMReveal()
   initRowClick()
-  initRefClick()
 }
 
 // Handle both normal load and Vite HMR

@@ -148,6 +148,8 @@ body {
 
 /* ---- SECTIONS ---- */
 section { padding: 90px 0; }
+section#about,
+section#testimonials { padding: 60px 0; }
 .section-header { text-align: center; margin-bottom: 56px; }
 .section-tag {
   display: inline-block; font-size: 0.78rem; font-weight: 700;
@@ -171,24 +173,41 @@ section { padding: 90px 0; }
 
 /* ---- CLIENTS BAR ---- */
 .clients-bar {
-  padding: 44px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 32px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
   background: var(--bg-alt);
 }
-.clients-bar .container {
-  display: flex; align-items: center; gap: 40px; flex-wrap: wrap; justify-content: center;
+.belt-row { display: flex; overflow: hidden; }
+.belt {
+  display: flex; width: max-content; gap: 64px; align-items: center;
+  animation: belt-scroll 40s linear infinite;
 }
-.clients-label {
-  font-size: 0.82rem; color: var(--text-dim); font-weight: 500;
-  text-transform: uppercase; letter-spacing: 1px;
+@keyframes belt-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
-.clients-logos {
-  display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+.belt-item {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  white-space: nowrap; flex-shrink: 0; padding: 10px 24px;
+  min-width: 120px; height: 80px;
+  overflow: visible;
+  border-radius: var(--radius); transition: background 0.3s;
 }
-.client-name {
-  font-size: 0.88rem; color: var(--text-dim); font-weight: 500;
-  transition: color 0.2s;
+.belt-item:hover { background: rgba(229,57,53,0.05); }
+.belt-logo {
+  max-height: 48px; width: auto; height: auto;
+  filter: grayscale(100%) brightness(0.55); opacity: 0.5;
+  transition: filter 0.4s, opacity 0.4s;
 }
-.client-name:hover { color: var(--red); }
+.belt-logo-invert {
+  filter: grayscale(100%) brightness(0.55) invert(1);
+}
+.belt-item:hover .belt-logo { filter: grayscale(0%) brightness(1); opacity: 1; }
+.belt-item:hover .belt-logo-invert { filter: grayscale(0%) brightness(1) invert(1); }
+.belt-name {
+  font-size: 0.72rem; font-weight: 600; color: var(--text-dim); font-family: var(--mono);
+  letter-spacing: -0.1px; text-align: center; transition: color 0.3s;
+}
+.belt-item:hover .belt-name { color: var(--text-bright); }
 
 /* ---- LLM-STYLE REVEAL (Services) ---- */
 .llm-section {
@@ -281,123 +300,6 @@ section { padding: 90px 0; }
   from { background-position: 100% 100%; }
   to { background-position: 0% 0%; }
 }
-
-/* ---- REFERENZEN (compact) ---- */
-/* ---- REFERENZEN BELT ---- */
-.ref-section {
-  overflow: hidden;
-  padding: 32px 0 0;
-  border-top: 1px solid var(--border);
-}
-.ref-belt-row {
-  display: flex;
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-.ref-belt-row:hover .ref-belt,
-.ref-belt-row.paused .ref-belt {
-  animation-play-state: paused;
-}
-.ref-belt-row:last-child { margin-bottom: 0; }
-.ref-belt {
-  display: flex;
-  width: max-content;
-  gap: 48px;
-  align-items: center;
-  animation: belt-scroll 30s linear infinite;
-}
-.ref-belt-row:last-child .ref-belt {
-  animation-direction: reverse;
-  animation-duration: 35s;
-}
-@keyframes belt-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.ref-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 20px;
-  white-space: nowrap;
-  flex-shrink: 0;
-  cursor: pointer;
-  transition: opacity 0.3s, background 0.3s;
-  border-radius: var(--radius);
-}
-.ref-item:hover {
-  opacity: 1 !important;
-  background: rgba(229,57,53,0.06);
-}
-.ref-item .ref-logo {
-  height: 24px;
-  width: auto;
-  object-fit: contain;
-  filter: grayscale(100%) brightness(0.55);
-  opacity: 0.5;
-  transition: filter 0.4s, opacity 0.4s;
-}
-.ref-item:hover .ref-logo {
-  filter: grayscale(0%) brightness(1);
-  opacity: 1;
-}
-.ref-item .ref-name {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-dim);
-  font-family: var(--mono);
-  letter-spacing: -0.2px;
-  transition: color 0.3s;
-}
-.ref-item:hover .ref-name { color: var(--text-bright); }
-
-/* Detail panel */
-.ref-detail {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  margin-top: 16px;
-  padding: 0 24px;
-  transition: none;
-}
-.ref-detail.open {
-  /* animated via JS */
-}
-.ref-detail-inner {
-  padding: 24px 28px;
-  border-radius: var(--radius-lg);
-  background: rgba(229,57,53,0.03);
-  border-left: 3px solid var(--red);
-}
-.ref-detail-inner .rd-row {
-  margin-bottom: 14px;
-  line-height: 1.6;
-}
-.ref-detail-inner .rd-row:last-child { margin-bottom: 0; }
-.ref-detail-inner .rd-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--red);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 3px;
-}
-.ref-detail-inner .rd-text {
-  font-size: 0.9rem;
-  color: var(--text-dim);
-}
-.ref-detail-inner .rd-intro {
-  font-size: 0.95rem;
-  color: var(--text-bright);
-  font-weight: 500;
-  margin-bottom: 16px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--border);
-}
-
-/* ---- PROJECTS (merged into LLM reveal) ---- */
-
-
 
 /* ---- ABOUT ---- */
 .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
