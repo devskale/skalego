@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // req.url is "/api/firmenindex/search/rich?query=..."
+  // req.url is "/firmenindex/search/rich?query=..."
   const path = req.url.replace(/^\/api\/firmenindex\//, '');
   const [endpoint, qs] = path.split('?');
 
