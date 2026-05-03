@@ -3,7 +3,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/firmenindex/api/:path*", "destination": "/api/firmenindex/:path*" }
+    { "source": "/firmenindex/api", "destination": "/api/firmenindex-api" }
   ],
   "redirects": [
     { "source": "/meet", "destination": "https://meet.google.com/uti-zsep-efw", "permanent": true }
