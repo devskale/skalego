@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Firmenindex Österreich</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0e1117;
+      --surface: #161b22;
+      --surface2: #1c2230;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text2: #8b949e;
+      --accent: #58a6ff;
+      --accent2: #1f6feb;
+      --green: #3fb950;
+      --red: #f85149;
+      --orange: #d29922;
+      --purple: #bc8cff;
+    }
+
+    body {
+      font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .header {
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header svg { flex-shrink: 0; }
+    .header h1 { font-size: 1.1rem; font-weight: 600; }
+    .header .brand { margin-left: auto; font-size: .7rem; color: var(--text2); text-decoration: none; }
+    .header .brand:hover { color: var(--accent); }
+    .header .tag {
+      font-size: .65rem;
+      background: var(--accent2);
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-weight: 500;
+    }
+
+    /* ── Search ── */
+    .search-wrap {
+      max-width: 720px;
+      margin: 2rem auto 0;
+      padding: 0 1rem;
+    }
+    .search-box {
+      display: flex;
+      gap: .5rem;
+    }
+    .search-box input {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .7rem 1rem;
+      color: var(--text);
+      font-size: .95rem;
+      outline: none;
+      transition: border-color .15s;
+    }
+    .search-box input:focus { border-color: var(--accent); }
+    .search-box input::placeholder { color: var(--text2); }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .65rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      font-size: .85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background .15s, opacity .15s;
+      white-space: nowrap;
+    }
+    .btn-primary { background: var(--accent2); color: #fff; }
+    .btn-primary:hover { background: var(--accent); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text2);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { color: var(--text); border-color: var(--text2); }
+    .btn-sm { padding: .4rem .8rem; font-size: .78rem; }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    /* ── Results list ── */
+    .results {
+      max-width: 720px;
+      margin: 1rem auto 0;
+      padding: 0 1rem 3rem;
+    }
+    .result-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .85rem 1rem;
+      margin-bottom: .5rem;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: .75rem;
+    }
+    .result-card:hover {
+      border-color: var(--accent);
+      background: var(--surface2);
+    }
+    .result-card .fn {
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: .78rem;
+      color: var(--accent);
+      background: rgba(88,166,255,.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .result-card .name {
+      font-size: .9rem;
+      font-weight: 500;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .result-card .seat {
+      font-size: .78rem;
+      color: var(--text2);
+      flex-shrink: 0;
+    }
+
+    /* ── Detail view ── */
+    .detail {
+      max-width: 1400px;
+      margin: 1rem auto 0;
+      padding: 0 1.5rem 3rem;
+    }
+    .detail-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .detail-header {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .detail-header h2 { font-size: 1.1rem; font-weight: 600; }
+    .detail-header .meta {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .badge {
+      font-size: .7rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: 500;
+    }
+    .badge-green { background: rgba(63,185,80,.15); color: var(--green); }
+    .badge-orange { background: rgba(210,153,34,.15); color: var(--orange); }
+    .badge-red { background: rgba(248,81,73,.15); color: var(--red); }
+    .badge-purple { background: rgba(188,140,255,.15); color: var(--purple); }
+    .badge-blue { background: rgba(88,166,255,.15); color: var(--accent); }
+
+    .src { font-size: .6rem; color: var(--text2); opacity: .6; margin-left: .25rem; }
+    .new-section { border-left: 2px solid var(--green); padding-left: .75rem; margin-left: -.25rem; }
+    .dot-new { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--green); margin-left: .4rem; vertical-align: middle; }
+    .legend { font-size: .7rem; color: var(--text2); padding: .5rem 0; display: flex; align-items: center; gap: .3rem; }
+    .legend .dot-new { margin-left: 0; }
+
+    .detail-actions {
+      padding: .75rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .detail-body {
+      padding: 1.25rem;
+    }
+    .detail-body .empty {
+      text-align: center;
+      color: var(--text2);
+      padding: 2rem 0;
+    }
+
+    /* Info rows */
+    .info-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: .35rem .75rem;
+      font-size: .85rem;
+      margin-bottom: 1rem;
+    }
+    .info-grid .label { color: var(--text2); font-weight: 500; }
+    .info-grid .value { color: var(--text); word-break: break-word; }
+
+    /* Sections */
+    .section { margin-bottom: 1.25rem; }
+    .section-title {
+      font-size: .75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--text2);
+      margin-bottom: .5rem;
+      padding-bottom: .3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Person table */
+    .ptable { width: 100%; border-collapse: collapse; font-size: .85rem; table-layout: fixed; }
+    .ptable th {
+      text-align: left;
+      font-size: .7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--text2);
+      padding: .4rem .5rem;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .ptable td {
+      padding: .4rem .5rem;
+      border-bottom: 1px solid rgba(48,54,61,.5);
+      vertical-align: top;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-wrap: break-word;
+    }
+    .ptable tr:last-child td { border-bottom: none; }
+    .ptable .col-name { font-weight: 500; width: 20%; }
+    .ptable .col-role { color: var(--text2); width: 13%; }
+    .ptable .col-rep { font-size: .75rem; color: var(--text2); line-height: 1.3; width: 25%; }
+    .ptable .col-birth { color: var(--text2); font-variant-numeric: tabular-nums; white-space: nowrap; width: 10%; }
+    .ptable .col-since { color: var(--text2); font-variant-numeric: tabular-nums; white-space: nowrap; width: 9%; }
+    .ptable .col-src { font-size: .65rem; color: var(--purple); white-space: nowrap; width: 8%; }
+
+    /* Publications */
+    .pub-list { list-style: none; }
+    .pub-list li {
+      padding: .35rem 0;
+      border-bottom: 1px solid rgba(48,54,61,.5);
+      font-size: .82rem;
+      display: flex;
+      gap: .75rem;
+    }
+    .pub-list li:last-child { border-bottom: none; }
+    .pub-list .pdate { color: var(--text2); flex-shrink: 0; font-variant-numeric: tabular-nums; width: 5.5rem; }
+    .pub-list .ptype { color: var(--accent); flex-shrink: 0; }
+    .pub-list .pdetails { color: var(--text); }
+
+    /* Vollzug timeline */
+    .vollzug-list { list-style: none; }
+    .vollzug-list li {
+      padding: .4rem 0;
+      border-bottom: 1px solid rgba(48,54,61,.5);
+      font-size: .82rem;
+    }
+    .vollzug-list li:last-child { border-bottom: none; }
+    .vollzug-date { color: var(--text2); font-variant-numeric: tabular-nums; }
+    .vollzug-az { color: var(--accent); font-family: monospace; font-size: .78rem; }
+    .vollzug-text { color: var(--text); margin-top: .15rem; }
+
+    /* Markdown preview */
+    .md-preview {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+      font-size: .78rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 500px;
+      overflow-y: auto;
+      color: var(--text2);
+    }
+
+    /* Loading */
+    .spinner {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--green);
+      color: #fff;
+      padding: .6rem 1.2rem;
+      border-radius: 8px;
+      font-size: .85rem;
+      font-weight: 500;
+      opacity: 0;
+      transition: transform .25s, opacity .25s;
+      z-index: 100;
+      pointer-events: none;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Footer */
+    .footer {
+      max-width: 720px;
+      margin: 2rem auto 0;
+      padding: 1rem 1rem 2rem;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      font-size: .78rem;
+      border-top: 1px solid var(--border);
+    }
+    .footer a { color: var(--text2); text-decoration: none; }
+    .footer a:hover { color: var(--accent); }
+    .footer .footer-brand { margin-left: auto; color: var(--text2); font-size: .7rem; }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .result-card { flex-wrap: wrap; }
+      .result-card .seat { width: 100%; }
+      .detail-header { flex-direction: column; }
+      .info-grid { grid-template-columns: 1fr; }
+      .footer { justify-content: center; }
+      .footer .footer-brand { margin-left: 0; width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+    <h1>Firmenindex Österreich</h1>
+    <span class="tag">AT</span>
+    <a class="brand" href="https://skale.dev" target="_blank">skale.dev</a>
+  </div>
+
+  <!-- Search -->
+  <div class="search-wrap">
+    <div class="search-box">
+      <input id="searchInput" type="text" placeholder="Firma, FN (z.B. 475207i) oder Person…" autofocus />
+      <button class="btn btn-primary" id="searchBtn" onclick="doSearch()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Suchen
+      </button>
+    </div>
+  </div>
+
+  <!-- Results / Detail container -->
+  <div id="app"></div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <a href="info.html">Info &amp; Datenquellen</a>
+    <a href="info.html#datenschutz">Datenschutz</a>
+    <a href="info.html#impressum">Impressum</a>
+    <span class="footer-brand">skale.dev · v0.4.3</span>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">In Zwischenablage kopiert!</div>
+
+  <script src="config.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    const input = $('searchInput');
+    const app = $('app');
+
+    // ── Helpers ──
+    const ERROR_HINTS = {
+      400: { label: 'Ungültige Anfrage', icon: '⚠️' },
+      401: { label: 'Authentifizierung fehlgeschlagen', icon: '🔒', hint: 'Bearer-Token in config.js prüfen.' },
+      403: { label: 'Zugriff verweigert', icon: '🚫', hint: 'Token ungültig oder abgelaufen.' },
+      404: { label: 'Nicht gefunden', icon: '🔍' },
+      429: { label: 'Zu viele Anfragen', icon: '⏳', hint: 'Rate Limit: max. 30 Anfragen/Minute. Bitte kurz warten.' },
+      502: { label: 'Upstream-Fehler', icon: '🔌', hint: 'evi.gv.at oder HVD-Server antwortet nicht. Bitte später erneut versuchen.' },
+      503: { label: 'Service nicht verfügbar', icon: '🔧', hint: 'HVD-Token fehlt oder Modul nicht geladen.' },
+      504: { label: 'Gateway Timeout', icon: '⏱️', hint: 'Der HVD-Server hat zu lange geantwortet (504). Bitte später erneut versuchen.' },
+    };
+
+    function formatError(status, body) {
+      const info = ERROR_HINTS[status] || { label: 'Fehler', icon: '❌' };
+      let detail = '';
+      // Parse structured error from API
+      if (body && body.error) {
+        detail = body.error.message || '';
+        if (body.error.hint) detail += (detail ? ' ' : '') + body.error.hint;
+      } else if (body && body.detail) {
+        detail = typeof body.detail === 'string' ? body.detail : JSON.stringify(body.detail);
+      }
+      const hint = info.hint || '';
+      return `${info.icon} ${info.label} (HTTP ${status})${detail ? ': ' + detail : ''}${hint ? '<br><small>' + hint + '</small>' : ''}`;
+    }
+
+    async function apiFetch(path) {
+      // path = "/endpoint?param=val" → split into endpoint + query
+      const [endpoint, qs] = path.replace(/^\//, '').split('?');
+      let url;
+      if (API_BASE.includes('?')) {
+        // Query-string proxy (PHP): /api.php?endpoint=search/rich&query=...
+        url = API_BASE + encodeURIComponent(endpoint);
+        if (qs) url += '&' + qs;
+      } else {
+        // Path-based (direct or nginx): /firmenbuch/api/search/rich?query=...
+        url = API_BASE.replace(/\/$/, '') + '/' + endpoint;
+        if (qs) url += '?' + qs;
+      }
+      const response = await fetch(url);
+      if (!response.ok) {
+        let body = null;
+        try { body = await response.json(); } catch (_) {}
+        // 404 from search = "no results", not a real error
+        const err = (body && body.error) || (body && body.detail && body.detail.error);
+        if (response.status === 404 && err && err.type === 'not_found') {
+          return { results: [] };
+        }
+        // Plain 404 (no JSON body) → treat as empty too
+        if (response.status === 404 && !body) {
+          return { results: [] };
+        }
+        throw { status: response.status, message: formatError(response.status, body) };
+      }
+      return response.json();
+    }
+
+    function isFN(s) { return /^[a-z]?\d+[a-z]$/i.test(s.trim()); }
+
+    function statusBadge(status) {
+      const s = (status || '').toLowerCase();
+      if (s === 'aktiv' || s === 'eingetragen') return `<span class="badge badge-green">${esc(status)}</span>`;
+      if (s.includes('lösch') || s === 'gelöscht') return `<span class="badge badge-red">${esc(status)}</span>`;
+      return `<span class="badge badge-orange">${esc(status)}</span>`;
+    }
+
+    function esc(s) { if (s == null) return ''; const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+    function toast(msg) {
+      const t = $('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 1800);
+    }
+
+    // ── Search ──
+    async function doSearch() {
+      const q = input.value.trim();
+      if (!q) return;
+
+      if (isFN(q)) {
+        showDetail(q);
+        return;
+      }
+
+      app.innerHTML = '<div class="results"><div style="text-align:center;padding:2rem;color:var(--text2)"><span class="spinner"></span> Suche…</div></div>';
+
+      try {
+        const data = await apiFetch('/search/rich?query=' + encodeURIComponent(q));
+        const results = data.results || [];
+        if (results.length === 0) {
+          app.innerHTML = '<div class="results"><div class="empty" style="text-align:center;padding:2rem;color:var(--text2)">Keine Ergebnisse für „' + esc(q) + '"</div></div>';
+          return;
+        }
+        let html = '<div class="results">';
+        results.forEach(r => {
+          html += `<div class="result-card" onclick="showDetail('${esc(r.fn)}')">
+            <span class="fn">${esc(r.fn)}</span>
+            <span class="name">${esc(r.name)}</span>
+            <span class="seat">${esc(r.seat || '')}</span>
+          </div>`;
+        });
+        html += '</div>';
+        app.innerHTML = html;
+      } catch (e) {
+        app.innerHTML = `<div class="results"><div class="empty" style="text-align:center;padding:2rem;color:var(--red)">Fehler: ${e.message}</div></div>`;
+      }
+    }
+
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+
+    // ── URL deep-linking ──
+    function updateURL(params) {
+      const url = new URL(window.location);
+      Object.entries(params).forEach(([k, v]) => {
+        if (v == null || v === '') url.searchParams.delete(k);
+        else url.searchParams.set(k, v);
+      });
+      history.pushState(params, '', url);
+    }
+
+    function clearURL() {
+      const url = new URL(window.location);
+      url.search = '';
+      history.pushState({}, '', url);
+    }
+
+    // Track whether current view came from ?fn= param
+    let directFN = false;
+
+    // Override doSearch to update URL
+    const _doSearch = doSearch;
+    doSearch = async function() {
+      const q = input.value.trim();
+      if (!q) return;
+      if (!isFN(q)) updateURL({ q });
+      await _doSearch();
+    };
+
+    // Override showDetail to update URL
+    const _showDetail = showDetail;
+    showDetail = async function(fn) {
+      directFN ? updateURL({ fn }) : updateURL({ q: fn });
+      directFN = false;
+      await _showDetail(fn);
+    };
+
+    // Back button resets URL
+    const _goBack = goBack;
+    goBack = function() {
+      clearURL();
+      _goBack();
+    };
+
+    // Browser back/forward
+    window.addEventListener('popstate', (e) => {
+      const fn = e.state?.fn;
+      const q = fn || e.state?.q;
+      if (q) {
+        input.value = q;
+        if (fn || isFN(q)) { directFN = !!fn; _showDetail(q); }
+        else _doSearch();
+      } else {
+        input.value = '';
+        app.innerHTML = '';
+      }
+    });
+
+    // ── Detail state ──
+    let currentDetail = null;
+    let currentFN = null;
+    let fullLoaded = false;
+
+    // ── Auto-load from URL params on page load ──
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const fn = (params.get('fn') || '').trim();
+      const q = (params.get('q') || '').trim();
+      if (fn) {
+        // Direct FN link — skip search, go straight to detail
+        input.value = fn;
+        directFN = true;
+        _showDetail(fn);
+      } else if (q) {
+        input.value = q;
+        _doSearch();
+      }
+    })();
+
+    async function showDetail(fn) {
+      currentFN = fn;
+      fullLoaded = false;
+      app.innerHTML = '<div class="detail"><div style="text-align:center;padding:2rem;color:var(--text2)"><span class="spinner"></span> Laden…</div></div>';
+
+      try {
+        const [lookup, oenace] = await Promise.all([
+          apiFetch('/lookup?fn=' + encodeURIComponent(fn)),
+          apiFetch('/oenace?fn=' + encodeURIComponent(fn)).catch(() => null)
+        ]);
+        fullLoaded = false;
+        currentDetail = { ...lookup, oenace: oenace };
+        // Clean evi prefix from name
+        if (currentDetail.name && currentDetail.name.startsWith('evi.gv.at | ')) {
+          currentDetail.name = currentDetail.name.replace(/^evi\.gv\.at \| .+? \| Firmenbuch$/, (m) => {
+            const parts = m.split(' | ');
+            return parts.slice(1, -1).join(' | ');
+          });
+        }
+        renderDetail(currentDetail, oenace);
+      } catch (e) {
+        app.innerHTML = `<div class="detail"><div class="detail-card"><div class="detail-body"><div class="empty" style="color:var(--red)">Fehler: ${e.message}</div></div></div></div>`;
+      }
+    }
+
+    async function loadFull() {
+      if (!currentDetail) return;
+      const btn = $('fullBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Laden…';
+
+      try {
+        const merged = await apiFetch('/lookup/merged?fn=' + encodeURIComponent(currentFN));
+        fullLoaded = true;
+        currentDetail = merged;
+        renderDetail(merged, merged.oenace || null);
+        toast('Vollständige Daten geladen');
+      } catch (e) {
+        toast('Fehler: ' + e.message);
+        btn.disabled = false;
+        btn.innerHTML = '📦 Vollständige Daten';
+      }
+    }
+
+    function goBack() {
+      if (input.value.trim()) doSearch();
+      else app.innerHTML = '';
+    }
+
+    // ── Render detail ──
+    function renderDetail(data, oenace) {
+      const fn = data.fn || '';
+      const name = data.name || '';
+      const status = data.status || '';
+      const addr = data.address || {};
+      const addrText = data.address_text || data.address || '';
+
+      // Build address display
+      let addrDisplay = '';
+      if (typeof addr === 'object' && addr.strasse) {
+        addrDisplay = `${addr.strasse} ${addr.hausnummer || ''}, ${addr.plz || ''} ${addr.ort || ''}`.trim();
+      } else if (typeof addr === 'string') {
+        addrDisplay = addr;
+      }
+      if (typeof data.address === 'string') addrDisplay = data.address;
+
+      // Merge persons: if merged data, prefer persons_with_functions
+      let persons = data.persons || [];
+      if (data.persons_with_functions && data.persons_with_functions.length) {
+        persons = data.persons_with_functions.map(p => ({
+          name: p.name || `${p.vorname || ''} ${p.nachname || ''}`.trim(),
+          role: (p.functions || [{}]).map(f => f.fkentext || p.role || '').filter(Boolean).join(', '),
+          since: p.since || ((p.functions || [{}])[0] || {}).representation?.[0]?.since || '',
+          source: p.source || 'hvd'
+        }));
+      }
+
+      // Vollzug
+      const vollzug = data.vollzug || [];
+
+      // Publications
+      const pubs = data.publications || [];
+
+      // Build sources tags
+      const sources = data._sources || {};
+      const sourceTags = Object.entries(sources)
+        .filter(([k, v]) => k !== 'oenace')
+        .map(([k, v]) => `<span class="badge badge-blue">${esc(k)}: ${esc(v)}</span>`).join(' ');
+
+      // Helper: tiny source label
+      const src = (field) => {
+        if (!fullLoaded || !sources[field]) return '';
+        return `<span class="src">[${esc(sources[field])}]</span>`;
+      };
+
+      // Actions bar
+      const fullBtnHtml = fullLoaded
+        ? '<span class="badge badge-green">✓ Vollständig</span>'
+        : '<button class="btn btn-primary btn-sm" id="fullBtn" onclick="loadFull()">📦 Vollständige Daten</button>';
+
+      // ÖNACE
+      let oenaceHtml = '';
+      if (oenace && oenace.oenace_code) {
+        oenaceHtml = `<div class="info-grid">
+          <span class="label">ÖNACE</span><span class="value">${esc(oenace.oenace_code)} — ${esc(oenace.subclass || oenace.division || '')}</span>
+          <span class="label">Sektion</span><span class="value">${esc(oenace.section || '')}</span>
+          ${oenace.source ? `<span class="label">Quelle</span><span class="value">${esc(oenace.source)}</span>` : ''}
+        </div>`;
+      }
+
+      // EUIDs
+      const euids = data.euids || [];
+      let euidHtml = '';
+      if (euids.length) {
+        euidHtml = `<div class="info-grid"><span class="label">EUID</span><span class="value">${esc(euids[0].euid || '')}</span></div>`;
+      }
+
+      let html = `<div class="detail"><div class="detail-card">`;
+
+      // Header
+      html += `<div class="detail-header">
+        <div>
+          <h2>${esc(name)}</h2>
+          <div style="margin-top:.4rem;display:flex;gap:.4rem;flex-wrap:wrap;align-items:center">
+            <span class="fn" style="font-family:'SF Mono','Fira Code',monospace;font-size:.78rem;color:var(--accent);background:rgba(88,166,255,.1);padding:2px 6px;border-radius:4px">${esc(fn)}</span>
+            ${statusBadge(status)}
+            ${data.legal_form ? `<span class="badge badge-purple">${esc(typeof data.legal_form === 'object' ? data.legal_form.text : data.legal_form)}</span>` : ''}
+          </div>
+        </div>
+        <div class="meta">
+          <button class="btn btn-ghost btn-sm" onclick="goBack()">← Zurück</button>
+          <button class="btn btn-ghost btn-sm" onclick="copyMarkdown()">📋 Copy MD</button>
+        </div>
+      </div>`;
+
+      // Actions
+      html += `<div class="detail-actions">
+        ${fullBtnHtml}
+        ${sourceTags}
+      </div>`;
+
+      // Body
+      html += `<div class="detail-body">`;
+
+      // Info grid
+      html += `<div class="info-grid">`;
+      if (addrDisplay) html += `<span class="label">Adresse${src('address')}</span><span class="value">${esc(addrDisplay)}</span>`;
+      if (data.seat) html += `<span class="label">Sitz${src('seat')}</span><span class="value">${esc(data.seat)}</span>`;
+      if (data.registered) html += `<span class="label">Eintragung${src('registered')}</span><span class="value">${esc(data.registered)}</span>`;
+      if (data.share_capital) html += `<span class="label">Grundkapital${src('share_capital')}</span><span class="value">${esc(data.share_capital)}</span>`;
+      if (data.fiscal_year_end) html += `<span class="label">Geschäftsjahr${src('fiscal_year_end')}</span><span class="value">${esc(data.fiscal_year_end)}</span>`;
+      if (data.purpose) html += `<span class="label">Firmenzweck${src('purpose')}</span><span class="value">${esc(data.purpose)}</span>`;
+      if (data.representation) html += `<span class="label">Vertretung${src('representation')}</span><span class="value">${esc(data.representation)}</span>`;
+      if (data.homepage && data.homepage.length) html += `<span class="label">Homepage${src('homepage')}</span><span class="value">${data.homepage.map(h => '<a href="' + esc(h) + '" target="_blank" style="color:var(--accent)">' + esc(h) + '</a>').join(', ')}</span>`;
+      html += `</div>`;
+
+      // EUIDs — new section in full mode
+      if (euidHtml) html += `<div class="new-section">${euidHtml}${fullLoaded ? '<span class="dot-new"></span>' : ''}</div>`;
+
+      // Legend (only in full mode when new data exists)
+      if (fullLoaded && (euids.length || vollzug.length || branchOffices.length || legalProc.length)) {
+        html += `<div class="legend"><span class="dot-new"></span> Daten aus HVD-Vollzug (zusätzlich zu evi)</div>`;
+      }
+
+      // ÖNACE
+      if (oenaceHtml) html += `<div class="section"><div class="section-title">ÖNACE Klassifikation${src('oenace')}</div>${oenaceHtml}</div>`;
+
+      // Persons
+      if (persons.length) {
+        html += `<div class="section"><div class="section-title">Personen & Funktionen${src('persons')}</div><table class="ptable"><thead><tr><th>Name</th><th>Rolle</th><th>Vertretung</th><th>Geb.-Datum</th><th>Seit</th><th>Bis</th><th>Quelle</th></tr></thead><tbody>`;
+        persons.forEach(p => {
+          // Build representation summary
+          let repHtml = '';
+          if (p.representation && p.representation.length) {
+            const r = p.representation[0];
+            const parts = [];
+            if (r.type_text) parts.push(esc(r.type_text));
+            if (r.text) parts.push(esc(r.text.join(', ')));
+            repHtml = parts.join('<br>') + (fullLoaded ? ' <span class="dot-new"></span>' : '');
+          }
+          const untilHtml = p.until ? esc(p.until) : '';
+          html += `<tr>
+            <td class="col-name">${esc(p.name)}</td>
+            <td class="col-role">${esc(p.role)}</td>
+            <td class="col-rep">${repHtml}</td>
+            <td class="col-birth">${p.birthdate ? esc(p.birthdate) + (fullLoaded ? ' <span class="dot-new"></span>' : '') : ''}</td>
+            <td class="col-since">${esc(p.since)}</td>
+            <td class="col-since">${untilHtml}</td>
+            <td class="col-src">${esc(p.source || '')}</td>
+          </tr>`;
+        });
+        html += '</tbody></table></div>';
+      }
+
+      // Branch offices — new section in full mode
+      const branchOffices = data.branch_offices || [];
+      if (branchOffices.length) {
+        html += `<div class="section new-section"><div class="section-title">Zweigniederlassungen${src('branch_offices')}${fullLoaded ? '<span class="dot-new"></span>' : ''}</div><table class="ptable"><thead><tr><th>ZNR</th><th>Name</th><th>Adresse</th><th>Sitz</th></tr></thead><tbody>`;
+        branchOffices.forEach(b => {
+          const bName = (b.name || []).join(' / ');
+          const bAddr = b.address || {};
+          const bAddrStr = [bAddr.strasse, bAddr.hausnummer, bAddr.plz, bAddr.ort].filter(Boolean).join(' ');
+          html += `<tr>
+            <td class="col-since">${esc(b.znr || '')}</td>
+            <td class="col-name">${esc(bName)}</td>
+            <td class="col-role">${esc(bAddrStr)}</td>
+            <td class="col-role">${esc(b.seat || '')}</td>
+          </tr>`;
+        });
+        html += '</tbody></table></div>';
+      }
+
+      // Legal proceedings — new section in full mode
+      const legalProc = data.legal_proceedings || [];
+      if (legalProc.length) {
+        html += `<div class="section new-section"><div class="section-title">Rechtstatsachen${src('legal_proceedings')}${fullLoaded ? '<span class="dot-new"></span>' : ''}</div><ul class="vollzug-list">`;
+        legalProc.forEach(lp => {
+          const lpDate = lp.datum_vom || '';
+          const lpCode = lp.code || '';
+          const lpTexts = (lp.text || []).join(' · ');
+          const lpZeichen = lp.zeichen || '';
+          html += `<li>
+            <span class="vollzug-date">${esc(lpDate)}</span>
+            <span class="vollzug-az">${esc(lpCode)}</span>${lpZeichen ? ' · ' + esc(lpZeichen) : ''}
+            <div class="vollzug-text">${esc(lpTexts)}</div>
+          </li>`;
+        });
+        html += '</ul></div>';
+      }
+
+      // Vollzug — new section in full mode
+      if (vollzug.length) {
+        html += `<div class="section new-section"><div class="section-title">Firmenbuchvollzug${src('vollzug')}${fullLoaded ? '<span class="dot-new"></span>' : ''}</div><ul class="vollzug-list">`;
+        vollzug.forEach(v => {
+          const court = v.court ? ` · ${esc(v.court.text || v.court.code || '')}` : '';
+          html += `<li>
+            <span class="vollzug-date">${esc(v.vollzugsdatum)}</span>
+            <span class="vollzug-az">${esc(v.az || '')}</span>${court}
+            <div class="vollzug-text">${esc((v.antragstext || []).join(' · '))}</div>
+          </li>`;
+        });
+        html += '</ul></div>';
+      }
+
+      // Publications
+      if (pubs.length) {
+        html += `<div class="section"><div class="section-title">Veröffentlichungen</div><ul class="pub-list">`;
+        pubs.forEach(p => {
+          html += `<li>
+            <span class="pdate">${esc(p.date)}</span>
+            <span class="ptype">${esc(p.type)}</span>
+            <span class="pdetails">${esc((p.details || []).join(', '))}</span>
+          </li>`;
+        });
+        html += '</ul></div>';
+      }
+
+      html += '</div>'; // detail-body
+      html += '</div></div>'; // detail-card, detail
+      app.innerHTML = html;
+    }
+
+    // ── Markdown generation ──
+    function generateMarkdown(data) {
+      if (!data) return '';
+      const fn = data.fn || '';
+      const name = data.name || '';
+      const status = data.status || '';
+
+      let addrDisplay = '';
+      const addr = data.address || {};
+      if (typeof addr === 'object' && addr.strasse) {
+        addrDisplay = `${addr.strasse} ${addr.hausnummer || ''}, ${addr.plz || ''} ${addr.ort || ''}`.trim();
+      } else if (typeof addr === 'string') {
+        addrDisplay = addr;
+      }
+      if (typeof data.address === 'string') addrDisplay = data.address;
+
+      const lf = typeof data.legal_form === 'object' ? data.legal_form.text : (data.legal_form || '');
+      let md = `# ${name} (${fn})\n\n`;
+      md += `| Feld | Wert |\n|------|------|\n`;
+      md += `| Status | ${status} |\n`;
+      if (lf) md += `| Rechtsform | ${lf} |\n`;
+      if (addrDisplay) md += `| Adresse | ${addrDisplay} |\n`;
+      if (data.seat) md += `| Sitz | ${data.seat} |\n`;
+      if (data.registered) md += `| Eintragung | ${data.registered} |\n`;
+      if (data.share_capital) md += `| Grundkapital | ${data.share_capital} |\n`;
+      if (data.fiscal_year_end) md += `| Geschäftsjahr | ${data.fiscal_year_end} |\n`;
+      if (data.purpose) md += `| Firmenzweck | ${data.purpose} |\n`;
+      if (data.representation) md += `| Vertretung | ${data.representation} |\n`;
+
+      // EUID
+      const euids = data.euids || [];
+      if (euids.length) md += `| EUID | ${euids[0].euid || ''} |\n`;
+
+      // ÖNACE
+      const oenace = data.oenace || {};
+      if (oenace.oenace_code) md += `| ÖNACE | ${oenace.oenace_code} — ${oenace.subclass || oenace.division || ''} |\n`;
+
+      // Persons
+      const persons = data.persons || [];
+      if (persons.length) {
+        md += '\n## Personen & Funktionen\n\n';
+        md += '| Name | Rolle | Vertretung | Geb.-Datum | Seit | Bis | Quelle |\n|------|-------|-------------|-----------|------|-----|--------|\n';
+        persons.forEach(p => {
+          let repStr = '';
+          if (p.representation && p.representation.length) {
+            const r = p.representation[0];
+            const parts = [];
+            if (r.type_text) parts.push(r.type_text);
+            if (r.text) parts.push(r.text.join(', '));
+            repStr = parts.join('; ');
+          }
+          md += `| ${p.name || ''} | ${p.role || ''} | ${repStr} | ${p.birthdate || ''} | ${p.since || ''} | ${p.until || ''} | ${p.source || ''} |\n`;
+        });
+      }
+
+      // Branch offices
+      const bo = data.branch_offices || [];
+      if (bo.length) {
+        md += '\n## Zweigniederlassungen\n\n';
+        md += '| ZNR | Name | Adresse | Sitz |\n|-----|------|--------|------|\n';
+        bo.forEach(b => {
+          const bName = (b.name || []).join(' / ');
+          const bAddr = b.address || {};
+          const bAddrStr = [bAddr.strasse, bAddr.hausnummer, bAddr.plz, bAddr.ort].filter(Boolean).join(' ');
+          md += `| ${b.znr || ''} | ${bName} | ${bAddrStr} | ${b.seat || ''} |\n`;
+        });
+      }
+
+      // Legal proceedings
+      const lp = data.legal_proceedings || [];
+      if (lp.length) {
+        md += '\n## Rechtstatsachen\n\n';
+        md += '| Datum | Code | Zeichen | Text |\n|-------|------|--------|------|\n';
+        lp.forEach(e => {
+          md += `| ${e.datum_vom || ''} | ${e.code || ''} | ${e.zeichen || ''} | ${(e.text || []).join('; ')} |\n`;
+        });
+      }
+
+      // Homepage
+      if (data.homepage && data.homepage.length) {
+        md += `| Homepage | ${data.homepage.join(', ')} |\n`;
+      }
+
+      // Vollzug
+      const vollzug = data.vollzug || [];
+      if (vollzug.length) {
+        md += '\n## Firmenbuchvollzug\n\n';
+        md += '| Datum | Aktenzeichen | Antragstext |\n|-------|-------------|-------------|\n';
+        vollzug.forEach(v => {
+          md += `| ${v.vollzugsdatum || ''} | ${v.az || ''} | ${(v.antragstext || []).join('; ')} |\n`;
+        });
+      }
+
+      // Publications
+      const pubs = data.publications || [];
+      if (pubs.length) {
+        md += '\n## Veröffentlichungen\n\n';
+        md += '| Datum | Typ | Details |\n|-------|-----|--------|\n';
+        pubs.forEach(p => {
+          md += `| ${p.date || ''} | ${p.type || ''} | ${(p.details || []).join(', ')} |\n`;
+        });
+      }
+
+      md += '\n---\n_Quelle: Firmenbuch API_';
+      return md;
+    }
+
+    function copyMarkdown() {
+      const md = generateMarkdown(currentDetail);
+      if (!md) return;
+      navigator.clipboard.writeText(md).then(() => toast('Markdown kopiert!')).catch(() => {
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = md;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        toast('Markdown kopiert!');
+      });
+    }
+  </script>
+</body>
+</html>

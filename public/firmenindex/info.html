@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Info — Firmenindex Österreich</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0e1117;
+      --surface: #161b22;
+      --surface2: #1c2230;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text2: #8b949e;
+      --accent: #58a6ff;
+      --accent2: #1f6feb;
+      --green: #3fb950;
+      --purple: #bc8cff;
+    }
+
+    body {
+      font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.65;
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header h1 { font-size: 1.1rem; font-weight: 600; }
+    .header .back { margin-left: auto; }
+    .header .back a { color: var(--text2); text-decoration: none; font-size: .85rem; }
+    .header .back a:hover { color: var(--accent); }
+
+    /* Content */
+    .content {
+      max-width: 780px;
+      margin: 2rem auto;
+      padding: 0 1.5rem 3rem;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 2rem 0 .75rem;
+      padding-bottom: .35rem;
+      border-bottom: 1px solid var(--border);
+      scroll-margin-top: 4rem;
+    }
+    h3 {
+      font-size: .9rem;
+      font-weight: 600;
+      margin: 1.25rem 0 .5rem;
+      color: var(--accent);
+    }
+
+    p { margin-bottom: .75rem; color: var(--text); font-size: .88rem; }
+
+    ul, ol { margin: .5rem 0 .75rem 1.25rem; font-size: .88rem; }
+    li { margin-bottom: .3rem; }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Table */
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .85rem;
+      margin: .75rem 0 1.25rem;
+    }
+    .info-table th {
+      text-align: left;
+      font-size: .72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--text2);
+      padding: .45rem .6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .info-table td {
+      padding: .45rem .6rem;
+      border-bottom: 1px solid rgba(48,54,61,.5);
+      vertical-align: top;
+    }
+    .info-table tr:last-child td { border-bottom: none; }
+
+    /* Badge */
+    .badge {
+      display: inline-block;
+      font-size: .72rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: 500;
+    }
+    .badge-green { background: rgba(63,185,80,.15); color: var(--green); }
+    .badge-blue { background: rgba(88,166,255,.15); color: var(--accent); }
+
+    /* Note box */
+    .note {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: .75rem 1rem;
+      margin: .75rem 0 1.25rem;
+      font-size: .85rem;
+    }
+    .note strong { color: var(--accent); }
+
+    /* Footer */
+    .footer {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem 2rem;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      font-size: .78rem;
+      border-top: 1px solid var(--border);
+    }
+    .footer a { color: var(--text2); text-decoration: none; }
+    .footer a:hover { color: var(--accent); }
+    .footer .footer-brand { margin-left: auto; color: var(--text2); font-size: .7rem; }
+
+    @media (max-width: 600px) {
+      .content { padding: 0 1rem 2rem; }
+      .footer { justify-content: center; padding: 1rem 1rem 2rem; }
+      .footer .footer-brand { margin-left: 0; width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Firmenindex Österreich</h1>
+    <span class="back"><a href="index.html">← Zurück zur Suche</a></span>
+  </div>
+
+  <div class="content">
+
+    <!-- ── Datenquellen & Aktualität ── -->
+    <h2 id="datenquellen">Datenquellen &amp; Aktualität</h2>
+
+    <p>
+      Dieser Dienst aggregiert Unternehmensdaten aus zwei offiziellen Quellen der
+      österreichischen Justiz. Beide Quellen liefern tagesaktuelle Daten.
+    </p>
+
+    <h3>HVD — Hochwertige Datensätze (JustizOnline SOAP API)</h3>
+    <p>
+      Die primäre Datenquelle ist das österreichische Firmenbuch, zugänglich über die
+      <strong>HVD-Webservices</strong> (High Value Datasets) der Republik Österreich
+      via JustizOnline (<a href="https://justizonline.gv.at/jop/web/iwg" target="_blank">justizonline.gv.at</a>).
+    </p>
+
+    <div class="note">
+      <strong>Aktualität:</strong> Echtzeit — die API fragt direkt die live
+      Firmenbuchdatenbank ab. Nach §&nbsp;15 UGB sind die abgerufenen Daten
+      <em>„immer auf dem letzten Stand und gültig"</em>. Die EU-Verordnung (EU) 2023/138,
+      Anhang&nbsp;5, fordert für HVD-Daten: <em>„without undue delay after the latest update"</em>.
+    </div>
+
+    <p>Verfügbare HVD-Operationen:</p>
+    <ul>
+      <li><strong>Auszug V2</strong> — Vollständiger Firmenbuchauszug (Kurzinformation)</li>
+      <li><strong>Firmensuche</strong> — Phoneticsuche &amp; exakte Suche</li>
+      <li><strong>Urkundensuche</strong> — Suche nach Dokumenten (Jahresabschlüsse, etc.)</li>
+      <li><strong>Urkunde</strong> — Abruf einzelner Urkunden</li>
+      <li><strong>Veränderungen Firma</strong> — Firmenbuchänderungen in einem Zeitraum (max. 7 Tage)</li>
+      <li><strong>Veränderungen Urkunde</strong> — Urkundenänderungen in einem Zeitraum (max. 7 Tage)</li>
+    </ul>
+
+    <h3>evi.gv.at — Elektronische Verlautbarungs- und Informationsplattform</h3>
+    <p>
+      <a href="https://www.evi.gv.at" target="_blank">evi.gv.at</a> ist das
+      offizielle digitale Amtsblatt der Republik Österreich (betrieben von der
+      Wiener Zeitung GmbH, WZEVI-Gesetz). Firmenbuchdaten werden automatisch
+      aus dem Firmenbuch an EVI weitergeleitet.
+    </p>
+
+    <div class="note">
+      <strong>Aktualität:</strong> Nahezu Echtzeit — Firmenbuchänderungen werden
+      automatisch an EVI weitergeleitet. EVI dient primär als
+      Veröffentlichungsplattform (Verlautbarungen, Offenlegungen,
+      Insolvenzbekanntmachungen, etc.) und bietet zusätzlich Firmenbuchdaten
+      als <em>„Aktuelle Informationen und Änderungen im Firmenbuch"</em> an.
+    </div>
+
+    <h3>statistik.gv.at — ÖNACE-Klassifikation</h3>
+    <p>
+      Die ÖNACE-Wirtschaftszweigklassifikation wird von Statistik Austria
+      (<a href="https://www.statistik.gv.at" target="_blank">statistik.gv.at</a>)
+      bereitgestellt und nach Firmenbuchnummer abgefragt.
+    </p>
+
+    <h3>Zusammenfassung</h3>
+    <table class="info-table">
+      <thead>
+        <tr>
+          <th>Quelle</th>
+          <th>Aktualität</th>
+          <th>Rechtliche Grundlage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>HVD API (JustizOnline)</td>
+          <td><span class="badge badge-green">Echtzeit</span></td>
+          <td>§ 15 UGB; EU VO 2023/138, Anhang 5</td>
+        </tr>
+        <tr>
+          <td>evi.gv.at (Firmenbuch)</td>
+          <td><span class="badge badge-blue">Nahezu Echtzeit</span></td>
+          <td>WZEVI-Gesetz</td>
+        </tr>
+        <tr>
+          <td>statistik.gv.at (ÖNACE)</td>
+          <td><span class="badge badge-blue">Tagesaktuell</span></td>
+          <td>Statistik Austria</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      Für rechtsverbindliche Auskünfte empfiehlt sich die Abfrage über
+      <a href="https://justizonline.gv.at/jop/web/firmenbuchabfrage" target="_blank">JustizOnline</a>
+      direkt oder ein beglaubigter Auszug beim zuständigen Landesgericht.
+    </p>
+
+    <!-- ── Rechtsgrundlagen ── -->
+    <h2 id="rechtsgrundlagen">Rechtsgrundlagen &amp; Lizenzen</h2>
+    <ul>
+      <li>
+        <strong>EU-Durchführungsverordnung (EU) 2023/138</strong> —
+        Festlegung bestimmter hochwertiger Datensätze (HVD) und der Modalitäten
+        ihrer Veröffentlichung und Weiterverwendung. Anhang 5: Companies and Company Ownership.<br>
+        <a href="https://eur-lex.europa.eu/eli/reg_impl/2023/138/oj" target="_blank">EUR-Lex</a>
+      </li>
+      <li>
+        <strong>Informationsweiterverwendungsgesetz (IWG)</strong> —
+        §&nbsp;6 Abs.&nbsp;3 iVm §&nbsp;10 IWG.<br>
+        <a href="https://justizonline.gv.at/jop/web/iwg/terms" target="_blank">Nutzungsbedingungen</a>
+      </li>
+      <li>
+        <strong>Lizenz:</strong> CC BY 4.0 — Republik Österreich / BMJ
+      </li>
+      <li>
+        <strong>evi.gv.at:</strong> CC BY 4.0 — Republik Österreich / BMJ,
+        veröffentlicht über die Wiener Zeitung GmbH
+      </li>
+    </ul>
+
+    <!-- ── Technische Hinweise ── -->
+    <h2 id="technik">Technische Hinweise</h2>
+    <ul>
+      <li><strong>API-Endpunkt:</strong> <code>justizonline.gv.at/jop/api/at.gv.justiz.fbw/ws</code></li>
+      <li><strong>Protokoll:</strong> SOAP 1.2</li>
+      <li><strong>Authentifizierung:</strong> API-Key via HTTP-Header <code>X-API-KEY</code></li>
+      <li><strong>Rate-Limiting:</strong> HTTP 429 bei Überschreitung der Lastbegrenzung</li>
+      <li><strong>Veränderungsabfragen:</strong> max. 7 Tage Zeitraum</li>
+      <li><strong>Stichtag:</strong> darf nicht in der Zukunft liegen</li>
+    </ul>
+
+    <!-- ── Datenschutz ── -->
+    <h2 id="datenschutz">Datenschutzerklärung</h2>
+
+    <h3>Verantwortlich</h3>
+    <p>
+      skale.dev<br>
+      E-Mail: datenschutz@skale.dev
+    </p>
+
+    <h3>Erhobene Daten</h3>
+    <p>
+      Dieser Dienst greift auf öffentlich zugängliche Daten des österreichischen
+      Firmenbuchs (HVD via JustizOnline) sowie der Plattform evi.gv.at zu. Diese
+      Daten unterliegen der Datenhoheit der Republik Österreich (BMJ) und sind
+      unter der Lizenz CC BY 4.0 veröffentlicht.
+    </p>
+
+    <h3>Serverseitige Protokollierung</h3>
+    <p>
+      Der API-Server (amd1.mooo.com) protokolliert Zugriffszeiten, IP-Adressen
+      und aufgerufene Endpunkte zu Sicherheits- und Debugging-Zwecken. Diese
+      Logs werden nach maximal 30 Tagen automatisch gelöscht.
+    </p>
+
+    <h3>Cookies</h3>
+    <p>
+      Diese Website setzt keine Cookies. Die API verwendet keine Sitzungscookies
+      oder Tracking-Mechanismen.
+    </p>
+
+    <h3>Dritte Dienste</h3>
+    <p>
+      Es werden keine Drittanbieter-Dienste (Analytics, Tracking, Werbung)
+      eingebunden. API-Anfragen gehen direkt an die Server der österreichischen
+      Justiz (JustizOnline) und evi.gv.at.
+    </p>
+
+    <h3>Weitergabe personenbezogener Daten</h3>
+    <p>
+      Personenbezogene Daten (Namen, Geburtsdaten, Adressen von Geschäftsführern,
+      Gesellschaftern etc.) stammen aus dem öffentlichen Firmenbuch und werden
+      unverändert weitergegeben. Eine eigenständige Verarbeitung oder Speicherung
+      über die reine Weitergabe im Rahmen der API-Abfrage hinaus findet nicht statt.
+    </p>
+
+    <h3>Datensparsamkeit</h3>
+    <p>
+      Es werden nur die Daten abgerufen und angezeigt, die vom Nutzer aktiv
+      angefragt wurden. Es erfolgt keine Massenabfrage oder Vorspeicherung
+      von Firmenbuchdaten.
+    </p>
+
+    <!-- ── Impressum ── -->
+    <h2 id="impressum">Impressum</h2>
+
+    <h3>Anbieter</h3>
+    <p>
+      skale.dev<br>
+      E-Mail: info@skale.dev<br>
+      Web: <a href="https://skale.dev">https://skale.dev</a>
+    </p>
+
+    <h3>Haftungsausschluss</h3>
+    <p>
+      Die auf dieser Website angezeigten Daten stammen aus dem österreichischen
+      Firmenbuch (via JustizOnline HVD-Webservice und evi.gv.at) und werden
+      unverändert wiedergegeben. Für die Richtigkeit, Vollständigkeit und
+      Aktualität der Daten haftet die Republik Österreich, vertreten durch das
+      Bundesministerium für Justiz (BMJ).
+    </p>
+    <p>
+      Für Fehler bei der Darstellung oder Übermittlung der Daten übernimmt der
+      Betreiber dieser Website keine Haftung. Für rechtsverbindliche Auskünfte
+      ist ein amtlicher Firmenbuchauszug heranzuziehen.
+    </p>
+
+    <h3>Urheberrecht &amp; Lizenzen</h3>
+    <p>
+      Firmenbuchdaten: © Republik Österreich / BMJ — CC BY 4.0<br>
+      evi-Daten: © Republik Österreich / BMJ — CC BY 4.0 (via Wiener Zeitung GmbH)<br>
+      Website-Code: © skale.dev
+    </p>
+
+    <h3>Kontakt</h3>
+    <p>
+      Bei Fragen, Fehlermeldungen oder Anregungen: <a href="mailto:info@skale.dev">info@skale.dev</a>
+    </p>
+
+  </div>
+
+  <div class="footer">
+    <a href="#datenquellen">Datenquellen</a>
+    <a href="#rechtsgrundlagen">Rechtsgrundlagen</a>
+    <a href="#datenschutz">Datenschutz</a>
+    <a href="#impressum">Impressum</a>
+    <a href="index.html">Suche</a>
+    <span class="footer-brand">skale.dev · v0.4.2</span>
+  </div>
+
+</body>
+</html>
