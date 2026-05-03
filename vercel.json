@@ -1,6 +1,9 @@
 {
+  "framework": null,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/firmenindex/api/:path*", "destination": "/firmenindex/:path*" }
+    { "source": "/firmenindex/api/:path*", "destination": "/api/firmenindex/:path*" }
   ],
   "redirects": [
     { "source": "/meet", "destination": "https://meet.google.com/uti-zsep-efw", "permanent": true }
