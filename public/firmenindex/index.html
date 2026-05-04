@@ -508,7 +508,7 @@
   <!-- Header -->
   <div class="header">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-    <h1>Firmenindex Österreich</h1>
+    <h1><a href="https://skale.dev" style="color:inherit;text-decoration:none" target="_blank">Firmenindex Österreich</a></h1>
     <span class="tag">AT</span>
     <a class="brand" href="https://skale.dev" target="_blank">skale.dev</a>
   </div>
@@ -538,7 +538,7 @@
   <!-- Toast -->
   <div class="toast" id="toast">In Zwischenablage kopiert!</div>
 
-  <script src="config.js"></script>
+  <script src="/firmenindex/config.js"></script>
   <script>
     const $ = id => document.getElementById(id);
     const input = $('searchInput');
@@ -863,8 +863,8 @@
           </div>
         </div>
         <div class="meta">
-          <button class="btn btn-ghost btn-sm" onclick="goBack()">← Zurück</button>
-          <button class="btn btn-ghost btn-sm" onclick="copyMarkdown()">📋 Copy MD</button>
+          <button class="btn btn-ghost btn-sm" onclick="goBack()" title="Zurück">←</button>
+          <button class="btn btn-ghost btn-sm" onclick="copyMarkdown()" title="Markdown kopieren">📋</button>
         </div>
       </div>`;
 
