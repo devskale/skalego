@@ -6,12 +6,14 @@ const ALLOWED = new Set([
   'hvd/auszug', 'hvd/veraenderungen-firma', 'hvd/veraenderungen-urkunde',
 ]);
 
+// Max execution time (hobby plan caps at 10s regardless)
+export const maxDuration = 30;
+
 export default async function handler(req, res) {
   if (req.method !== 'GET')
     return res.status(405).json({ error: 'Method not allowed' });
 
   const url = new URL(req.url, 'http://localhost');
-  // /api/firmenindex-api?e=search/rich&query=...
   const endpoint = url.searchParams.get('e');
   if (!endpoint || !ALLOWED.has(endpoint))
     return res.status(403).json({ error: 'Forbidden' });
@@ -20,10 +22,13 @@ export default async function handler(req, res) {
   if (!token)
     return res.status(500).json({ error: 'API token not configured' });
 
-  // Rebuild upstream URL with all params except 'e'
   const upstreamParams = new URLSearchParams(url.search);
   upstreamParams.delete('e');
   const upstreamUrl = `${UPSTREAM}/${endpoint}?${upstreamParams.toString()}`;
+
+  // Abort after 25s (leave margin before maxDuration)
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 25000);
 
   try {
     const upstream = await fetch(upstreamUrl, {
@@ -32,12 +37,21 @@ export default async function handler(req, res) {
         'Host': 'amd1.mooo.com',
         'Accept': 'application/json',
       },
+      signal: controller.signal,
     });
+    clearTimeout(timer);
     const body = await upstream.text();
     res.status(upstream.status)
        .setHeader('Content-Type', 'application/json')
        .send(body);
   } catch (err) {
-    res.status(502).json({ error: 'Upstream request failed' });
+    clearTimeout(timer);
+    if (err.name === 'AbortError') {
+      res.status(504).json({
+        error: { type: 'timeout', message: 'Zeitüberschreitung bei der Suche.', hint: 'Die Abfrage beim Firmenbuch dauert zu lange. Bitte später erneut versuchen oder einen kürzeren Suchbegriff verwenden.' }
+      });
+    } else {
+      res.status(502).json({ error: 'Upstream request failed' });
+    }
   }
 }
