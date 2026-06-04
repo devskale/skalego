@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script>document.write('<base href="'+window.location.pathname.replace(/[^/]*$/,'')+'">');</script>
+  <script>!function(){var p=location.pathname;if(!p.includes('.')){p+='/'};document.write('<base href="'+p.replace(/[^/]*$/,'')+'">');}();</script>
   <title>ÖNACE — Firmen nach Branche finden</title>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
