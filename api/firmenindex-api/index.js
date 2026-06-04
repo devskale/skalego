@@ -1,7 +1,8 @@
 const UPSTREAM = 'https://amd1.mooo.com/api/firmenbuch';
 
 const ALLOWED = new Set([
-  'search', 'search/rich', 'lookup', 'lookup/merged', 'oenace',
+  'search', 'search/rich', 'lookup', 'lookup/merged',
+  'oenace', 'oenace/tree', 'oenace/status', 'oenace/companies',
   'hvd/token-check', 'hvd/suche-firma', 'hvd/suche-urkunde',
   'hvd/auszug', 'hvd/veraenderungen-firma', 'hvd/veraenderungen-urkunde',
 ]);

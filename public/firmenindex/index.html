@@ -529,16 +529,17 @@
 
   <!-- Footer -->
   <div class="footer">
+    <a href="oenace.html">ÖNACE</a>
     <a href="info.html">Info &amp; Datenquellen</a>
     <a href="info.html#datenschutz">Datenschutz</a>
     <a href="info.html#impressum">Impressum</a>
-    <span class="footer-brand">skale.dev · v0.5.0</span>
+    <span class="footer-brand">skale.dev · v0.5.2</span>
   </div>
 
   <!-- Toast -->
   <div class="toast" id="toast">In Zwischenablage kopiert!</div>
 
-  <script src="/firmenindex/config.js"></script>
+  <script src="config.js"></script>
   <script>
     const $ = id => document.getElementById(id);
     const input = $('searchInput');
@@ -632,17 +633,93 @@
       app.innerHTML = '<div class="results"><div style="text-align:center;padding:2rem;color:var(--text2)"><span class="spinner"></span> Suche…</div></div>';
 
       try {
-        const data = await apiFetch('/search/rich?query=' + encodeURIComponent(q));
-        const results = data.results || [];
-        if (results.length === 0) {
-          app.innerHTML = '<div class="results"><div class="empty" style="text-align:center;padding:2rem;color:var(--text2)">Keine Ergebnisse für „' + esc(q) + '"</div></div>';
+        // 1) evi search (fuzzy name match)
+        const eviData = await apiFetch('/search/rich?query=' + encodeURIComponent(q));
+        const eviResults = (eviData.results || []).map(r => ({ ...r, _src: 'evi' }));
+
+        // 2) HVD phonetic search — run in parallel if evi returned < 3 results,
+        //    or as fallback if evi returned nothing
+        const doHvd = eviResults.length < 3;
+        let hvdResults = [];
+        if (doHvd) {
+          try {
+            const hvdData = await apiFetch('/hvd/suche-firma?query=' + encodeURIComponent(q));
+            hvdResults = (hvdData.results || []).map(r => ({
+              fn: r.fnr.replace(/\s+/g, ''),
+              name: (r.name_lines || []).join(' '),
+              seat: r.sitz,
+              _src: 'hvd'
+            }));
+          } catch (_) { /* HVD unavailable or error — ignore */ }
+        }
+
+        // 3) Merge: evi first, then HVD-only (by FN)
+        const seen = new Set(eviResults.map(r => r.fn));
+        const merged = [...eviResults];
+        for (const r of hvdResults) {
+          if (!seen.has(r.fn)) { seen.add(r.fn); merged.push(r); }
+        }
+
+        if (merged.length === 0) {
+          // If query has no wildcards, offer HVD substring search (*term*)
+          const hasStar = q.includes('*');
+          let hint = '';
+          if (!hasStar) {
+            hint = '<div style="margin-top:1rem">'
+              + '<button class="btn btn-primary" onclick="doWildcardSearch(\'' + esc(q) + '\')" '
+              + 'style="font-size:0.9em;padding:0.4em 1em">'
+              + '🔍 Teilwort-Suche: „*' + esc(q) + '*"'
+              + '</button>'
+              + '<div style="margin-top:0.5rem;font-size:0.8em;color:var(--text3)">HVD-Suche mit Wildcard — findet Firmen die den Begriff als Teil des Namens enthalten</div>'
+              + '</div>';
+          } else {
+            hint = '<div style="margin-top:0.5rem;font-size:0.8em;color:var(--text3)">Tipp: Versuche einen anderen Suchbegriff oder eine FN (z.B. 475207i)</div>';
+          }
+          app.innerHTML = '<div class="results"><div class="empty" style="text-align:center;padding:2rem;color:var(--text2)">'
+            + 'Keine Ergebnisse für „' + esc(q) + '"'
+            + hint + '</div></div>';
           return;
         }
+
+        const srcTag = s => s === 'hvd' ? '<span style="font-size:0.7em;color:var(--accent);margin-left:0.4em">HVD</span>' : '';
+
         let html = '<div class="results">';
+        merged.forEach(r => {
+          html += `<div class="result-card" onclick="showDetail('${esc(r.fn)}')">
+            <span class="fn">${esc(r.fn)}</span>
+            <span class="name">${esc(r.name)}${srcTag(r._src)}</span>
+            <span class="seat">${esc(r.seat || '')}</span>
+          </div>`;
+        });
+        html += '</div>';
+        app.innerHTML = html;
+      } catch (e) {
+        app.innerHTML = `<div class="results"><div class="empty" style="text-align:center;padding:2rem;color:var(--red)">Fehler: ${e.message}</div></div>`;
+      }
+    }
+
+    // ── Wildcard search via HVD ──
+    async function doWildcardSearch(term) {
+      app.innerHTML = '<div class="results"><div style="text-align:center;padding:2rem;color:var(--text2)"><span class="spinner"></span> HVD Teilwort-Suche „*' + esc(term) + '*"…</div></div>';
+      try {
+        const hvdData = await apiFetch('/hvd/suche-firma?query=' + encodeURIComponent('*' + term + '*'));
+        const results = (hvdData.results || []).map(r => ({
+          fn: r.fnr.replace(/\s+/g, ''),
+          name: (r.name_lines || []).join(' '),
+          seat: r.sitz,
+          _src: 'hvd'
+        }));
+        if (results.length === 0) {
+          app.innerHTML = '<div class="results"><div class="empty" style="text-align:center;padding:2rem;color:var(--text2)">Auch mit Teilwort-Suche keine Ergebnisse für „' + esc(term) + '"</div></div>';
+          return;
+        }
+        const srcTag = s => s === 'hvd' ? '<span style="font-size:0.7em;color:var(--accent);margin-left:0.4em">HVD</span>' : '';
+        let html = '<div class="results">';
+        html += '<div style="text-align:center;padding:0.5rem;color:var(--text3);font-size:0.85em">' + results.length + ' Ergebnis(se) für Teilwort „*' + esc(term) + '*" via HVD</div>';
         results.forEach(r => {
           html += `<div class="result-card" onclick="showDetail('${esc(r.fn)}')">
             <span class="fn">${esc(r.fn)}</span>
-            <span class="name">${esc(r.name)}</span>
+            <span class="name">${esc(r.name)}${srcTag(r._src)}</span>
             <span class="seat">${esc(r.seat || '')}</span>
           </div>`;
         });

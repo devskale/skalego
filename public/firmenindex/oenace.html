@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ÖNACE — Firmen nach Branche finden</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0d1117; --surface: #161b22; --surface2: #1c2333;
+      --surface3: #21262d; --border: #30363d; --border-light: rgba(240,246,252,.08);
+      --text: #e6edf3; --text2: #8b949e; --text3: #6e7681;
+      --accent: #58a6ff; --accent2: #1f6feb; --green: #3fb950;
+      --red: #f85149; --orange: #d29922; --radius: 14px; --radius-sm: 10px;
+    }
+
+    body {
+      font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: var(--bg); color: var(--text); min-height: 100vh;
+      line-height: 1.55; -webkit-font-smoothing: antialiased;
+    }
+
+    .header {
+      border-bottom: 1px solid var(--border); padding: .85rem 1.5rem;
+      display: flex; align-items: center; gap: .75rem;
+      background: linear-gradient(180deg, var(--surface) 0%, var(--surface) 90%, transparent 100%);
+      position: sticky; top: 0; z-index: 10; backdrop-filter: blur(12px);
+    }
+    .header svg { flex-shrink: 0; opacity: .8; }
+    .header h1 { font-size: 1rem; font-weight: 600; }
+    .header h1 a { color: inherit; text-decoration: none; }
+    .brand { margin-left: auto; font-size: .72rem; color: var(--text3); text-decoration: none; padding: .2rem .6rem; border-radius: 20px; }
+    .brand:hover { color: var(--accent); background: rgba(88,166,255,.08); }
+    .tag { font-size: .62rem; background: linear-gradient(135deg, var(--accent2), #388bfd); color: #fff; padding: 2px 8px; border-radius: 20px; font-weight: 600; letter-spacing: .03em; text-transform: uppercase; }
+
+    .container { max-width: 700px; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+
+    /* ── Hero ── */
+    .hero { text-align: center; margin-bottom: 2rem; }
+    .hero h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: .35rem; letter-spacing: -.02em; }
+    .hero p { font-size: .88rem; color: var(--text2); max-width: 450px; margin: 0 auto; }
+
+    /* ── Search Card ── */
+    .search-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+
+    /* ── Field ── */
+    .field { margin-bottom: 1rem; }
+    .field-label {
+      display: block; font-size: .76rem; font-weight: 600; color: var(--text2);
+      text-transform: uppercase; letter-spacing: .05em; margin-bottom: .4rem;
+    }
+
+    /* Autocomplete */
+    .ac-wrap { position: relative; }
+    .ac-input {
+      width: 100%; background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: .7rem 1rem; color: var(--text);
+      font-size: .88rem; outline: none; transition: border-color .2s, box-shadow .2s;
+    }
+    .ac-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(88,166,255,.15); }
+    .ac-input::placeholder { color: var(--text3); }
+
+    .ac-dropdown {
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: var(--surface); border: 1px solid var(--border);
+      border-top: none; border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+      max-height: 280px; overflow-y: auto; z-index: 50;
+      display: none; box-shadow: 0 8px 24px rgba(0,0,0,.35);
+    }
+    .ac-dropdown.open { display: block; }
+    .ac-item {
+      padding: .55rem 1rem; cursor: pointer; display: flex; gap: .6rem;
+      align-items: baseline; border-bottom: 1px solid var(--border-light);
+      transition: background .1s; font-size: .84rem;
+    }
+    .ac-item:last-child { border-bottom: none; }
+    .ac-item:hover, .ac-item.focused { background: rgba(88,166,255,.08); }
+    .ac-item.selected { background: rgba(88,166,255,.14); }
+    .ac-code {
+      font-family: "SF Mono","Cascadia Code",monospace;
+      font-size: .74rem; color: var(--accent); font-weight: 600; flex-shrink: 0; min-width: 7.5rem;
+    }
+    .ac-label { flex: 1; color: var(--text); }
+    .ac-level {
+      font-size: .6rem; color: var(--text3); flex-shrink: 0;
+      background: var(--surface3); padding: 1px 7px; border-radius: 8px;
+    }
+
+    /* Selected chip */
+    .chip-row { display: flex; align-items: center; gap: .5rem; margin-top: .5rem; min-height: 34px; }
+    .code-chip {
+      display: inline-flex; align-items: center; gap: .35rem;
+      background: rgba(88,166,255,.1); border: 1px solid rgba(88,166,255,.25);
+      border-radius: 20px; padding: .3rem .7rem .3rem .45rem;
+      font-size: .82rem;
+    }
+    .chip-code { font-family: "SF Mono","Cascadia Code",monospace; font-weight: 600; color: var(--accent); }
+    .chip-label { color: var(--text2); font-size: .78rem; }
+    .chip-x { cursor: pointer; color: var(--text3); font-size: .95rem; line-height: 1; padding: 0 2px; }
+    .chip-x:hover { color: var(--red); }
+    .chip-hint { font-size: .72rem; color: var(--text3); }
+
+    /* Filter input */
+    .filter-input {
+      width: 100%; background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: .65rem .85rem; color: var(--text);
+      font-size: .86rem; outline: none; transition: border-color .2s, box-shadow .2s;
+    }
+    .filter-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(88,166,255,.15); }
+    .filter-input::placeholder { color: var(--text3); }
+
+    /* Button */
+    .btn-go {
+      width: 100%; padding: .75rem; border: none; border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--accent2), #2563eb);
+      color: #fff; font-size: .92rem; font-weight: 600;
+      cursor: pointer; transition: all .15s;
+      display: flex; align-items: center; justify-content: center; gap: .45rem;
+      margin-top: .25rem;
+    }
+    .btn-go:hover:not(:disabled) { opacity: .92; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(31,111,235,.35); }
+    .btn-go:active:not(:disabled) { transform: translateY(0); }
+    .btn-go:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* ── Results ── */
+    .results-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: .65rem; font-size: .76rem; color: var(--text3);
+    }
+    .results-grid { display: grid; gap: .55rem; }
+
+    .result-card {
+      background: var(--surface); border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm); padding: .8rem 1rem;
+      display: flex; gap: .7rem; align-items: flex-start;
+      cursor: pointer; transition: all .15s;
+    }
+    .result-card:hover {
+      border-color: var(--accent); background: var(--surface2);
+      transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,.18);
+    }
+    .result-fn {
+      font-family: "SF Mono","Cascadia Code",monospace;
+      font-size: .76rem; font-weight: 600; color: var(--green);
+      background: rgba(63,185,80,.1); padding: 2px 7px;
+      border-radius: 5px; flex-shrink: 0;
+    }
+    .result-body { flex: 1; min-width: 0; }
+    .result-name { font-size: .88rem; font-weight: 550; margin-bottom: .12rem; }
+    .result-meta { font-size: .73rem; color: var(--text3); }
+
+    /* States */
+    .empty-state { text-align: center; padding: 3rem 1rem; color: var(--text3); }
+    .empty-state .icon { font-size: 2.5rem; margin-bottom: .75rem; opacity: .5; }
+    .empty-state h3 { font-size: 1rem; color: var(--text2); margin-bottom: .3rem; }
+    .empty-state p { font-size: .84rem; max-width: 380px; margin: 0 auto; line-height: 1.55; }
+    .loading-state { text-align: center; padding: 2.5rem; color: var(--text3); }
+    .spinner { display: inline-block; width: 22px; height: 22px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-msg { background: rgba(248,81,73,.08); border: 1px solid rgba(248,81,73,.2); border-radius: var(--radius-sm); padding: .7rem 1rem; color: var(--red); font-size: .82rem; margin-bottom: 1rem; }
+
+    /* Footer */
+    .footer { border-top: 1px solid var(--border); padding: .75rem 1.5rem; display: flex; align-items: center; gap: 1rem; font-size: .74rem; color: var(--text3); margin-top: 2rem; }
+    .footer a { color: var(--text3); text-decoration: none; transition: color .15s; }
+    .footer a:hover { color: var(--accent); }
+    .footer .fb { margin-left: auto; font-size: .66rem; opacity: .6; }
+
+    @media (max-width: 600px) {
+      .container { padding: 1.5rem .75rem 3rem; }
+      .hero h2 { font-size: 1.15rem; }
+      .ac-code { min-width: 5.5rem; font-size: .68rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+  <h1><a href="index.html">Firmenindex Österreich</a></h1>
+  <span class="tag">ÖNACE</span>
+  <a class="brand" href="https://skale.dev" target="_blank">skale.dev</a>
+</div>
+
+<div class="container">
+
+  <div class="hero">
+    <h2>🏭 Nach Branche & Ort suchen</h2>
+    <p>Code wählen · Ort eingeben · Namen filtern → Firmen finden.</p>
+  </div>
+
+  <div class="search-card">
+
+    <!-- Feld 1: ÖNACE Code -->
+    <div class="field">
+      <label class="field-label">ÖNACE Branche</label>
+      <div class="ac-wrap" id="ac-wrap">
+        <input class="ac-input" id="code-input"
+               placeholder="z.B. Bau, Restaurant, IT-Beratung, Handel…"
+               autocomplete="off" spellcheck="false" />
+        <div class="ac-dropdown" id="ac-dropdown"></div>
+      </div>
+      <div class="chip-row" id="chip-row"></div>
+    </div>
+
+    <!-- Feld 2: Ort -->
+    <div class="field">
+      <label class="field-label">Stadt / Ort</label>
+      <input class="filter-input" id="city-input"
+             placeholder="z.B. Wien, Graz, Linz …" />
+    </div>
+
+    <!-- Feld 3: Firmenname -->
+    <div class="field">
+      <label class="field-label">Firmenname (optional)</label>
+      <input class="filter-input" id="name-input"
+             placeholder="Name enthalten…" />
+    </div>
+
+    <!-- Suchen -->
+    <button class="btn-go" id="btn-go" onclick="doSearch()">🔍 Firmen suchen</button>
+
+  </div>
+
+  <!-- Ergebnisse -->
+  <div id="results-area"></div>
+
+</div>
+
+<div class="footer">
+  <a href="index.html">← Firmenindex</a>
+  <a href="https://www.statistik.at/wdb/klassifikationssuche/wbklassifikation.xhtml?cbox=14&job=oe&job2=kap&position=klassifikation" target="_blank">Statistik Austria</a>
+  <span class="fb">skale.dev · v0.5.2</span>
+</div>
+
+<script src="config.js"></script>
+<script>
+// ════════════════════════════════════════════════════════════════
+//  ÖNACE Finder v0.9 — Two-field: Code picker + City filter
+// ════════════════════════════════════════════════════════════════
+
+const IS_PROXY = (typeof API_BASE !== 'undefined') && API_BASE.includes('?');
+
+function apiUrl(ep, p) {
+  if (IS_PROXY) {
+    let u = API_BASE + encodeURIComponent(ep);
+    const qs = new URLSearchParams(p).toString();
+    return qs ? u + '&' + qs : u;
+  }
+  const base = (typeof API_BASE !== 'undefined') ? API_BASE.replace(/\/$/, '') : '/firmenbuch';
+  let u = base + '/' + ep;
+  const qs = new URLSearchParams(p).toString();
+  return qs ? u + '?' + qs : u;
+}
+async function api(ep, p) { const r = await fetch(apiUrl(ep, p)); if (!r.ok) throw { status: r.status }; return r.json(); }
+
+// ── State ──
+let oenaceTree = [];
+let selectedCode = null;       // { numeric_code, edv_code, label_de, code_display }
+const LVL = {1:'Abschn', 2:'Abteil', 3:'Gruppe', 4:'Klasse', 5:'Unterkl'};
+
+const $codeInput = document.getElementById('code-input');
+const $dropdown = document.getElementById('ac-dropdown');
+const $chipRow = document.getElementById('chip-row');
+
+// ════════════════════════════════════════════════════════════════
+//  AUTOCOMPLETE — ÖNACE CODE PICKER
+// ════════════════════════════════════════════════════════════════
+
+let acItems = [];
+let acFocusIdx = -1;
+
+$codeInput.addEventListener('focus', () => { if (oenaceTree.length && !$codeInput.value) renderAC(''); });
+$codeInput.addEventListener('blur', () => setTimeout(closeAC, 180));
+$codeInput.addEventListener('input', () => {
+  selectedCode = null;
+  $chipRow.innerHTML = '';
+  renderAC($codeInput.value);
+});
+$codeInput.addEventListener('keydown', e => {
+  if (e.key === 'ArrowDown') { e.preventDefault(); moveAC(1); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); moveAC(-1); }
+  else if (e.key === 'Enter') { e.preventDefault(); pickAC(acFocusIdx); }
+  else if (e.key === 'Escape') { closeAC(); $codeInput.blur(); }
+});
+
+function renderAC(q) {
+  const ql = q.toLowerCase().trim();
+  let items;
+  if (ql) {
+    // Score each match for relevance sorting
+    items = oenaceTree
+      .map(c => {
+        const label = (c.label_de||'').toLowerCase();
+        const code = (c.code_display||'').toLowerCase();
+        const numCode = c.numeric_code||'';
+        let score = 0;
+        // Exact label start = best
+        if (label.startsWith(ql)) score += 100;
+        else if (label.includes(' ' + ql)) score += 70;   // word boundary
+        else if (label.includes(ql)) score += 30;       // substring
+        if (code.startsWith(ql)) score += 90;
+        else if (code.includes(ql)) score += 40;
+        if (numCode.startsWith(ql)) score += 80;
+        else if (numCode.includes(ql)) score += 30;
+        return { ...c, _score: score };
+      })
+      .filter(c => c._score > 0)
+      .sort((a, b) => b._score - a._score)          // highest score first
+      .slice(0, 50);
+    // Strip internal score
+    items = items.map(({ _score, ...rest }) => rest);
+  } else {
+    items = oenaceTree.slice(0, 80);
+  }
+  acItems = items;
+  acFocusIdx = -1;
+
+  if (!acItems.length) {
+    $dropdown.innerHTML = '<div style="padding:.8rem 1rem;color:var(--text3);font-size:.82rem">Keine Übereinstimmung</div>';
+    $dropdown.classList.add('open');
+    return;
+  }
+
+  $dropdown.innerHTML = acItems.map((c, i) =>
+    `<div class="ac-item${i===acFocusIdx?' focused':''}" data-i="${i}">
+      <span class="ac-code">${esc(c.code_display || c.edv_code)}</span>
+      <span class="ac-label">${esc(c.label_de)}</span>
+      <span class="ac-level">${LVL[c.level]||''}</span>
+    </div>`
+  ).join('');
+  $dropdown.classList.add('open');
+
+  $dropdown.querySelectorAll('.ac-item').forEach(el => {
+    el.addEventListener('click', () => pickAC(+el.dataset.i));
+  });
+}
+
+function moveAC(d) {
+  const n = acItems.length; if (!n) return;
+  acFocusIdx = Math.max(-1, Math.min(n-1, acFocusIdx+d));
+  $dropdown.querySelectorAll('.ac-item').forEach((el,i) => el.classList.toggle('focused', i===acFocusIdx));
+  if (acFocusIdx >= 0) $dropdown.children[acFocusIdx].scrollIntoView({ block:'nearest' });
+}
+
+function pickAC(idx) {
+  if (idx < 0 || idx >= acItems.length) return;
+  let c = acItems[idx];
+
+  // If section/abteilung (level 1-2), find best child with real numeric code
+  if (c.level <= 2 && !/\d{3,}/.test(c.numeric_code || '')) {
+    const child = oenaceTree.find(x =>
+      x.section === c.section && x.level >= 3 &&
+      /\d{3,}/.test(x.numeric_code || '') &&
+      (x.label_de||'').toLowerCase().includes((c.label_de||'').toLowerCase().split(/\s+/)[0] || '')
+    ) || oenaceTree.find(x =>
+      x.section === c.section && x.level >= 3 && /\d{3,}/.test(x.numeric_code || '')
+    );
+    if (child) {
+      // Keep display as parent, but use child's numeric code for search
+      c = { ...c, _searchCode: child.numeric_code || child.edv_code };
+    }
+  }
+
+  selectedCode = c;
+  $codeInput.value = c.label_de || c.code_display;
+  closeAC();
+  showChip(c);
+}
+
+function showChip(c) {
+  $chipRow.innerHTML =
+    `<div class="code-chip">
+      <span class="chip-code">${esc(c.code_display || c.edv_code)}</span>
+      <span class="chip-label">${esc(trunc(c.label_de, 30))}</span>
+      <span class="chip-x" onclick="clearCode(event)">✕</span>
+    </div>
+    <span class="chip-hint">↩ Tippe um zu ändern</span>`;
+}
+
+function clearCode(e) {
+  if (e) e.stopPropagation();
+  selectedCode = null;
+  $codeInput.value = '';
+  $chipRow.innerHTML = '';
+  $codeInput.focus();
+}
+
+function closeAC() { $dropdown.classList.add('open'); setTimeout(() => $dropdown.classList.remove('open'), 5); }
+document.addEventListener('click', e => { if (!document.getElementById('ac-wrap').contains(e.target)) $dropdown.classList.remove('open'); });
+
+// Enter in any field triggers search
+['city-input','name-input'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', e => { if (e.key==='Enter') doSearch(); });
+});
+
+function trunc(s,n) { return s.length>n ? s.slice(0,n)+'…' : s; }
+
+// ════════════════════════════════════════════════════════════════
+//  SEARCH
+// ════════════════════════════════════════════════════════════════
+
+async function doSearch() {
+  const area = document.getElementById('results-area');
+  const btn = document.getElementById('btn-go');
+
+  if (!selectedCode) {
+    area.innerHTML = `<div class="empty-state"><div class="icon">📋</div><h3>Branche auswählen</h3><p>Wähle oben einen ÖNACE-Code aus dem Eingabefeld.</p></div>`;
+    $codeInput.focus();
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Suche…';
+  area.innerHTML = '<div class="loading-state"><span class="spinner"></span><br>Firmen werden geladen…</div>';
+
+  try {
+    const numCode = selectedCode._searchCode || selectedCode.numeric_code || selectedCode.edv_code;
+    const city = document.getElementById('city-input').value.trim().toLowerCase();
+    const name = document.getElementById('name-input').value.trim().toLowerCase();
+
+    const data = await api('oenace/companies', { code: numCode, limit: 20 });
+    let companies = data.companies || [];
+
+    // Client-side filter by name (city shown as hint — DB has no city field)
+    if (name) {
+      companies = companies.filter(c => (c.fn||'').toLowerCase().includes(name));
+    }
+
+    // Show first 4
+    const shown = companies.slice(0, 4);
+    const total = companies.length;
+
+    if (!shown.length) {
+      area.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><h3>Keine Firmen gefunden</h3><p>Für <strong>${esc(selectedCode.label_de)}</strong> gibt es noch keine Einträge.</p></div>`;
+    } else {
+      renderResults(shown, total);
+    }
+  } catch (err) {
+    area.innerHTML = `<div class="error-msg">Fehler (${err.status || err.message || JSON.stringify(err).slice(0,100)}).`;
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '🔍 Firmen suchen';
+}
+
+function renderResults(companies, total) {
+  const area = document.getElementById('results-area');
+  const cityVal = document.getElementById('city-input').value.trim();
+  const nameVal = document.getElementById('name-input').value.trim();
+  area.innerHTML = `
+    <div class="results-header">
+      <span>${total.toLocaleString('de-AT')} Firma${total!==1?'en':''}${total>20?' (zeige 4 von '+total.toLocaleString('de-AT')+')':''}</span>
+      ${cityVal ? `<span>📍 ${esc(cityVal)}</span>` : ''}
+      ${nameVal ? `<span>🔤 „${esc(trunc(nameVal,20))}“</span>` : ''}
+    </div>
+    <div class="results-grid">
+      ${companies.map(c => `
+        <div class="result-card" onclick="window.location.href='index.html?fn=${esc(c.fn)}'">
+          <span class="result-fn">${esc(c.fn)}</span>
+          <div class="result-body">
+            <div class="result-name">FN ${esc(c.fn)} → Detailseite</div>
+            <div class="result-meta">ÖNACE ${esc(c.oenace_code || selectedCode?.code_display || '')}</div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+}
+
+async function loadNames(fns) {
+  for (const fn of fns) {
+    try {
+      const base = IS_PROXY ? '' : ((typeof API_BASE!=='undefined')?API_BASE.replace(/\/$/,''):'/firmenbuch');
+      const url = IS_PROXY
+        ? API_BASE+encodeURIComponent('search/rich')+'&query='+encodeURIComponent(fn)
+        : base+'/search/rich?query='+encodeURIComponent(fn);
+      const r=await fetch(url); const d=r.ok?await r.json():({results:[]});
+      const m=(d.results||[]).find(r=>r.fn===fn);
+      const el=document.querySelector(`.result-name[data-fn="${fn}"]`);
+      if(el) el.textContent=m?m.name:fn;
+    } catch(_) {
+      const el=document.querySelector(`.result-name[data-fn="${fn}"]`);
+      if(el) el.textContent=fn;
+    }
+    await sleep(500);
+  }
+}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+// ════════════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════════════
+
+(async()=>{
+  try{ const d=await api('oenace/tree',{}); oenaceTree=d.codes||[]; }catch(_){}
+})();
+
+function esc(s){if(s==null)return'';const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+</script>
+</body>
+</html>
