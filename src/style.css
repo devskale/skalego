@@ -330,6 +330,54 @@ section#clients { padding: 56px 0 64px; }
     padding: 4px 10px; border-radius: var(--radius-sm);
 }
 
+/* ---- MODELS TABLE ---- */
+.table-scroll { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.table-scroll-inner { overflow-x: auto; }
+.models-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; min-width: 600px; }
+.models-table thead th {
+    text-align: left; padding: 16px 20px;
+    background: var(--bg-alt); border-bottom: 1px solid var(--border);
+    white-space: nowrap; vertical-align: bottom;
+}
+.models-table th .th-label {
+    display: block; font-family: var(--mono); font-size: 0.72rem; font-weight: 500;
+    color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.models-table th .th-unit {
+    display: block; font-family: var(--mono); font-size: 0.64rem; font-weight: 400;
+    color: var(--text-faint); letter-spacing: 0.04em; margin-top: 3px;
+}
+.models-table th.num, .models-table td.num { text-align: right; }
+.models-table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.18s var(--ease); }
+.models-table tbody tr:last-child { border-bottom: none; }
+.models-table tbody tr:not(.group-row):hover { background: var(--bg-card); }
+.models-table td { padding: 15px 20px; vertical-align: middle; }
+.models-table .model-name {
+    font-weight: 600; color: var(--text-bright); letter-spacing: -0.01em;
+    display: block; line-height: 1.3;
+}
+.models-table .model-creator {
+    display: block; font-size: 0.76rem; color: var(--text-faint);
+    font-weight: 400; margin-top: 1px;
+}
+.models-table .num {
+    font-family: var(--mono); font-feature-settings: "tnum" 1;
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.models-table .idx { color: var(--text-bright); font-weight: 600; }
+.models-table .price { color: var(--text-dim); }
+.models-table .speed { color: var(--text-dim); }
+.models-table tr.group-row td {
+    padding: 11px 20px; background: rgba(255, 255, 255, 0.018);
+    font-family: var(--mono); font-size: 0.68rem; font-weight: 500;
+    color: var(--red); letter-spacing: 0.12em; text-transform: uppercase;
+    border-bottom: 1px solid var(--border-strong);
+}
+.table-caption {
+    margin-top: 16px; font-size: 0.78rem; color: var(--text-faint);
+    font-family: var(--mono); letter-spacing: 0.01em;
+}
+
 /* ---- FAQ ---- */
 .faq { display: flex; flex-direction: column; }
 .faq-item { border-bottom: 1px solid var(--border); }
