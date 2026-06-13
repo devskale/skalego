@@ -6,52 +6,60 @@
             name="viewport"
             content="width=device-width, initial-scale=1.0, viewport-fit=cover"
         />
-        <title>skale.dev - AI Engineering</title>
+        <title>skale.dev - AI Engineering, on-premise</title>
         <meta
             name="description"
-            content="KI Apps für Unternehmen. AI Engineering, LLM Integration, Dashboards, Edge Devices."
+            content="Maßgeschneiderte KI-Systeme für Unternehmen. AI Engineering, LLM-Integration und Dokumentenverarbeitung - on-premise, DSGVO-konform, auf eigener Hardware."
         />
-        <link rel="icon" type="image/png" href="/skalelogo_red_trans.png" />
+        <link rel="icon" type="image/png" href="/logos/skalelogo_red_trans.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
             rel="stylesheet"
         />
+        <script>document.documentElement.classList.add('js')</script>
     </head>
     <body>
         <a href="#main" class="skip-link">Zum Inhalt springen</a>
+        <div class="nav-sentinel" aria-hidden="true"></div>
 
         <!-- NAV -->
         <nav id="nav">
             <div class="nav-inner">
-                <a href="#hero" class="nav-logo">
-                    <span class="logo-box">skale</span
-                    ><span class="logo-ext">dev</span>
+                <a href="#hero" class="nav-logo" aria-label="skale.dev Startseite">
+                    <span class="logo-box">skale</span><span class="logo-ext">.dev</span>
                 </a>
                 <div class="nav-links">
                     <a href="#services">Services</a>
-                    <a href="#about">Über uns</a>
+                    <a href="#process">Prozess</a>
+                    <a href="#case-study">Projekte</a>
+                    <a href="#faq">FAQ</a>
                     <a href="#contact" class="btn btn-nav-cta">Kontakt</a>
                 </div>
-                <button class="nav-toggle" aria-label="Menu">☰</button>
+                <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
             </div>
         </nav>
 
         <!-- HERO -->
         <main id="main">
             <section id="hero">
-                <canvas id="hero-canvas"></canvas>
+                <div class="hero-glow" aria-hidden="true"></div>
+                <canvas id="hero-canvas" aria-hidden="true"></canvas>
                 <div class="hero-content">
-                    <div class="hero-badge">AI Engineering</div>
-                    <h1 class="hero-title">KI für Unternehmen</h1>
-                    <p class="hero-sub">
-                        Maßgeschneiderte KI-Applikationen für maximale
-                        Produktivität.
+                    <div class="hero-badge reveal">AI Engineering</div>
+                    <h1 class="hero-title reveal">
+                        KI, die im Unternehmen <span class="accent">funktioniert</span>.
+                    </h1>
+                    <p class="hero-sub reveal">
+                        Individuelle KI-Systeme, lokal und on-premise betrieben.
+                        Ihre Daten bleiben, wo sie sind.
                     </p>
-                    <div class="hero-actions">
+                    <div class="hero-actions reveal">
                         <a href="#contact" class="btn btn-primary btn-lg"
-                            >Projektanfrage →</a
+                            >Erstgespräch vereinbaren</a
                         >
                         <a href="#services" class="btn btn-outline"
                             >Services ansehen</a
@@ -62,71 +70,22 @@
 
             <!-- CLIENTS -->
             <section id="clients" class="clients-bar">
+                <p class="belt-label reveal">Im Einsatz bei</p>
                 <div class="belt-mask">
                     <div class="belt-track">
                         <div class="belt-copy">
-                            <img
-                                src="/sylents.png"
-                                alt="sylents"
-                                class="belt-logo belt-logo-dark"
-                                loading="lazy"
-                            />
-                            <img
-                                src="/wwhb.png"
-                                alt="WWHB"
-                                class="belt-logo belt-logo-dark"
-                                loading="lazy"
-                            />
-                            <img
-                                src="/meduni.png"
-                                alt="MedUni Wien"
-                                class="belt-logo belt-logo-dark"
-                                loading="lazy"
-                            />
-                            <img
-                                src="/gwenenergiespeicher.png"
-                                alt="gwen energiespeicher"
-                                class="belt-logo"
-                                loading="lazy"
-                            />
-                            <img
-                                src="/Vectacore.png"
-                                alt="Vectacore"
-                                class="belt-logo belt-logo-dark"
-                                loading="lazy"
-                            />
+                            <img src="/sylents.png" alt="sylents" class="belt-logo belt-logo-dark" loading="lazy" />
+                            <img src="/wwhb.png" alt="WWHB" class="belt-logo belt-logo-dark" loading="lazy" />
+                            <img src="/meduni.png" alt="MedUni Wien" class="belt-logo belt-logo-dark" loading="lazy" />
+                            <img src="/gwenenergiespeicher.png" alt="gwen energiespeicher" class="belt-logo" loading="lazy" />
+                            <img src="/Vectacore.png" alt="Vectacore" class="belt-logo belt-logo-dark" loading="lazy" />
                         </div>
                         <div class="belt-copy" aria-hidden="true">
-                            <img
-                                src="/sylents.png"
-                                alt=""
-                                class="belt-logo belt-logo-dark"
-                                loading="lazy"
-                            />
-                            <img
-                                src="/wwhb.png"
-                                alt=""
-                                class="belt-logo belt-logo-dark"
-                                loading="lazy"
-                            />
-                            <img
-                                src="/meduni.png"
-                                alt=""
-                                class="belt-logo belt-logo-dark"
-                                loading="lazy"
-                            />
-                            <img
-                                src="/gwenenergiespeicher.png"
-                                alt=""
-                                class="belt-logo"
-                                loading="lazy"
-                            />
-                            <img
-                                src="/Vectacore.jpg"
-                                alt=""
-                                class="belt-logo belt-logo-dark"
-                                loading="lazy"
-                            />
+                            <img src="/sylents.png" alt="" class="belt-logo belt-logo-dark" loading="lazy" />
+                            <img src="/wwhb.png" alt="" class="belt-logo belt-logo-dark" loading="lazy" />
+                            <img src="/meduni.png" alt="" class="belt-logo belt-logo-dark" loading="lazy" />
+                            <img src="/gwenenergiespeicher.png" alt="" class="belt-logo" loading="lazy" />
+                            <img src="/Vectacore.png" alt="" class="belt-logo belt-logo-dark" loading="lazy" />
                         </div>
                     </div>
                 </div>
@@ -135,41 +94,230 @@
             <!-- SERVICES -->
             <section id="services">
                 <div class="container">
-                    <div class="bento">
-                        <div class="bento-item bento-flagship">
-                            <h3>KI Integration</h3>
-                            <p>Wir verstehen Ihre Prozesse und integrieren KI, damit sie effizienter laufen.</p>
-                        </div>
-                        <div class="bento-item">
-                            <h3>Agentic AI</h3>
-                            <p>Autonome Agenten, die komplexe Aufgaben übernehmen und eigenständig entscheiden.</p>
-                        </div>
-                        <div class="bento-item">
-                            <h3>Sichere KI</h3>
-                            <p>On-Premise, lokal, DSGVO-konform. Ihre Daten bleiben wo sie sind.</p>
-                        </div>
-                        <div class="bento-item">
-                            <h3>Dashboards & Apps</h3>
-                            <p>Aus Daten handlungsfähige Erkenntnisse. Übersichtlich, performant, maßgeschneidert.</p>
-                        </div>
+                    <header class="section-head reveal">
+                        <h2 class="section-title">Drei Dinge, die wir gut können.</h2>
+                        <p class="section-sub">
+                            Keine generischen Chatbots. Sondern KI-Systeme, die
+                            in Ihre bestehenden Prozesse passen und
+                            produktionsreif laufen.
+                        </p>
+                    </header>
+
+                    <div class="bento reveal">
+                        <article class="bento-cell bento-wide">
+                            <span class="bento-kicker">01</span>
+                            <h3>Maßgeschneiderte KI-Workflows</h3>
+                            <p>
+                                Wir bauen KI-Systeme um Ihre Prozesse herum,
+                                nicht andersherum. Vom Use Case bis zur
+                                produktiven Pipeline.
+                            </p>
+                        </article>
+                        <article class="bento-cell">
+                            <span class="bento-kicker">02</span>
+                            <h3>Produktionsreife Architektur</h3>
+                            <p>
+                                KI-Pipelines mit Modell-Serving, Monitoring und
+                                definierten SLAs. Gebaut für den Dauereinsatz,
+                                nicht nur für die Demo.
+                            </p>
+                        </article>
+                        <article class="bento-cell">
+                            <span class="bento-kicker">03</span>
+                            <h3>Daten bleiben, wo sie sind</h3>
+                            <p>
+                                On-premise, lokal, DSGVO-konform. Kein
+                                Cloud-Zwang, keine Datenabflüsse, keine
+                                Abhängigkeit von Drittanbietern.
+                            </p>
+                        </article>
                     </div>
                 </div>
             </section>
 
-            <!-- CONTACT / CTA -->
+            <!-- PROCESS -->
+            <section id="process">
+                <div class="container">
+                    <header class="section-head reveal">
+                        <h2 class="section-title">So arbeiten wir.</h2>
+                        <p class="section-sub">
+                            Ein klarer Prozess statt Bauchgefühl. In vier
+                            Schritten vom Use Case bis zum produktiven Betrieb.
+                        </p>
+                    </header>
+
+                    <ol class="stepper reveal">
+                        <li class="step">
+                            <div class="step-marker"><span>1</span></div>
+                            <h3>Analyse</h3>
+                            <p>Use Cases, Datenlage und Prozesse verstehen. Wir prüfen, ob KI das Problem wirklich löst.</p>
+                        </li>
+                        <li class="step">
+                            <div class="step-marker"><span>2</span></div>
+                            <h3>Prototyp</h3>
+                            <p>Ein MVP mit Ihren echten Daten. Schnell validierbar, bevor teure Infrastruktur entsteht.</p>
+                        </li>
+                        <li class="step">
+                            <div class="step-marker"><span>3</span></div>
+                            <h3>Integration</h3>
+                            <p>Anbindung an bestehende Systeme. Produktionssicher, dokumentiert, mit Monitoring.</p>
+                        </li>
+                        <li class="step">
+                            <div class="step-marker"><span>4</span></div>
+                            <h3>Betrieb</h3>
+                            <p>Wartung, Updates und kontinuierliche Verbesserung nach dem Go-Live.</p>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- CASE STUDIES -->
+            <section id="case-study">
+                <div class="container">
+                    <header class="section-head reveal">
+                        <h2 class="section-title">Aus der Praxis.</h2>
+                        <p class="section-sub">
+                            Konkrete Probleme, konkrete Modelle. Zwei Beispiele
+                            aus laufenden Implementierungen.
+                        </p>
+                    </header>
+
+                    <div class="case-grid">
+                        <article class="case-card reveal">
+                            <div class="case-label">Rechnungserkennung</div>
+                            <h3>Rechnungen automatisch strukturieren</h3>
+                            <p>
+                                Mehrseitige Rechnungen werden gescannt,
+                                verstanden und in ein standardisiertes Format
+                                überführt. Vollständig lokal, ohne dass Daten
+                                das Unternehmen verlassen.
+                            </p>
+                            <ul class="case-tech">
+                                <li>Qwen 3.6 35B (lokal)</li>
+                                <li>Vision-Layout-Erkennung</li>
+                                <li>Strukturierte JSON-Ausgabe</li>
+                                <li>On-premise Infrastruktur</li>
+                            </ul>
+                        </article>
+                        <article class="case-card reveal">
+                            <div class="case-label">Schwierige Dokumente</div>
+                            <h3>Auch dort, wo OCR versagt</h3>
+                            <p>
+                                Formulare, handschriftliche Notizen,
+                                eingescannte Akten. Die KI erkennt den Inhalt
+                                auch bei schlechter Qualität und liefert
+                                strukturierte Daten aus Chaos.
+                            </p>
+                            <ul class="case-tech">
+                                <li>Multimodale Dokumentenanalyse</li>
+                                <li>Handschriftenerkennung (HTR)</li>
+                                <li>Semantische Extraktion</li>
+                                <li>Workflow-Integration</li>
+                            </ul>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ -->
+            <section id="faq">
+                <div class="container narrow">
+                    <header class="section-head reveal">
+                        <h2 class="section-title">Häufige Fragen.</h2>
+                    </header>
+
+                    <div class="faq reveal">
+                        <details class="faq-item">
+                            <summary>
+                                <span>Wie läuft das erste Gespräch ab?</span>
+                                <span class="faq-icon" aria-hidden="true"></span>
+                            </summary>
+                            <div class="faq-answer">
+                                <p>
+                                    Unverbindlich, etwa 30 Minuten. Wir klären,
+                                    ob Ihr Use Case KI-tauglich ist und was es
+                                    für eine Umsetzung braucht. Danach erhalten
+                                    Sie eine ehrliche Einschätzung.
+                                </p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>
+                                <span>Bleiben meine Daten bei mir?</span>
+                                <span class="faq-icon" aria-hidden="true"></span>
+                            </summary>
+                            <div class="faq-answer">
+                                <p>
+                                    Ja. Wir realisieren on-premise oder lokal.
+                                    Daten verlassen Ihr Unternehmen nur dann,
+                                    wenn Sie es ausdrücklich wollen.
+                                </p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>
+                                <span>Brauche ich eine Cloud-Infrastruktur?</span>
+                                <span class="faq-icon" aria-hidden="true"></span>
+                            </summary>
+                            <div class="faq-answer">
+                                <p>
+                                    Nein. Wir betreiben KI auch auf eigener
+                                    Hardware vor Ort. Cloud ist eine Option, kein
+                                    Muss.
+                                </p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>
+                                <span>Welche Modelle setzen Sie ein?</span>
+                                <span class="faq-icon" aria-hidden="true"></span>
+                            </summary>
+                            <div class="faq-answer">
+                                <p>
+                                    Vorwiegend Open-Source-Modelle wie Qwen,
+                                    Llama und spezialisierte Vision-Modelle.
+                                    Die Auswahl hängt vom Use Case und Ihren
+                                    Anforderungen ab.
+                                </p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>
+                                <span>Was kostet ein KI-Projekt?</span>
+                                <span class="faq-icon" aria-hidden="true"></span>
+                            </summary>
+                            <div class="faq-answer">
+                                <p>
+                                    Das hängt vom Umfang ab. Nach dem
+                                    Erstgespräch erhalten Sie eine klare
+                                    Einschätzung von Aufwand und Kosten, bevor
+                                    Sie sich entscheiden.
+                                </p>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONTACT -->
             <section id="contact">
                 <div class="container">
-                    <h2 class="section-title">Projektanfrage</h2>
-                    <p class="section-sub">
-                        In einem unverbindlichen Erstgespräch erörtern wir
-                        Umsetzungsmöglichkeiten.
-                    </p>
-                    <div class="cta-row">
-                        <a
-                            href="mailto:dev@skale.dev"
-                            class="btn btn-primary btn-lg"
-                            >dev@skale.dev</a
-                        >
+                    <div class="cta reveal">
+                        <h2 class="section-title center">Lass uns reden.</h2>
+                        <p class="section-sub center">
+                            Unverbindliches Erstgespräch, 30 Minuten. Wir prüfen,
+                            ob KI Ihr Problem wirklich löst.
+                        </p>
+                        <div class="cta-row">
+                            <a
+                                href="mailto:dev@skale.dev?subject=Erstgespr%C3%A4ch%20KI-Projekt"
+                                class="btn btn-primary btn-lg"
+                                >Erstgespräch vereinbaren</a
+                            >
+                        </div>
+                        <p class="cta-mail">
+                            oder direkt an <a href="mailto:dev@skale.dev">dev@skale.dev</a>
+                        </p>
                     </div>
                 </div>
             </section>
@@ -180,15 +328,14 @@
             <div class="container">
                 <div class="footer-grid">
                     <div class="footer-brand">
-                        <span class="footer-logo">[skale]dev</span>
+                        <span class="footer-logo"><span class="logo-box small">skale</span><span class="logo-ext">.dev</span></span>
                         <p>AI Engineering<br />Neusiedl am See, Österreich</p>
                     </div>
                     <div class="footer-links">
                         <h4>Services</h4>
-                        <a href="#services">KI Integration</a>
-                        <a href="#services">SW Entwicklung</a>
-                        <a href="#services">Dashboards</a>
-                        <a href="#services">Edge Devices</a>
+                        <a href="#services">KI-Workflows</a>
+                        <a href="#services">Systemarchitektur</a>
+                        <a href="#services">On-premise</a>
                     </div>
                     <div class="footer-links">
                         <h4>Rechtliches</h4>
@@ -197,14 +344,9 @@
                         <a href="/tos.html">AGB</a>
                     </div>
                     <div class="footer-links">
-                        <h4>Weiteres</h4>
-                        <a
-                            href="https://github.com/devskale"
-                            target="_blank"
-                            rel="noopener"
-                            >GitHub</a
-                        >
-                        <a href="mailto:dev@skale.dev">Email</a>
+                        <h4>Kontakt</h4>
+                        <a href="mailto:dev@skale.dev">dev@skale.dev</a>
+                        <a href="https://github.com/devskale" target="_blank" rel="noopener">GitHub</a>
                     </div>
                 </div>
                 <div class="footer-bottom">
@@ -214,5 +356,6 @@
         </footer>
 
         <script type="module" src="/src/main.js"></script>
+        <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
     </body>
 </html>
