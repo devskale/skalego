@@ -130,20 +130,12 @@ function runHeroAnimation() {
     duration: 700,
     delay: anime.stagger(120),
   }, '-=300')
-
-  // Phase 6: Scroll hint pulses
-  tl.add({
-    targets: '.hero-scroll-hint',
-    opacity: [0, 0.5],
-    translateY: [-10, 0],
-    duration: 600,
-  }, '-=200')
 }
 
 // ---- SCROLL REVEAL ----
 function initScrollReveal() {
   const reveals = document.querySelectorAll(
-    '.service-card, .project-card, .app-card, .about-grid, .testimonial, .cta-box, .section-header'
+    '.service-row, .service-card, .project-card, .app-card, .about-grid, .testimonial, .cta-box, .section-header'
   )
   reveals.forEach(el => el.classList.add('reveal'))
 

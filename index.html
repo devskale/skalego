@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="de">
+<html lang="de" data-color-scheme="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>skale.dev – AI Engineering</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>skale.dev - AI Engineering</title>
     <meta
       name="description"
       content="KI Apps für Unternehmen. AI Engineering, LLM Integration, Dashboards, Edge Devices."
@@ -18,10 +18,13 @@
 
   </head>
   <body>
+    <!-- Skip Link -->
+    <a href="#main" class="skip-link">Zum Inhalt springen</a>
+
     <!-- NAV -->
     <nav id="nav">
       <div class="nav-inner">
-        <a href="#" class="nav-logo">
+        <a href="#hero" class="nav-logo">
           <span class="logo-box">skale</span><span class="logo-ext">dev</span>
         </a>
         <div class="nav-links">
@@ -34,18 +37,13 @@
     </nav>
 
     <!-- HERO -->
+    <main id="main">
     <section id="hero">
       <canvas id="hero-canvas"></canvas>
       <div class="hero-content">
         <div class="hero-badge">AI Engineering</div>
         <h1 class="hero-title">
-          <span class="hero-line hero-line-1"
-            >Wir bauen
-            <span class="hero-ki"
-              ><span class="hero-k">K</span><span class="hero-i">I</span></span
-            >
-            in Ihr Unternehmen.</span
-          >
+          <span class="hero-line hero-line-1">KI für Unternehmen</span>
         </h1>
         <p class="hero-sub">
           Maßgeschneiderte KI-Applikationen für maximale Produktivität.
@@ -55,7 +53,6 @@
           <a href="#services" class="btn btn-outline">Services ansehen</a>
         </div>
       </div>
-      <div class="hero-scroll-hint">↓</div>
     </section>
 
     <!-- CLIENT LOGO BELT -->
@@ -63,15 +60,15 @@
       <div class="belt-row">
         <div class="belt">
           <!-- original -->
-          <div class="belt-item"><img src="/logos/sylents.png" alt="sylents e-jets" class="belt-logo" loading="lazy"><span class="belt-name">sylents e-jets</span></div>
-          <div class="belt-item"><img src="/logos/wiener-wohnen.png" alt="Wiener Wohnen" class="belt-logo belt-logo-invert" loading="lazy"><span class="belt-name">Wiener Wohnen</span></div>
-          <div class="belt-item"><img src="/logos/meduni-wien.png" alt="MedUni Wien" class="belt-logo" loading="lazy"><span class="belt-name">MedUni Wien</span></div>
-          <div class="belt-item"><img src="/logos/gwen.png" alt="gwen.at" class="belt-logo" loading="lazy"><span class="belt-name">gwen.at</span></div>
+          <div class="belt-item"><img src="/logos/sylents.png" alt="sylents e-jets" class="belt-logo" loading="lazy"></div>
+          <div class="belt-item"><img src="/logos/wiener-wohnen.png" alt="Wiener Wohnen" class="belt-logo belt-logo-invert" loading="lazy"></div>
+          <div class="belt-item"><img src="/logos/meduni-wien.png" alt="MedUni Wien" class="belt-logo" loading="lazy"></div>
+          <div class="belt-item"><img src="/logos/gwen.png" alt="gwen.at" class="belt-logo" loading="lazy"></div>
           <!-- exact duplicate for seamless loop -->
-          <div class="belt-item"><img src="/logos/sylents.png" alt="sylents e-jets" class="belt-logo" loading="lazy"><span class="belt-name">sylents e-jets</span></div>
-          <div class="belt-item"><img src="/logos/wiener-wohnen.png" alt="Wiener Wohnen" class="belt-logo belt-logo-invert" loading="lazy"><span class="belt-name">Wiener Wohnen</span></div>
-          <div class="belt-item"><img src="/logos/meduni-wien.png" alt="MedUni Wien" class="belt-logo" loading="lazy"><span class="belt-name">MedUni Wien</span></div>
-          <div class="belt-item"><img src="/logos/gwen.png" alt="gwen.at" class="belt-logo" loading="lazy"><span class="belt-name">gwen.at</span></div>
+          <div class="belt-item"><img src="/logos/sylents.png" alt="sylents e-jets" class="belt-logo" loading="lazy"></div>
+          <div class="belt-item"><img src="/logos/wiener-wohnen.png" alt="Wiener Wohnen" class="belt-logo belt-logo-invert" loading="lazy"></div>
+          <div class="belt-item"><img src="/logos/meduni-wien.png" alt="MedUni Wien" class="belt-logo" loading="lazy"></div>
+          <div class="belt-item"><img src="/logos/gwen.png" alt="gwen.at" class="belt-logo" loading="lazy"></div>
         </div>
       </div>
     </section>
@@ -80,49 +77,42 @@
     <section id="services">
       <div class="container">
         <div class="section-header">
-          <h2>Services</h2>
-          <p class="services-statement">Der Mensch setzt die Ziele · KI unterstützt · Der Mensch behält die Kontrolle.</p>
+          <h2>Was wir tun</h2>
+          <p>Maßgeschneiderte KI-Lösungen, die im Unternehmen wirklich ankommen.</p>
         </div>
 
-        <!-- Services — LLM-style reveal -->
-        <div class="llm-section">
-          <div
-            class="llm-row"
-            data-delay="0"
-            data-desc="Integration von KI in bestehende Workflows – nahtlose Einbettung in operative Prozesse, Automatisierung wiederkehrender Aufgaben durch intelligente Systeme."
-          >
-            <span class="llm-cursor"></span>
-            <div class="llm-body">
-              <strong>KI Einbau</strong> in die Unternehmensprozesse
+        <div class="services-table">
+          <div class="service-row reveal">
+            <div class="service-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+            <div class="service-info">
+              <h3>KI Integration</h3>
+              <p>Wir bauen KI in Ihre bestehenden Prozesse ein - nicht als Experiment, sondern als Werkzeug, das täglich genutzt wird.</p>
             </div>
           </div>
-          <div
-            class="llm-row"
-            data-delay="200"
-            data-desc="Analyse des Use-Cases, Evaluation von LLMs, RAG, Fine-Tuning, Computer Vision oder klassischem ML – Beratung zur richtigen Architektur für Ihr Problem."
-          >
-            <span class="llm-cursor"></span>
-            <div class="llm-body">
-              <strong>Auswahl geeigneter KI-Methodiken</strong>
+          <div class="service-row reveal">
+            <div class="service-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 1v4m0 14v4m11-9h-4M5 12H1m17.07-7.07l-2.83 2.83M7.76 16.24l-2.83 2.83m0-14.14l2.83 2.83m8.48 8.48l2.83 2.83"/></svg></div>
+            <div class="service-info">
+              <h3>Agentic AI</h3>
+              <p>Autonome Agenten, die komplexe Aufgaben übernehmen. Multi-Agent-Systeme mit eigener Entscheidungsfindung.</p>
             </div>
           </div>
-          <div
-            class="llm-row"
-            data-delay="400"
-            data-desc="Autonome Agenten, die komplexe Aufgaben übernehmen. Multi-Agent-Systeme, Tool-Use und Planung, Workflow-Automatisierung mit eigenständiger Entscheidungsfindung."
-          >
-            <span class="llm-cursor"></span>
-            <div class="llm-body"><strong>Agentic AI</strong></div>
+          <div class="service-row reveal">
+            <div class="service-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+            <div class="service-info">
+              <h3>Sichere KI</h3>
+              <p>On-Premise, lokal, DSGVO-konform. Ihre Daten verlassen Ihre Infrastruktur - wenn Sie das wollen.</p>
+            </div>
           </div>
-          <div
-            class="llm-row"
-            data-delay="600"
-            data-desc="On-Premise Deployment ohne Cloud-Abhängigkeit. Lokale Modelle, DSGVO-konforme Implementierungen, volle Kontrolle über Ihre Daten."
-          >
-            <span class="llm-cursor"></span>
-            <div class="llm-body"><strong>Sichere / lokale KI</strong></div>
+          <div class="service-row reveal">
+            <div class="service-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.21 15.89A10 10 0 118 2.83"/><path d="M22 12A10 10 0 0012 2v10z"/></svg></div>
+            <div class="service-info">
+              <h3>Dashboards & Apps</h3>
+              <p>Übersichtliche Dashboards und Anwendungen, die aus Daten handlungsfähige Erkenntnisse machen.</p>
+            </div>
           </div>
         </div>
+      </div>
+    </section>
 
 
 
@@ -130,8 +120,7 @@
     <section id="about">
       <div class="container">
         <div class="about-grid">
-          <div class="about-text reveal">
-            <span class="section-tag">Über uns</span>
+          <div class="about-text">
             <h2>
               skale.tech<br /><span style="color: var(--red)"
                 >AI Engineering</span
@@ -145,37 +134,18 @@
               Mit Fokus auf Innovation und Qualität bieten wir maßgeschneiderte
               KI-Lösungen.
             </p>
+          </div>
+          <div class="about-visual">
             <div class="about-stats">
               <div class="stat">
-                <span class="stat-num" data-target="14">0</span
-                ><span class="stat-label">Kunden</span>
+                <span class="stat-num" data-target="14">0</span><span class="stat-label">Kunden</span>
               </div>
               <div class="stat">
-                <span class="stat-num" data-target="10">0</span
-                ><span class="stat-label">Projekte</span>
+                <span class="stat-num" data-target="10">0</span><span class="stat-label">Projekte</span>
               </div>
               <div class="stat">
-                <span class="stat-num" data-target="5">0</span
-                ><span class="stat-label">Jahre</span>
+                <span class="stat-num" data-target="5">0</span><span class="stat-label">Jahre</span>
               </div>
-            </div>
-          </div>
-          <div class="about-visual reveal">
-            <div class="code-block">
-              <pre><code><span class="c1">// skale.dev</span>
-<span class="kw">const</span> skale = {
-  name: <span class="str">"AI Engineering"</span>,
-  focus: [
-    <span class="str">"LLM Integration"</span>,
-    <span class="str">"Dashboards"</span>,
-    <span class="str">"Edge Devices"</span>,
-    <span class="str">"Custom Apps"</span>
-  ],
-  location: <span class="str">"Neusiedl am See, AT"</span>,
-  contact: <span class="str">"dev@skale.dev"</span>
-};
-
-<span class="kw">export default</span> skale;</code></pre>
             </div>
           </div>
         </div>
@@ -185,7 +155,7 @@
     <!-- TESTIMONIAL -->
     <section id="testimonials" class="alt-bg">
       <div class="container">
-        <blockquote class="testimonial reveal">
+        <blockquote class="testimonial">
           <p>
             "skale.dev hat als Komplettanbieter die Elektronik und Software
             unseres Emobility Produktes geliefert und CE zertifiziert."
@@ -198,9 +168,8 @@
     <!-- CONTACT / CTA -->
     <section id="contact">
       <div class="container">
-        <div class="cta-box reveal">
-          <span class="section-tag">Projektanfrage</span>
-          <h2>Lassen Sie uns Ihr nächstes Projekt bauen.</h2>
+        <div class="cta-box">
+            <h2>Lassen Sie uns Ihr nächstes Projekt bauen.</h2>
           <p>
             In einem unverbindlichen Erstgespräch erörtern wir
             Umsetzungsmöglichkeiten.
@@ -217,6 +186,7 @@
       </div>
     </section>
 
+    </main>
     <!-- FOOTER -->
     <footer id="footer">
       <div class="container">
@@ -256,7 +226,7 @@
           </div>
         </div>
         <div class="footer-bottom">
-          <p>© 2026 skale.dev — DI Johann Waldherr</p>
+          <p>© 2026 skale.dev  -  DI Johann Waldherr</p>
         </div>
       </div>
     </footer>
