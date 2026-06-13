@@ -1,0 +1,69 @@
+/* ============================================================
+   base.css - Reset, global element defaults, utilities
+   ============================================================ */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
+
+* { scrollbar-width: thin; scrollbar-color: var(--bg-alt) transparent; }
+*::-webkit-scrollbar { width: 6px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: #1c1c20; border-radius: 3px; }
+
+body {
+    font-family: var(--font);
+    font-size: 15px;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--red); color: #fff; }
+
+/* ---- LAYOUT CONTAINER ---- */
+.container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+.container.narrow { max-width: 760px; }
+
+/* ---- SKIP LINK (a11y) ---- */
+.skip-link {
+    position: absolute; top: -100%; left: 16px; z-index: 2000;
+    padding: 10px 18px; background: var(--red); color: #fff;
+    font-weight: 600; font-size: 0.85rem; text-decoration: none;
+    border-radius: var(--radius-sm); transition: top 0.2s var(--ease);
+}
+.skip-link:focus { top: 12px; }
+
+/* ---- NAV SENTINEL (scroll detection, no scroll listener) ---- */
+.nav-sentinel { position: relative; height: 1px; width: 100%; pointer-events: none; }
+
+/* ---- SCROLL REVEAL (hidden only when JS is present) ---- */
+.js .reveal { opacity: 0; transform: translateY(22px); will-change: transform, opacity;
+    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
+.js .reveal.is-visible { opacity: 1; transform: none; }
+.js .hero-content .reveal { transition-delay: 0s; }
+.js .hero-content .reveal:nth-child(2) { transition-delay: 0.08s; }
+.js .hero-content .reveal:nth-child(3) { transition-delay: 0.16s; }
+.js .hero-content .reveal:nth-child(4) { transition-delay: 0.24s; }
+
+/* ---- REDUCED MOTION (global) ---- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important; scroll-behavior: auto !important;
+    }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    #hero-canvas, .hero-glow { display: none; }
+    .belt-track { animation: none; }
+}

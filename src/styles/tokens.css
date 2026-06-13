@@ -1,0 +1,45 @@
+/* ============================================================
+   tokens.css - Design Tokens
+   Single source of truth for color, type, radius, motion.
+   Accent lock: --red everywhere. One accent only.
+   ============================================================ */
+
+:root {
+    color-scheme: dark;
+
+    /* surfaces */
+    --bg: #08080a;
+    --bg-alt: #0d0d10;
+    --bg-card: rgba(255, 255, 255, 0.025);
+    --bg-card-hover: rgba(255, 255, 255, 0.045);
+
+    /* accent (single, locked) */
+    --red: #e53935;
+    --red-bright: #ff5a4d;
+    --red-dark: #b71c1c;
+    --red-glow: rgba(229, 57, 53, 0.12);
+    --red-soft: rgba(229, 57, 53, 0.06);
+
+    /* text */
+    --text: #d4d4d8;
+    --text-dim: #71717a;
+    --text-faint: #52525b;
+    --text-bright: #fafafa;
+
+    /* lines */
+    --border: rgba(255, 255, 255, 0.07);
+    --border-strong: rgba(255, 255, 255, 0.12);
+
+    /* type */
+    --font: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --display: "Inter Tight", "Inter", -apple-system, sans-serif;
+    --mono: "JetBrains Mono", "Fira Code", monospace;
+
+    /* radii (locked system) */
+    --radius-sm: 8px;
+    --radius: 12px;
+    --radius-pill: 100px;
+
+    /* motion */
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
