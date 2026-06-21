@@ -89,6 +89,29 @@
 }
 .models-table .lic-open { color: var(--red-bright); border-color: rgba(229, 57, 53, 0.3); background: var(--red-soft); }
 .models-table .lic-prop { color: var(--text-faint); }
+
+/* ---- MODELS TABLE on mobile: sticky first column + scroll hint ---- */
+@media (max-width: 760px) {
+    .table-scroll-inner {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .models-table th:first-child,
+    .models-table td:first-child {
+        position: sticky; left: 0; z-index: 2;
+        background: var(--bg);
+        box-shadow: 6px 0 12px -8px rgba(0,0,0,0.7);
+    }
+    .models-table thead th:first-child { background: var(--bg-alt); }
+    /* subtle hint that the table scrolls */
+    .table-scroll::after {
+        content: "\2194  wischen zum Scrollen";
+        display: block; text-align: center;
+        font-family: var(--mono); font-size: 0.7rem;
+        color: var(--text-faint); padding: 10px 0 0;
+        letter-spacing: 0.02em;
+    }
+}
 .table-notes { margin-top: 22px; }
 .table-notes dl { display: grid; grid-template-columns: max-content 1fr; gap: 9px 20px; margin-bottom: 16px; }
 .table-notes dt { font-family: var(--mono); font-size: 0.78rem; color: var(--text-dim); font-weight: 500; padding-top: 1px; }
