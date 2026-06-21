@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite'
+import { resolve } from 'path'
 
 export default defineConfig({
   root: '.',
@@ -17,5 +18,15 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    rollupOptions: {
+      // Multiple HTML entry points so Vite emits each page (not just index.html)
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        apps: resolve(__dirname, 'apps.html'),
+        impressum: resolve(__dirname, 'impressum.html'),
+        datenschutz: resolve(__dirname, 'datenschutz.html'),
+        tos: resolve(__dirname, 'tos.html'),
+      },
+    },
   },
 })
