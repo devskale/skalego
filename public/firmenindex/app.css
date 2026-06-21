@@ -788,3 +788,8 @@ body {
 .edge .who{font-weight:500;font-size:.85rem;word-break:break-word;}
 .edge .meta{color:var(--text3);font-size:.72rem;margin-top:1px;}
 .tagfn{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:8px;font-size:.68rem;font-family:ui-monospace,monospace;font-weight:600;background:rgba(63,185,80,.15);color:var(--green);}
+
+/* ═══ Advanced search pager ═══ */
+.adv-pager{display:flex;align-items:center;justify-content:center;gap:1rem;padding:1.2rem 0 .5rem;}
+.adv-pager .btn-sm{padding:.4rem 1rem;font-size:.85rem;}
+.adv-pager .pager-info{color:var(--text3);font-size:.85rem;}

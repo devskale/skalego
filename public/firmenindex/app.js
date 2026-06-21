@@ -260,34 +260,59 @@ async function doSearch() {
 
 // DB advanced search via /crawl/search. Renders result cards in the same
 // format as the live evi search, clickable → detail (cache-aware).
-async function doAdvSearch(q, adv) {
+// State for the advanced (DB) search — persists across page clicks.
+let advState = { q: '', params: '', page: 1, pages: 1, total: 0 };
+
+async function doAdvSearch(q, adv, page) {
   setView('list');
-  app.innerHTML = skeletonResultsHtml('Erweiterte Suche…', 5);
-  const params = new URLSearchParams();
-  if (q) params.set('q', q);
-  if (adv['f-plz']) params.set('plz', adv['f-plz']);
-  if (adv['f-seat']) params.set('seat', adv['f-seat']);
-  if (adv['f-strasse']) params.set('street', adv['f-strasse']);
-  if (adv['f-person']) params.set('person', adv['f-person']);
-  if (adv['f-rechtsform-db']) params.set('legal', adv['f-rechtsform-db']);
-  if (adv['f-oenace']) params.set('oenace', adv['f-oenace']);
-  params.set('size', '40');
-  params.set('sort', 'name'); params.set('dir', 'asc');
+  page = page || 1;
+  if (page === 1) app.innerHTML = skeletonResultsHtml('Erweiterte Suche…', 5);
+  else app.innerHTML = skeletonResultsHtml('Seite ' + page + ' …', 5);
+
+  // build the query string (only on page 1; reuse for pagination)
+  if (page === 1) {
+    const params = new URLSearchParams();
+    if (q) params.set('q', q);
+    if (adv['f-plz']) params.set('plz', adv['f-plz']);
+    if (adv['f-seat']) params.set('seat', adv['f-seat']);
+    if (adv['f-strasse']) params.set('street', adv['f-strasse']);
+    if (adv['f-person']) params.set('person', adv['f-person']);
+    if (adv['f-rechtsform-db']) params.set('legal', adv['f-rechtsform-db']);
+    if (adv['f-oenace']) params.set('oenace', adv['f-oenace']);
+    params.set('size', '40');
+    params.set('sort', 'name'); params.set('dir', 'asc');
+    advState.q = q; advState.params = params.toString();
+  }
+
+  // fetch the requested page
+  const p = new URLSearchParams(advState.params);
+  p.set('page', page);
   try {
-    const d = await apiFetch('/crawl/search?' + params.toString());
+    const d = await apiFetch('/crawl/search?' + p.toString());
+    advState.page = d.page; advState.pages = d.pages; advState.total = d.total;
     const rows = (d.companies || []).map(c => ({
       fn: c.fn, name: c.name, seat: c.seat,
-      legal_form: (c.merged_data || c).legal_form,
-      plz: c.plz, _src: 'db',
+      legal_form: (c.merged_data || c).legal_form, plz: c.plz, _src: 'db',
     }));
-    if (!rows.length) {
+    if (!rows.length && page === 1) {
       app.innerHTML = `<div class="results"><div class="empty">Keine Treffer im Cache (${d.total} insgesamt).<br><small>Der Cache wächst — probiere es später erneut.</small></div></div>`;
       return;
     }
-    app.innerHTML = `<div class="results"><div class="results-header"><span>📚 ${d.total} Firma(en) im Cache — Seite 1 (${rows.length} angezeigt)</span></div>`;
-    const list = document.createElement('div');
-    rows.forEach((r, i) => { list.insertAdjacentHTML('beforeend', resultCardHtml(r, i)); });
-    document.querySelector('.results').appendChild(list);
+    // header + results
+    let html = `<div class="results"><div class="results-header"><span>📚 ${d.total} Firma(en) im Cache — Seite ${d.page}/${d.pages}</span></div>`;
+    html += '<div>';
+    rows.forEach((r, i) => { html += resultCardHtml(r, i); });
+    html += '</div>';
+    // pager
+    html += '<div class="adv-pager">';
+    if (d.page > 1) html += `<button class="btn btn-sm" onclick="doAdvSearch(advState.q, null, ${d.page - 1})">‹ zurück</button>`;
+    html += `<span class="pager-info">Seite ${d.page} / ${d.pages}</span>`;
+    if (d.page < d.pages) html += `<button class="btn btn-sm" onclick="doAdvSearch(advState.q, null, ${d.page + 1})">weiter ›</button>`;
+    html += '</div>';
+    html += '</div>';
+    app.innerHTML = html;
+    // scroll to top of results for new page
+    if (page > 1) document.querySelector('.search-wrap').scrollIntoView({ behavior: 'smooth' });
   } catch (e) {
     app.innerHTML = `<div class="results"><div class="empty" style="color:var(--red)">Fehler: ${e.message}</div></div>`;
   }
