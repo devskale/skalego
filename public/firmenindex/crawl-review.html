@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>!function(){var p=location.pathname;if(!p.includes('.')){p+='/'};var b=p.replace(/[^/]*$/,'');if(b.length>1&&b.endsWith('//')){b=b.slice(0,-1)}document.write('<base href="'+b+'">');}();</script>
+  <title>Crawl Review — Firmenindex Österreich</title>
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --bg:#0e1117; --surface:#161b22; --surface2:#1c2230; --border:#30363d;
+      --text:#e6edf3; --text2:#8b949e; --accent:#58a6ff; --accent2:#1f6feb;
+      --green:#3fb950; --purple:#bc8cff; --orange:#d29922; --red:#f85149;
+    }
+    body{font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5;padding:20px;font-size:.9rem;}
+    a{color:var(--accent);text-decoration:none;} a:hover{text-decoration:underline;}
+    .header{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+    .header h1{font-size:1.4rem;font-weight:600;}
+    .header .tag{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:2px 8px;font-size:.72rem;color:var(--text2);}
+    .sub{color:var(--text2);font-size:.82rem;margin-bottom:14px;}
+    .sub code{background:var(--surface);padding:1px 5px;border-radius:4px;font-size:.85em;}
+    .toolbar{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+    button{background:var(--accent2);color:#fff;border:none;border-radius:6px;padding:7px 13px;font-size:.82rem;cursor:pointer;}
+    button:hover{background:var(--accent);}
+    button.ghost{background:var(--surface2);border:1px solid var(--border);}
+    input[type=number]{background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:6px 9px;width:70px;font-size:.82rem;}
+    .stat{color:var(--text2);font-size:.8rem;} .stat b{color:var(--text);}
+    .meta-row{display:flex;justify-content:space-between;color:var(--text2);font-size:.76rem;margin-bottom:8px;}
+    .wrap{max-width:1200px;margin:0 auto;}
+    table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;font-size:.82rem;}
+    th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top;}
+    th{background:var(--surface2);color:var(--text2);font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.03em;position:sticky;top:0;cursor:pointer;white-space:nowrap;}
+    th:hover{color:var(--text);}
+    th.sortable .sortind{margin-left:4px;color:var(--text2);font-size:.7rem;}
+    th.sorted-asc .sortind{color:var(--accent);content:"▲";}
+    th.sorted-desc .sortind{color:var(--accent);content:"▼";}
+    th.sorted-asc::after{content:"";}
+    #pager button{background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:5px;padding:4px 9px;font-size:.78rem;cursor:pointer;}
+    #pager button:disabled{opacity:.4;cursor:default;}
+    #pager button.active{background:var(--accent2);color:#fff;border-color:var(--accent2);}
+    #pager .pinfo{color:var(--text2);font-size:.76rem;margin:0 4px;}
+    tr:last-child td{border-bottom:none;}
+    tr.row:hover td{background:rgba(88,166,255,.05);}
+    td.fn{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent);white-space:nowrap;}
+    td.name{font-weight:500;max-width:280px;}
+    .warn{color:var(--orange);font-weight:600;}   /* , / pattern flag */
+    .badge{display:inline-block;padding:1px 6px;border-radius:8px;font-size:.68rem;font-weight:600;margin-left:4px;}
+    .badge.merged{background:rgba(188,140,255,.15);color:var(--purple);}
+    .badge.evi{background:rgba(63,185,80,.12);color:var(--green);}
+    .badge.stale{background:rgba(139,148,158,.15);color:var(--text2);}
+    .badge.no_evi{background:rgba(248,81,73,.15);color:var(--red);}
+    .plz,td.seat{color:var(--text2);white-space:nowrap;}
+    td.when{color:var(--text2);font-size:.74rem;white-space:nowrap;}
+    .empty{text-align:center;color:var(--text2);padding:40px;}
+    .err{color:var(--red);font-size:.82rem;}
+    .detail{display:none;background:var(--surface2);padding:14px 16px;}
+    .detail.open{display:table-row-group;}  /* fallback */
+    tr.detail-row{display:none;}
+    tr.detail-row.open{display:table-row;background:var(--surface2);}
+    tr.detail-row td{padding:14px 16px;}
+    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+    .detail h4{color:var(--accent);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;}
+    .kv{display:grid;grid-template-columns:130px 1fr;gap:4px 10px;font-size:.8rem;}
+    .kv dt{color:var(--text2);} .kv dd{color:var(--text);}
+    .plist{list-style:none;font-size:.78rem;}
+    .plist li{padding:2px 0;color:var(--text);}
+    .plist .role{color:var(--purple);font-size:.7rem;display:block;}
+    .plist .src{color:var(--text2);font-size:.66rem;}
+    .beteiligungen-list{list-style:none;font-size:.78rem;}
+    .beteiligungen-list li{padding:3px 0;} .beteiligungen-list .arrow{color:var(--green);}
+
+    /* Ownership-relationship boxes — clearly separated, color-coded by direction */
+    .relbox{border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:12px;background:var(--surface2);}
+    .relbox.owners{border-left:3px solid var(--accent);}     /* forward: who owns this */
+    .relbox.beteiligungen{border-left:3px solid var(--green);}     /* reverse: what this owns */
+    .relbox .rel-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:.74rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
+    .relbox.owners .rel-head{color:var(--accent);}
+    .relbox.beteiligungen .rel-head{color:var(--green);}
+    .relbox .rel-head .count{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0 7px;color:var(--text);font-weight:700;}
+    .relbox .rel-head .arrow{font-size:.95rem;}
+    .relflat{display:flex;align-items:center;gap:8px;padding:8px 14px;margin-bottom:12px;border:1px solid var(--border);border-left:3px solid var(--border);border-radius:8px;background:var(--surface2);font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--text2);}
+    .relflat.owners{border-left-color:var(--accent);color:var(--accent);}
+    .relflat.beteiligungen{border-left-color:var(--green);color:var(--green);}
+    .relflat .rel-none{color:var(--text2);font-weight:400;text-transform:none;letter-spacing:0;margin-left:auto;}
+    .edge{display:flex;align-items:flex-start;gap:8px;padding:7px 9px;margin-bottom:5px;border-radius:6px;background:var(--surface);border:1px solid var(--border);}
+    .edge:last-child{margin-bottom:0;}
+    .edge .dir{font-weight:700;font-size:1rem;line-height:1.2;flex-shrink:0;}
+    .edge.owners .dir{color:var(--accent);} .edge.beteiligungen .dir{color:var(--green);}
+    .edge .body{flex:1;min-width:0;}
+    .edge .who{font-weight:500;font-size:.84rem;word-break:break-word;}
+    .edge .meta{color:var(--text2);font-size:.68rem;margin-top:2px;}
+    .edge .tagfn{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:8px;font-size:.66rem;font-family:ui-monospace,monospace;font-weight:600;}
+    .tagfn.resolved{background:rgba(63,185,80,.15);color:var(--green);}
+    .tagfn.unresolved{background:rgba(210,153,34,.15);color:var(--orange);}
+    .edge .role-pill{display:inline-block;color:var(--purple);font-size:.66rem;margin-top:1px;}
+    .clickable{cursor:pointer;}
+    .tri{color:var(--text2);font-size:.7rem;margin-right:3px;}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h1>🔍 Crawl Review</h1>
+    <span class="tag">evi + HVD</span>
+    <a href="index.html" style="margin-left:auto;font-size:.8rem;">← Hauptseite</a>
+  </div>
+  <div class="sub">
+    Neueste gecrawlten Firmen. Klick eine Zeile für alle Felder + Gesellschafter + Beteiligungen.
+    <span class="warn">⚠ ', /' Namen</span> werden markiert. Vor dem Hochskalieren prüfen.
+  </div>
+
+  <div class="toolbar">
+    <button id="load">Aktualisieren</button>
+    <button class="ghost" id="autoref">Auto: aus</button>
+    <label class="stat">/ Seite <input type="number" id="pagesize" value="20" min="5" max="200"></label>
+    <span class="stat" id="info"></span>
+  </div>
+  <div class="filters" style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center">
+    <select id="f_section" style="background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:7px 11px;font-size:.82rem;max-width:230px">
+      <option value="">Alle Branchen</option>
+    </select>
+    <input type="search" id="f_q"      placeholder="Name"     style="background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:7px 11px;font-size:.82rem;width:170px;">
+    <input type="search" id="f_person" placeholder="Person"    style="background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:7px 11px;font-size:.82rem;width:150px;">
+    <input type="search" id="f_fn"     placeholder="FN"       style="background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:7px 11px;font-size:.82rem;width:110px;">
+    <input type="search" id="f_plz"    placeholder="PLZ"      style="background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:7px 11px;font-size:.82rem;width:90px;">
+    <input type="search" id="f_street"  placeholder="Straße"    style="background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:7px 11px;font-size:.82rem;width:160px;">
+    <input type="search" id="f_seat"   placeholder="Ort / Sitz" style="background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:7px 11px;font-size:.82rem;width:150px;">
+    <input type="search" id="f_legal"  placeholder="Rechtsform" style="background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:7px 11px;font-size:.82rem;width:120px;">
+    <input type="search" id="f_oenace" placeholder="ÖNACE-Code" style="background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:6px;padding:7px 11px;font-size:.82rem;width:110px;">
+  </div>
+  <div class="meta-row">
+    <span id="meta"></span>
+    <span id="pager" style="display:flex;gap:6px;align-items:center"></span>
+    <span id="ts"></span>
+  </div>
+
+  <div id="err" class="err"></div>
+  <table>
+    <thead>
+      <tr>
+        <th data-sort="fn" class="sortable">FN<span class="sortind"></span></th>
+        <th data-sort="name" class="sortable">Name<span class="sortind"></span></th>
+        <th data-sort="legal" class="sortable">Rechtsform<span class="sortind"></span></th>
+        <th data-sort="plz" class="sortable">PLZ<span class="sortind"></span></th>
+        <th data-sort="seat" class="sortable">Sitz<span class="sortind"></span></th>
+        <th>Straße</th>
+        <th data-sort="oenace" class="sortable">ÖNACE<span class="sortind"></span></th>
+        <th>Quelle</th>
+        <th data-sort="when" class="sortable">gecrawlt<span class="sortind"></span></th>
+      </tr>
+    </thead>
+    <tbody id="rows"><tr><td colspan="9" class="empty">Lädt…</td></tr></tbody>
+  </table>
+</div>
+
+<script src="config.js"></script>
+<script>
+const IS_PROXY = (typeof API_BASE !== 'undefined') && API_BASE.includes('?');
+function apiUrl(path){
+  const [endpoint, qs] = path.replace(/^\//,'').split('?');
+  let url = IS_PROXY ? (API_BASE + encodeURIComponent(endpoint)) : (API_BASE.replace(/\/$/,'') + '/' + endpoint);
+  return qs ? url + (IS_PROXY ? '&' : '?') + qs : url;
+}
+function esc(s){ return (s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+const LEGAL = {"Gesellschaft mit beschränkter Haftung":"GmbH","Aktiengesellschaft":"AG","Offene Gesellschaft":"OG","Kommanditgesellschaft":"KG","Einzelunternehmer":"e.U.","Unternehmergesellschaft":"UG"};
+function shortLegal(f){ if(!f) return ""; for(const k in LEGAL){ if(f.includes(k)) return LEGAL[k]; } return f; }
+// flag evi's ', /' Einzelunternehmer naming oddity
+function nameFlag(name){ return (name && /,\s*\//.test(name)) ? ' <span class="warn" title="evi Einzellisten-Namensformat" />, /</span>' : ""; }
+const ROLE_ORDER = ["Geschäftsführer/in","Vorstand","Prokurist/in","Gesellschafter/in","Unbeschränkt haftende/r Gesellschafter/in","Kommanditist/in","Aufsichtsratsmitglied"];
+
+let ROWS = [], timer = null;
+let CRAWL_API_ENABLED = false;
+// view state: server-side filter values, sort column+dir, current page
+let VIEW = { q:"", person:"", fn:"", plz:"", street:"", seat:"", legal:"", oenace:"", section:"", sortKey:"when", sortDir:"desc", page:1, pageSize:20 };
+let META = { total:0, pages:0 };  // last server response counts
+let searchTimer = null;
+
+async function loadCrawlEnabled(){
+  try { const r = await fetch(apiUrl("crawl/enabled")); if(r.ok){ const d=await r.json(); CRAWL_API_ENABLED = !!d.enabled; } } catch(e){}
+}
+
+// Build the /crawl/search query string from the current VIEW filters.
+function searchQs(){
+  const p = new URLSearchParams();
+  if(VIEW.q)      p.set("q", VIEW.q);
+  if(VIEW.person) p.set("person", VIEW.person);
+  if(VIEW.fn)     p.set("fn", VIEW.fn);
+  if(VIEW.plz)    p.set("plz", VIEW.plz);
+  if(VIEW.street)  p.set("street", VIEW.street);
+  if(VIEW.seat)   p.set("seat", VIEW.seat);
+  if(VIEW.legal)  p.set("legal", VIEW.legal);
+  // oenace code (free text) wins over section dropdown when both set
+  if(VIEW.oenace) p.set("oenace", VIEW.oenace);
+  else if(VIEW.section) p.set("oenace", VIEW.section);
+  p.set("sort", VIEW.sortKey);
+  p.set("dir", VIEW.sortDir);
+  p.set("page", VIEW.page);
+  p.set("size", VIEW.pageSize);
+  return p.toString();
+}
+
+async function load(){
+  const errEl = document.getElementById("err"); errEl.textContent = "";
+  const tb = document.getElementById("rows");
+  tb.innerHTML = '<tr><td colspan="9" class="empty">Lädt…</td></tr>';
+  try {
+    // server-side filtered + paginated — never loads the whole table
+    const r = await fetch(apiUrl("crawl/search?"+searchQs()));
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    const d = await r.json();
+    ROWS = d.companies || [];
+    META = { total: d.total||0, pages: d.pages||0 };
+    document.getElementById("info").innerHTML = "<b>"+META.total+"</b> Firmen";
+    document.getElementById("ts").textContent = new Date().toLocaleTimeString();
+    renderRows(ROWS, (VIEW.page-1)*VIEW.pageSize);
+    renderPager();
+    updateSortIndicators();
+  } catch(e){ errEl.textContent = "Fehler: " + e.message; tb.innerHTML=""; }
+}
+
+function renderPager(){
+  const p = document.getElementById("pager");
+  const total = META.total, pages = META.pages;
+  document.getElementById("meta").textContent = total + " Firma(en)";
+  if(pages <= 1){ p.innerHTML = '<span class="pinfo">'+total+' Firma(en)</span>'; return; }
+  let html = '<button onclick="gotoPage(1)" '+(VIEW.page<=1?'disabled':'')+'>«</button>';
+  html += '<button onclick="gotoPage('+(VIEW.page-1)+')" '+(VIEW.page<=1?'disabled':'')+'>‹</button>';
+  const from = Math.max(1, VIEW.page-2), to = Math.min(pages, from+4);
+  for(let i=from; i<=to; i++){
+    html += '<button class="'+(i===VIEW.page?'active':'')+'" onclick="gotoPage('+i+')">'+i+'</button>';
+  }
+  html += '<button onclick="gotoPage('+(VIEW.page+1)+')" '+(VIEW.page>=pages?'disabled':'')+'>›</button>';
+  html += '<button onclick="gotoPage('+pages+')" '+(VIEW.page>=pages?'disabled':'')+'>»</button>';
+  html += '<span class="pinfo">Seite '+VIEW.page+'/'+pages+'</span>';
+  p.innerHTML = html;
+}
+function gotoPage(n){ VIEW.page = n; load(); }
+
+// a filter field changed → debounce + reload from page 1
+function onFilterChange(){
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(function(){
+    VIEW.q = document.getElementById("f_q").value.trim();
+    VIEW.person = document.getElementById("f_person").value.trim();
+    VIEW.fn = document.getElementById("f_fn").value.trim();
+    VIEW.plz = document.getElementById("f_plz").value.trim();
+    VIEW.street = document.getElementById("f_street").value.trim();
+    VIEW.seat = document.getElementById("f_seat").value.trim();
+    VIEW.legal = document.getElementById("f_legal").value.trim();
+    VIEW.oenace = document.getElementById("f_oenace").value.trim();
+    VIEW.section = document.getElementById("f_section").value;
+    VIEW.page = 1;
+    load();
+  }, 300);
+}
+
+// load ÖNACE sections (A–V) into the dropdown once on startup
+async function loadSections(){
+  try {
+    const r = await fetch(apiUrl("crawl/sections"));
+    if(!r.ok) return;
+    const d = await r.json();
+    const sel = document.getElementById("f_section");
+    (d.sections||[]).forEach(s => {
+      const o = document.createElement("option");
+      o.value = s.section;
+      o.textContent = s.section + " · " + s.label + " (" + s.firms + ")";
+      sel.appendChild(o);
+    });
+  } catch(e){}
+}
+
+function renderRows(pageRows, offset){
+  const tb = document.getElementById("rows");
+  if(!pageRows.length){ tb.innerHTML = '<tr><td colspan="9" class="empty">Keine Treffer.</td></tr>'; return; }
+  tb.innerHTML = pageRows.map((r,i)=>{
+    const idx = offset + i;
+    const when = r.fetched_at ? new Date(r.fetched_at).toLocaleString("de-AT",{dateStyle:"short",timeStyle:"short"}) : "—";
+    const merged = r.merged_data;
+    const src = merged ? '<span class="badge merged">evi+HVD</span>'
+              : (r.name ? '<span class="badge evi">evi</span>' : '<span class="badge no_evi">no_evi</span>');
+    return `<tr class="row clickable" onclick="toggle(${idx})">
+      <td class="fn">${esc(r.fn)}<span class="tri">▾</span></td>
+      <td class="name">${esc((r.name||"—").slice(0,60))}${nameFlag(r.name)}</td>
+      <td>${esc(shortLegal(merged?merged.legal_form:r.legal_form))}</td>
+      <td class="plz">${esc(r.plz)||"—"}</td>
+      <td class="seat">${esc(r.seat)||"—"}</td>
+      <td class="seat">${esc((merged&&merged.address_text)||r.street)||"—"}</td>
+      <td class="plz">${esc(r.oenace_code)||"—"}</td>
+      <td>${src}</td>
+      <td class="when">${when}</td>
+    </tr>
+    <tr class="detail-row" id="d${idx}"><td colspan="9" id="dc${idx}"></td></tr>`;
+  }).join("");
+}
+function toggle(idx){
+  const dr = document.getElementById("d"+idx);
+  if(dr.classList.contains("open")){ dr.classList.remove("open"); return; }
+  dr.classList.add("open");
+  renderDetail(idx);
+}
+async function renderDetail(idx){
+  const r = ROWS[idx]; const cell = document.getElementById("dc"+idx);
+  const m = r.merged_data || {};
+  const shareholders = (m.persons||[]).filter(p=>/gesellschafter|kommanditist|haftende/i.test(p.role||""));
+  const officials = (m.persons||[]).filter(p=>!/gesellschafter|kommanditist|haftende|aufsicht/i.test(p.role||""));
+  const board = (m.persons||[]).filter(p=>/aufsicht/i.test(p.role||""));
+  const cap = m.share_capital ? (typeof m.share_capital==="string"?m.share_capital:(m.share_capital.amount+" "+(m.share_capital.currency||""))) : (r.merged_data?"":"—");
+  const CRAWL_ON = CRAWL_API_ENABLED===true;
+
+  cell.innerHTML = `<div class="detail-grid">
+    <div>
+      <h4>Firmendaten</h4>
+      <dl class="kv">
+        <dt>Status</dt><dd>${esc(m.status||"—")}</dd>
+        <dt>Eintragung</dt><dd>${esc(m.registered||"—")}</dd>
+        <dt>Stammkapital</dt><dd>${esc(cap)}</dd>
+        <dt>Rechtsform</dt><dd>${esc(m.legal_form||r.legal_form||"—")}</dd>
+        <dt>Adresse</dt><dd>${esc((m.address_text)||(r.street?r.street+" "+(r.plz||""):"—"))}</dd>
+        <dt>Geschäftszweig</dt><dd>${esc((m.purpose||"").slice(0,160))||"—"}</dd>
+        <dt>Jahresabschluss</dt><dd>${esc(m.fiscal_year_end||"—")}</dd>
+      </dl>
+      <h4 style="margin-top:12px">Aktionen</h4>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button class="ghost" onclick="act(${idx},'refresh',false)">↻ Nachcrawlen (evi)</button>
+        <button class="ghost" onclick="act(${idx},'refresh',true)">↻ Nachcrawlen (evi+HVD)</button>
+        <button onclick="act(${idx},'resolve',true)">🕸 Gesellschafter auflösen</button>
+      </div>
+      <div id="act${idx}" class="stat" style="margin-top:6px"></div>
+    </div>
+    <div>
+      ${shareholders.length
+        ? `<div class="relbox owners">
+             <div class="rel-head"><span class="arrow">↓</span> Gesellschafter <span class="count">${shareholders.length}</span></div>
+             <div id="own${idx}" class="stat">lade…</div>
+           </div>`
+        : `<div class="relflat owners"><span class="arrow">↓</span> Gesellschafter <span class="rel-none">—</span></div>`}
+      <div class="relbox beteiligungen" id="invbox${idx}" style="display:none">
+        <div class="rel-head"><span class="arrow">↑</span> Beteiligungen <span class="count" id="invcount${idx}">0</span></div>
+        <div id="inv${idx}" class="stat"></div>
+      </div>
+      <div class="relflat beteiligungen" id="invflat${idx}"><span class="arrow">↑</span> Beteiligungen <span class="rel-none">—</span></div>
+      <h4 style="margin-top:10px">Vertretung (${officials.length})</h4>
+      <ul class="plist">${officials.length?officials.slice(0,8).map(p=>`<li>${esc(p.name)}<span class="role">${esc(p.role)}</span></li>`).join(''):'<li class="role" style="color:var(--text2)">keine</li>'}</ul>
+      ${board.length?`<h4 style="margin-top:10px">Aufsichtsrat (${board.length})</h4><ul class="plist">${board.slice(0,6).map(p=>`<li>${esc(p.name)}</li>`).join("")}</ul>`:""}
+    </div>
+  </div>`;
+  // load owners (with resolve status) + reverse beteiligungen in parallel
+  await Promise.all([loadOwners(idx, r, shareholders), loadBeteiligungen(idx, r)]);
+}
+
+async function loadOwners(idx, r, shareholders){
+  const out = document.getElementById("own"+idx);
+  if(!shareholders.length){ out.innerHTML = '<span class="stat" style="color:var(--text2)">keine Gesellschafter</span>'; return; }
+  let statusByFn = {};
+  try {
+    const rr = await fetch(apiUrl("crawl/shareholders/"+r.fn));
+    if(rr.ok){ const dd = await rr.json(); (dd.shareholders||[]).forEach(s=>{ statusByFn[s.name.toLowerCase()] = s; }); }
+  } catch(e){}
+  out.innerHTML = shareholders.map(p=>{
+    const st = statusByFn[(p.name||"").toLowerCase()] || {};
+    const rfn = p.own_fn || st.resolved_fn;
+    const isCompany = /GmbH|AG|KG|OG|Ges|SE|Nfg|Co/i.test(p.name||"");
+    const fnTag = rfn ? '<span class="tagfn resolved">FN '+esc(rfn)+'</span>'
+                     : (isCompany ? '<span class="tagfn unresolved" title="Wahrscheinlich ausländische Mutter — nicht im AT-Firmenbuch">nicht auflösbar</span>' : '');
+    return '<div class="edge owners"><span class="dir">↓</span><div class="body">'+
+           '<div class="who">'+esc(p.name)+fnTag+'</div>'+
+           '<div class="meta"><span class="role-pill">'+esc(p.role)+'</span>'+(p.since?" · seit "+esc(p.since):"")+(p.birthdate?" · *"+esc(p.birthdate):"")+(p.source?" · "+esc(p.source):"")+'</div>'+
+           '</div></div>';
+  }).join("");
+}
+
+async function loadBeteiligungen(idx, r){
+  const out = document.getElementById("inv"+idx);
+  const countEl = document.getElementById("invcount"+idx);
+  const box = document.getElementById("invbox"+idx);
+  const flat = document.getElementById("invflat"+idx);
+  try {
+    const rr = await fetch(apiUrl("crawl/beteiligungen/"+r.fn));
+    const dd = await rr.json();
+    const inv = dd.beteiligungen||[];
+    if(countEl) countEl.textContent = inv.length;
+    if(!inv.length){ if(box)box.style.display='none'; if(flat)flat.style.display='block'; return; }
+    if(box)box.style.display='block'; if(flat)flat.style.display='none';
+    out.innerHTML = inv.map(i=>'<div class="edge beteiligungen"><span class="dir">↑</span><div class="body">'+
+      '<div class="who"><span class="tagfn resolved" style="margin-left:0;margin-right:6px">'+esc(i.parent_fn)+'</span>'+esc(i.shareholder)+'</div>'+
+      '<div class="meta"><span class="role-pill">'+esc(i.role)+'</span>'+(i.since?" · seit "+esc(i.since):"")+'</div></div></div>').join("");
+  } catch(e){ out.innerHTML = '<span class="stat" style="color:var(--red)">Fehler</span>'; if(box)box.style.display='block'; if(flat)flat.style.display='none'; }
+}
+async function act(idx, kind, hvd){
+  const r = ROWS[idx]; const out = document.getElementById("act"+idx);
+  const targetFn = r.fn;  // re-open this detail after the list reloads
+  if(!CRAWL_API_ENABLED){ out.innerHTML = '<span class="warn">Crawl-API deaktiviert (CRAWL_API_ENABLED=1 nötig)</span>'; return; }
+  out.innerHTML = '<span style="color:var(--orange)">⏳ '+(kind==='resolve'?'löse Gesellschafter auf…':(hvd?'crawle evi+HVD…':'crawle evi…'))+'</span>';
+  try {
+    const ep = kind==='refresh' ? "crawl/refresh/"+r.fn+"?hvd="+(hvd?'true':'false') : "crawl/resolve/"+r.fn+"?hvd="+(hvd?'true':'false');
+    const url = apiUrl(ep);
+    const res = await fetch(url);
+    if(res.status===403){ out.innerHTML = '<span class="warn">Crawl-API deaktiviert (403)</span>'; return; }
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const d = await res.json();
+    let msg;
+    if(kind==='refresh'){
+      msg = '✓ '+esc(d.status)+(d.hvd && d.hvd!=='off'?' (hvd='+esc(d.hvd)+')':'')+' — '+esc((d.name||'').slice(0,40));
+    } else {
+      const sh = (d.shareholders||[]);
+      msg = '✓ aufgelöst: '+d.resolved+' neu / '+d.already_cached+' cached'+
+            (d.self_match?(' / '+d.self_match+' selbst'):'')+
+            (d.ambiguous?(' / '+d.ambiguous+' mehrdeutig'):'')+
+            (d.not_found?(' / '+d.not_found+' nicht gefunden'):'')+
+        sh.map(s=>'<br>   '+esc(s.name)+' → '+(s.resolved_fn?esc(s.resolved_fn):'(kein FN)')+(s.hit_name?' ['+esc(s.hit_name.slice(0,30))+']':'')+' <b style="color:var(--'+(s.status==='crawled'||s.status==='already_cached'?'green':'orange')+')">['+esc(s.status||'')+']</b>').join('');
+    }
+    await load();  // refresh whole list
+    // re-open the same company's detail so the result stays visible
+    const newIdx = ROWS.findIndex(function(x){return x.fn===targetFn;});
+    if(newIdx>=0){ toggle(newIdx); document.getElementById('act'+newIdx).innerHTML = msg; }
+  } catch(e){ out.innerHTML = '<span class="warn">Fehler: '+esc(e.message)+'</span>'; }
+}
+document.getElementById("load").onclick = load;
+document.getElementById("autoref").onclick = function(){
+  const b=this;
+  if(timer){ clearInterval(timer); timer=null; b.textContent="Auto: aus"; b.classList.add("ghost"); }
+  else { timer=setInterval(load,8000); b.textContent="Auto: 8s"; b.classList.remove("ghost"); load(); }
+};
+// filter fields: debounce + reload from page 1 (server-side)
+["f_q","f_person","f_fn","f_plz","f_street","f_seat","f_legal","f_oenace"].forEach(id => {
+  document.getElementById(id).oninput = onFilterChange;
+});
+document.getElementById("f_section").onchange = onFilterChange;
+// page size: reload from page 1
+document.getElementById("pagesize").onchange = function(){ VIEW.pageSize = parseInt(this.value)||20; VIEW.page = 1; load(); };
+// sortable column headers
+function updateSortIndicators(){
+  document.querySelectorAll("th.sortable").forEach(th=>{
+    th.classList.remove("sorted-asc","sorted-desc");
+    const ind = th.querySelector(".sortind");
+    if(ind) ind.textContent = "";
+    if(th.dataset.sort === VIEW.sortKey){
+      th.classList.add(VIEW.sortDir==="asc"?"sorted-asc":"sorted-desc");
+      if(ind) ind.textContent = VIEW.sortDir==="asc"?"▲":"▼";
+    }
+  });
+}
+document.querySelectorAll("th.sortable").forEach(th => {
+  th.onclick = function(){
+    const key = this.dataset.sort;
+    if(VIEW.sortKey === key){ VIEW.sortDir = VIEW.sortDir==="asc"?"desc":"asc"; }
+    else { VIEW.sortKey = key; VIEW.sortDir = "asc"; }
+    VIEW.page = 1;
+    load();
+  };
+});
+loadCrawlEnabled().then(function(){ loadSections(); load(); });
+</script>
+</body>
+</html>

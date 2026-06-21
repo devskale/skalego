@@ -1,11 +1,27 @@
 const UPSTREAM = 'https://amd1.mooo.com/api/firmenbuch';
 
+// Exact-match endpoints + prefix-match for path-param endpoints
+// (e.g. crawl/shareholders/475207i → matches 'crawl/shareholders').
 const ALLOWED = new Set([
   'search', 'search/rich', 'lookup', 'lookup/merged',
   'oenace', 'oenace/tree', 'oenace/status', 'oenace/companies',
   'hvd/token-check', 'hvd/suche-firma', 'hvd/suche-urkunde',
   'hvd/auszug', 'hvd/veraenderungen-firma', 'hvd/veraenderungen-urkunde',
+  // crawl endpoints (DB-cache search + ownership + review)
+  'crawl/search', 'crawl/recent', 'crawl/sections', 'crawl/enabled',
+  'crawl/shareholders', 'crawl/beteiligungen',
+  'crawl/refresh', 'crawl/resolve',
+  'cache/status',
 ]);
+
+function isAllowed(endpoint) {
+  if (ALLOWED.has(endpoint)) return true;
+  // prefix match: 'crawl/shareholders/475207i' → 'crawl/shareholders'
+  for (const key of ALLOWED) {
+    if (endpoint.startsWith(key + '/')) return true;
+  }
+  return false;
+}
 
 // Max execution time (hobby plan caps at 10s regardless)
 export const maxDuration = 30;
@@ -16,7 +32,7 @@ export default async function handler(req, res) {
 
   const url = new URL(req.url, 'http://localhost');
   const endpoint = url.searchParams.get('e');
-  if (!endpoint || !ALLOWED.has(endpoint))
+  if (!endpoint || !isAllowed(endpoint))
     return res.status(403).json({ error: 'Forbidden' });
 
   const token = process.env.HVD_API_TOKEN;

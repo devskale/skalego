@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script>!function(){var p=location.pathname;if(!p.includes('.')){p+='/'};document.write('<base href="'+p.replace(/[^/]*$/,'')+'">');}();</script>
+  <script>!function(){var p=location.pathname;if(!p.includes('.')){p+='/'};var b=p.replace(/[^/]*$/,'');if(b.length>1&&b.endsWith('//')){b=b.slice(0,-1)}document.write('<base href="'+b+'">');}();</script>
   <title>ÖNACE — Firmen nach Branche finden</title>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
