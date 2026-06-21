@@ -1,0 +1,16 @@
+{
+  "name": "skale.dev – AI Engineering für Unternehmen",
+  "short_name": "skale.dev",
+  "description": "Individuelle KI-Systeme für Unternehmen. AI Engineering, on-premise und DSGVO-konform.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#08080a",
+  "theme_color": "#08080a",
+  "lang": "de-AT",
+  "icons": [
+    { "src": "/logos/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/logos/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/logos/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

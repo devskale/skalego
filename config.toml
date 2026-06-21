@@ -1,5 +1,5 @@
 # baseURL = "http://127.0.0.1:5500/public"
-baseURL = "https://skale.io"
+baseURL = "https://skale.dev"
 #baseURL = "https://skalenew.netlify.app"
 relativeURLs = "True"
 languageCode = "de"
@@ -73,11 +73,11 @@ disableKinds = ["taxonomyTerm"]
   googleTagManagerID = "GTM-000000" # Google Analytics works with Google Tag Manager
 
   [params.logo]
-    text1 = "skale_io"
+    text1 = "skale"
     text2 = "venture development"
 
   [params.footer]
-      copyright = "© skale.io 2021. Alle Rechte vorbehalten."
+      copyright = "© 2026 skale.dev – DI Johann Waldherr"
       [params.footer.skale_logo]
         x = "img/general/design-and-code-skale.png"
         _2x = "img/general/design-and-code-skale@2x.png"

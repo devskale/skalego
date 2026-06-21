@@ -1,5 +1,5 @@
 ---
-title: "skale.io Venture Development"
+title: "skale.dev Venture Development"
 date: 2021-12-31
 draft: false
 
@@ -8,7 +8,7 @@ showcase:
   enable: true
   title: "Dein Partner für"
   subtitle: "Innovationsfinanzierung"
-  description: "<a target='_blank' href='https://skale.io/'>skale.io</a> kooperiert mit
+  description: "<a target='_blank' href='https://skale.dev/'>skale.dev</a> kooperiert mit
   besonderen Gründer*Innen in der Seed- oder Wachstumsphase und hilft bei der Finanzierung innovativer Produkte."
   image:
     x: "img/showcase/showcase.png"
@@ -19,7 +19,7 @@ showcase:
   button:
     icon: "icon-mail-fill"
     btnText: "Contact"
-    URL: "mailto:hi@skale.io"
+    URL: "mailto:hi@skale.dev"
 
   socialLinks:
     - icon: "linkedin"
@@ -63,12 +63,12 @@ about:
   enable: true
   title: "Über Mich"
   content: '<p class="lead">
-    Ich bin Hans, Gründer von skale.io. </br>
+    Ich bin Hans, Gründer von skale.dev. </br>
     </p>
     <p class="lead">
     Mein beruflicher Hintergrund kommt einerseits aus meiner Zeit als Entwicklungsingenieur und andererseits aus meinen
     Tätigkeiten im Business Development internationaler Technologiefirmen.
-    Meine Leidenschaft ist es Innovationen voranzutreiben. Als Founder von skale.io helfe
+    Meine Leidenschaft ist es Innovationen voranzutreiben. Als Founder von skale.dev helfe
     ich besonderen Gründer*Innen aus einer Idee einen klar formulierten Businessplan zu machen.
     Dies ist wichtig um die dazu passende Innovationsfinanzierung zu bekommen.
     
@@ -99,7 +99,7 @@ education:
 experience:
   enable: true
   title: "Berufserfahrung"
-  description: "Über 15+ Jahre als Entwicklung und im Business Development in internationalen Firmen und Startups. Als Gründer von skale.io arbeite ich an digitalen Produkten oder Deeptech Projekten und helfe bei der Venture Finanzierung."
+  description: "Über 15+ Jahre als Entwicklung und im Business Development in internationalen Firmen und Startups. Als Gründer von skale.dev arbeite ich an digitalen Produkten oder Deeptech Projekten und helfe bei der Venture Finanzierung."
   button:
     icon: "icon-linkedin-fill"
     btnText: "Linkedin"
@@ -119,7 +119,7 @@ experience:
       # duration: "Apr 2010 - Jan 2011"
 
     - title: "Founding Partner"
-      company: "skale.io venture development"
+      company: "skale.dev venture development"
       duration: "2012 - heute"
 
 # Client & Work
@@ -232,7 +232,7 @@ client_and_work:
       is_even: false
 
     - title: "Biodiversität eShop"
-      description: "Das ecommerce startup bionana vertreibt konsequent nachhaltige Lebensmittel und Pflanzen mit dem Ziel die Vielfalt zurück in den Garten und auf die Teller zu bringne. Der Vertrieb erfolgt online sowie offline über eigene Greisslereien. skale.io begleitete die Gründung mit Consulting, Businessplan und Seedfinanzierung."
+      description: "Das ecommerce startup bionana vertreibt konsequent nachhaltige Lebensmittel und Pflanzen mit dem Ziel die Vielfalt zurück in den Garten und auf die Teller zu bringne. Der Vertrieb erfolgt online sowie offline über eigene Greisslereien. skale.dev begleitete die Gründung mit Consulting, Businessplan und Seedfinanzierung."
       button:
         icon: "icon-arrow-right"
         btnText: "Case Study"
@@ -249,7 +249,7 @@ testimonial:
   items:
     - name: "Simona Nitschinger"
       position: "Gründerin, bionana.shop"
-      content: "Als bionana noch eine Idee war, begann die wertvolle Unterstützung durch skale.io. Wir konnten mit unserem Businessplan 
+      content: "Als bionana noch eine Idee war, begann die wertvolle Unterstützung durch skale.dev. Wir konnten mit unserem Businessplan 
       einen lokalen Investor gewinnen der unsere Vision für biologische Vielfalt teilt und mit uns mitgestalten will."
       image:
         x: "img/testimonials/simona.jpg"
@@ -257,7 +257,7 @@ testimonial:
 
     - name: "Tom Lidy"
       position: "Head of Innovation, Musimap"
-      content: "Die Business Development Aktivitäten von skale.io hatten einen großen Einfluss auf die 
+      content: "Die Business Development Aktivitäten von skale.dev hatten einen großen Einfluss auf die 
       Funding Performance und Firmenentwicklung unseres Machine Learning Startups. 
       Der Gewinn mehrerer Awards erhöhte die Aufmerksamkeit enorm. Das Ergebnis waren Finanzierungszusagen von internationalen Tech-Investoren sowie mehrere F&E Förderungen."
       image:
@@ -266,7 +266,7 @@ testimonial:
 
     - name: "Ursula Schmidt-Erfurth, Univ. Prof."
       position: "Leitung Universitätsklinik für Augenheilkunde und Optometrie, Meduni Wien"
-      content: "Unser Ziel ist es mit einer am Institut entwickelten AI Software Millionen Menschen vor einer drohenden Erblindung zu schützen. Mit skale.io haben wir einen Partner gefunden der es versteht aus einer komplexen Technologie 
+      content: "Unser Ziel ist es mit einer am Institut entwickelten AI Software Millionen Menschen vor einer drohenden Erblindung zu schützen. Mit skale.dev haben wir einen Partner gefunden der es versteht aus einer komplexen Technologie 
       einen klaren und profitablen Business Case für Investoren und Förderungen zu entwickeln. Die Zusammenarbeit führte
       zur erfolgreichen Ausgründung eines Uni Spin Offs."
       image:
@@ -288,10 +288,10 @@ contact:
     number: "+43 660 7383285"
   email:
     title: "Email"
-    email: '<a href="mailto:hi@skale.io">hi@skale.io</a>'
+    email: '<a href="mailto:hi@skale.dev">hi@skale.dev</a>'
   address:
     title: "Addresse"
-    address: "skale.io<br />7100 Neusiedl am See, Austria"
+    address: "skale.dev<br />7100 Neusiedl am See, Austria"
   button:
     icon: "icon-mail-fill"
     btnText: "Nachricht Senden"

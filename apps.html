@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="de-AT">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apps & Tools – skale.dev</title>
+    <meta name="description" content="Apps und Tools von skale.dev: Firmenindex Österreich, PDF Annotator, ChopDok – kostenlose Web-Tools für Unternehmen." />
+    <meta name="author" content="DI Johann Waldherr – skale.dev" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#08080a" />
+    <link rel="canonical" href="https://skale.dev/apps.html" />
+    <link rel="apple-touch-icon" href="/logos/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="/logos/skalelogo_red_trans.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="skale.dev" />
+    <meta property="og:locale" content="de_AT" />
+    <meta property="og:url" content="https://skale.dev/apps.html" />
+    <meta property="og:title" content="Apps & Tools – skale.dev" />
+    <meta property="og:description" content="Kostenlose Web-Tools von skale.dev: Firmenindex Österreich, PDF Annotator, ChopDok." />
+    <meta property="og:image" content="https://skale.dev/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Apps & Tools – skale.dev" />
+    <meta name="twitter:description" content="Kostenlose Web-Tools von skale.dev." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/src/style.css" />
+    <style>
+      .apps-page { padding: 120px 0 80px; }
+      .apps-page .container { max-width: 960px; }
+
+      .apps-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--text-dim);
+        text-decoration: none;
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+        transition: color 0.2s;
+      }
+      .apps-back:hover { color: var(--red); }
+
+      .apps-head h1 {
+        font-size: 2.4rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        color: var(--text-bright);
+        letter-spacing: -0.5px;
+      }
+      .apps-head p {
+        font-size: 1.1rem;
+        color: var(--text-dim);
+        max-width: 540px;
+        line-height: 1.6;
+      }
+
+      .app-list {
+        display: grid;
+        gap: 20px;
+        margin-top: 3rem;
+      }
+
+      .app-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        transition: border-color 0.2s, transform 0.2s;
+        text-decoration: none;
+        color: inherit;
+        display: grid;
+        grid-template-columns: 220px 1fr auto;
+        align-items: center;
+        gap: 0;
+      }
+      @media (max-width: 640px) {
+        .app-card { grid-template-columns: 1fr; }
+      }
+      .app-card:hover {
+        border-color: rgba(229,57,53,0.35);
+        transform: translateY(-2px);
+      }
+
+      .app-shot {
+        width: 220px;
+        height: 140px;
+        overflow: hidden;
+        border-right: 1px solid var(--border);
+        flex-shrink: 0;
+        background: #111;
+      }
+      .app-shot img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top left;
+        opacity: 0.85;
+        transition: opacity 0.2s;
+        display: block;
+      }
+      .app-card:hover .app-shot img { opacity: 1; }
+      @media (max-width: 640px) {
+        .app-shot { width: 100%; height: 160px; border-right: none; border-bottom: 1px solid var(--border); }
+      }
+      .app-card:hover .app-shot { opacity: 1; }
+
+      .app-body {
+        padding: 22px 24px;
+        min-width: 0;
+      }
+
+      .app-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+
+      .app-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.95rem;
+        font-weight: 800;
+        flex-shrink: 0;
+      }
+      .app-icon.red   { background: rgba(229,57,53,0.12); color: #e53935; }
+      .app-icon.blue  { background: rgba(66,133,244,0.12); color: #4285f4; }
+      .app-icon.green { background: rgba(76,175,80,0.12); color: #4caf50; }
+
+      .app-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-bright);
+      }
+
+      .app-desc {
+        font-size: 0.88rem;
+        color: var(--text);
+        line-height: 1.55;
+        margin-bottom: 10px;
+      }
+
+      .app-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      .app-tag {
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        padding: 2px 7px;
+        border-radius: 5px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid var(--border);
+        color: var(--text-dim);
+        letter-spacing: 0.02em;
+      }
+
+      .app-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 18px 22px;
+        font-size: 0.84rem;
+        font-weight: 600;
+        color: var(--red);
+        white-space: nowrap;
+        border-left: 1px solid var(--border);
+        height: 100%;
+        transition: background 0.2s;
+      }
+      @media (max-width: 640px) {
+        .app-cta { border-left: none; border-top: 1px solid var(--border); padding: 14px; }
+      }
+      .app-cta svg {
+        width: 13px;
+        height: 13px;
+        transition: transform 0.2s;
+        margin-left: 5px;
+      }
+      .app-card:hover .app-cta { background: rgba(229,57,53,0.06); }
+      .app-card:hover .app-cta svg { transform: translateX(3px); }
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Startseite", "item": "https://skale.dev/" },
+            { "@type": "ListItem", "position": 2, "name": "Apps & Tools", "item": "https://skale.dev/apps.html" }
+          ]
+        },
+        {
+          "@type": "CollectionPage",
+          "name": "Apps & Tools – skale.dev",
+          "url": "https://skale.dev/apps.html",
+          "description": "Kostenlose Web-Tools von skale.dev: Firmenindex Österreich, PDF Annotator, ChopDok.",
+          "isPartOf": { "@id": "https://skale.dev/#website" },
+          "mainEntity": {
+            "@type": "ItemList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                  "@type": "SoftwareApplication",
+                  "name": "Firmenindex Österreich",
+                  "applicationCategory": "BusinessApplication",
+                  "operatingSystem": "Web",
+                  "url": "https://skale.dev/firmenindex/",
+                  "description": "Firmensuche für Österreich mit über 40.000 Unternehmen. Suche nach Firma, Firmenbuchnummer (FN), Person oder Branche.",
+                  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+                  "publisher": { "@id": "https://skale.dev/#organization" }
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "item": {
+                  "@type": "SoftwareApplication",
+                  "name": "PDF Annotator",
+                  "applicationCategory": "BusinessApplication",
+                  "operatingSystem": "Web",
+                  "url": "https://skale.dev/pdf-editor",
+                  "description": "PDF-Dokumente direkt im Browser annotieren und bearbeiten – komplett client-seitig, ohne Server-Upload.",
+                  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+                  "publisher": { "@id": "https://skale.dev/#organization" }
+                }
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "item": {
+                  "@type": "SoftwareApplication",
+                  "name": "ChopDok",
+                  "applicationCategory": "BusinessApplication",
+                  "operatingSystem": "Web",
+                  "url": "https://skale.dev/chopdok",
+                  "description": "PDF-Seiten aufteilen, extrahieren und neu anordnen. Kostenlos, werbefrei, ohne Datenerfassung.",
+                  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+                  "publisher": { "@id": "https://skale.dev/#organization" }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+    </script>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav id="nav">
+      <div class="nav-inner">
+        <a href="/" class="nav-logo">
+          <span class="logo-box">skale</span><span class="logo-ext">dev</span>
+        </a>
+        <div class="nav-links">
+          <a href="/#services">Services</a>
+          <a href="/#process">Prozess</a>
+          <a href="/#case-study">Projekte</a>
+          <a href="/#models">Modelle</a>
+          <a href="/#faq">FAQ</a>
+          <a href="/#contact" class="btn btn-nav-cta">Kontakt</a>
+          <a href="/apps.html">Apps</a>
+        </div>
+        <button class="nav-toggle" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <section class="apps-page">
+      <div class="container">
+        <a href="/" class="apps-back">← Zurück zur Startseite</a>
+
+        <header class="apps-head">
+          <h1>Apps &amp; Tools</h1>
+          <p>Kostenlose Web-Tools aus dem skale.dev-Labor. Einfach im Browser nutzen – keine Anmeldung erforderlich.</p>
+        </header>
+
+        <div class="app-list">
+
+          <!-- Firmenindex -->
+          <a href="/firmenindex/" class="app-card">
+            <div class="app-shot"><img src="/logos/screenshot-firmenindex.png" alt="Firmenindex Österreich" loading="lazy" /></div>
+            <div class="app-body">
+              <div class="app-header">
+                <div class="app-icon red">FI</div>
+                <div class="app-name">Firmenindex Österreich</div>
+              </div>
+              <p class="app-desc">Firmensuche für Österreich mit über 40.000 Unternehmen. Suche nach Firma, Firmenbuchnummer (FN), Person oder Branche. Durchsucht den gecrawlten Cache in Echtzeit.</p>
+              <div class="app-tags">
+                <span class="app-tag">Österreich</span>
+                <span class="app-tag">FN-Suche</span>
+                <span class="app-tag">Branchen</span>
+                <span class="app-tag">Open Data</span>
+              </div>
+              <span class="app-cta">
+                Öffnen
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 13l5-5-5-5"/><path d="M12 8H2"/></svg>
+              </span>
+            </div>
+          </a>
+
+          <!-- PDF Annotator -->
+          <a href="/pdf-editor" class="app-card">
+            <div class="app-shot"><img src="/logos/screenshot-pdfeditor.png" alt="PDF Annotator" loading="lazy" /></div>
+            <div class="app-body">
+              <div class="app-header">
+                <div class="app-icon blue">PD</div>
+                <div class="app-name">PDF Annotator</div>
+              </div>
+              <p class="app-desc">PDF-Dokumente direkt im Browser annotieren und bearbeiten. Datei hochladen, Text hinzufügen, markieren und speichern — komplett client-seitig, ohne Server-Upload.</p>
+              <div class="app-tags">
+                <span class="app-tag">PDF</span>
+                <span class="app-tag">Annotation</span>
+                <span class="app-tag">Browser</span>
+                <span class="app-tag">Client-seitig</span>
+              </div>
+              <span class="app-cta">
+                Öffnen
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 13l5-5-5-5"/><path d="M12 8H2"/></svg>
+              </span>
+            </div>
+          </a>
+
+          <!-- ChopDok -->
+          <a href="/chopdok" class="app-card">
+            <div class="app-shot"><img src="/logos/screenshot-chopdok.png" alt="ChopDok" loading="lazy" /></div>
+            <div class="app-body">
+              <div class="app-header">
+                <div class="app-icon green">CD</div>
+                <div class="app-name">ChopDok</div>
+              </div>
+              <p class="app-desc">PDF-Seiten einfach aufteilen, extrahieren und neu anordnen. Drag-and-drop Upload, Seiten auswählen, neu zusammenfügen und herunterladen. Kostenlos, werbefrei, ohne Datenerfassung.</p>
+              <div class="app-tags">
+                <span class="app-tag">PDF</span>
+                <span class="app-tag">Seiten</span>
+                <span class="app-tag">Browser</span>
+                <span class="app-tag">No Ads</span>
+              </div>
+              <span class="app-cta">
+                Öffnen
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 13l5-5-5-5"/><path d="M12 8H2"/></svg>
+              </span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <span class="footer-logo"><span class="logo-box small">skale</span><span class="logo-ext">.dev</span></span>
+            <p>AI Engineering<br />Neusiedl am See, Österreich</p>
+          </div>
+          <div class="footer-links">
+            <h4>Services</h4>
+            <a href="/#services">KI-Workflows</a>
+            <a href="/#services">Systemarchitektur</a>
+            <a href="/#services">On-premise</a>
+          </div>
+          <div class="footer-links">
+            <h4>Rechtliches</h4>
+            <a href="/impressum.html">Impressum</a>
+            <a href="/datenschutz.html">Datenschutz</a>
+            <a href="/tos.html">AGB</a>
+          </div>
+          <div class="footer-links">
+            <h4>Weiteres</h4>
+            <a href="/apps.html">Apps &amp; Tools</a>
+            <a href="https://github.com/devskale" target="_blank" rel="noopener">GitHub</a>
+            <a href="mailto:dev@skale.dev">Email</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 skale.dev — DI Johann Waldherr</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      addEventListener('scroll', () => {
+        const nav = document.getElementById('nav');
+        nav.style.background = scrollY > 60 ? 'rgba(10,10,12,0.95)' : 'rgba(10,10,12,0.85)';
+      }, { passive: true });
+      const toggle = document.querySelector('.nav-toggle');
+      const links = document.querySelector('.nav-links');
+      if (toggle && links) {
+        toggle.addEventListener('click', () => {
+          const open = links.style.display === 'flex';
+          links.style.display = open ? '' : 'flex';
+          links.style.position = 'absolute';
+          links.style.top = '68px';
+          links.style.left = '0';
+          links.style.right = '0';
+          links.style.flexDirection = 'column';
+          links.style.background = 'rgba(10,10,12,0.98)';
+          links.style.padding = '16px 24px';
+          links.style.gap = '12px';
+          links.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
+        });
+      }
+    </script>
+  </body>
+</html>

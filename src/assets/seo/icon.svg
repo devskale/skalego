@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#08080a"/>
+  <rect x="92" y="168" width="328" height="176" rx="30" fill="#e53935"/>
+  <text x="256" y="292" text-anchor="middle" font-family="'Inter','Helvetica Neue',Arial,sans-serif" font-size="90" font-weight="800" letter-spacing="-2" fill="#fafafa">skale</text>
+</svg>

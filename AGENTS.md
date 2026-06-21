@@ -1,6 +1,6 @@
 # AGENTS.md — skalego / skale.dev
 
-Relaunch branch: **relaunch2606**  ·  Live: **skale.io**
+Relaunch branch: **relaunch2606**  ·  Live: **skale.dev**
 
 ## Stack
 
@@ -50,7 +50,7 @@ dist/                   ← Gitignored — Vite build output
 - **CSS**: Custom properties (`var(--red)`, `--mono`, etc.) live in `src/styles/tokens.css`. Split across `tokens/base/components/layout`. Fonts: Inter + JetBrains Mono (Google Fonts).
 - **JS imports**: Uses `https://esm.sh/` CDN imports (anime.js). No local node_modules deps at runtime.
 - **German content**: All user-facing text is German. Code comments and variable names in English.
-- **Base URL**: `config.toml` sets `baseURL = "https://skale.io"` with `relativeURLs = "True"`. The live `index.html` uses root-relative paths (`/src/main.js`, `/logos/...`).
+- **Base URL**: `config.toml` sets `baseURL = "https://skale.dev"` with `relativeURLs = "True"`. The live `index.html` uses root-relative paths (`/src/main.js`, `/logos/...`).
 - **Legal pages**: `impressum.html`, `datenschutz.html`, `tos.html` are static HTML at repo root (not Hugo-rendered for the relaunch path).
 
 ## Deployment (Vercel)

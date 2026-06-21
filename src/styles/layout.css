@@ -100,6 +100,10 @@ section#clients { padding: 56px 0 64px; }
     margin-top: 16px; line-height: 1.7; text-wrap: pretty;
 }
 .section-sub.center { text-align: center; margin-left: auto; margin-right: auto; }
+.section-sub-note {
+    font-size: 0.875rem; color: var(--text-faint);
+    max-width: 540px; margin-top: 12px; line-height: 1.7; text-wrap: pretty;
+}
 
 /* ---- CLIENTS BELT ---- */
 .clients-bar {

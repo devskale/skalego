@@ -1,0 +1,14 @@
+# robots.txt — skale.dev
+# AI Engineering für Unternehmen
+
+User-agent: *
+Allow: /
+
+# Tool- und API-Routeten nicht crawlen
+Disallow: /api/
+Disallow: /firmenindex/api
+
+# Sitemap
+Sitemap: https://skale.dev/sitemap.xml
+
+# Für KI-/LLM-Crawler: https://skale.dev/llms.txt

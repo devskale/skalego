@@ -1,17 +1,46 @@
 <!doctype html>
-<html lang="de" data-color-scheme="dark">
+<html lang="de-AT" data-color-scheme="dark">
     <head>
         <meta charset="UTF-8" />
         <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0, viewport-fit=cover"
         />
-        <title>skale.dev - AI Engineering, on-premise</title>
+        <title>skale.dev – AI Engineering &amp; on-premise KI für Unternehmen</title>
         <meta
             name="description"
-            content="Maßgeschneiderte KI-Systeme für Unternehmen. AI Engineering, LLM-Integration und Dokumentenverarbeitung - on-premise, DSGVO-konform, auf eigener Hardware."
+            content="Individuelle KI-Systeme für Unternehmen – on-premise, DSGVO-konform und produktionsreif. AI Engineering aus Österreich. Ihre Daten und Ihr Lernen bleiben im Haus."
         />
+        <meta name="author" content="DI Johann Waldherr – skale.dev" />
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+        <meta name="theme-color" content="#08080a" />
+        <link rel="canonical" href="https://skale.dev/" />
+
+        <!-- Icons / PWA -->
         <link rel="icon" type="image/png" href="/logos/skalelogo_red_trans.png" />
+        <link rel="apple-touch-icon" href="/logos/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+
+        <!-- Open Graph -->
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="skale.dev" />
+        <meta property="og:locale" content="de_AT" />
+        <meta property="og:url" content="https://skale.dev/" />
+        <meta property="og:title" content="skale.dev – AI Engineering für Unternehmen" />
+        <meta property="og:description" content="Individuelle KI-Systeme für Unternehmen. On-premise, DSGVO-konform und produktionsreif. Daten und Lernen bleiben im Haus." />
+        <meta property="og:image" content="https://skale.dev/og-image.png" />
+        <meta property="og:image:secure_url" content="https://skale.dev/og-image.png" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="skale.dev – AI Engineering für Unternehmen" />
+
+        <!-- Twitter / X -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="skale.dev – AI Engineering für Unternehmen" />
+        <meta name="twitter:description" content="Individuelle KI-Systeme für Unternehmen. On-premise, DSGVO-konform und produktionsreif." />
+        <meta name="twitter:image" content="https://skale.dev/og-image.png" />
+
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
@@ -19,6 +48,138 @@
             rel="stylesheet"
         />
         <script>document.documentElement.classList.add('js')</script>
+
+        <!-- Structured data: Organization (ProfessionalService) + WebSite + FAQPage -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "ProfessionalService",
+              "@id": "https://skale.dev/#organization",
+              "name": "skale.dev",
+              "alternateName": "skale tech",
+              "description": "Individuelle KI-Systeme für Unternehmen – AI Engineering, on-premise und DSGVO-konform.",
+              "url": "https://skale.dev/",
+              "email": "dev@skale.dev",
+              "logo": "https://skale.dev/logos/skale-logo.png",
+              "image": "https://skale.dev/og-image.png",
+              "priceRange": "€€€",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Esterhazystrasse 1",
+                "addressLocality": "Neusiedl am See",
+                "postalCode": "7100",
+                "addressCountry": "AT"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 47.949,
+                "longitude": 16.838
+              },
+              "areaServed": [
+                { "@type": "Country", "name": "Österreich" },
+                { "@type": "Country", "name": "Deutschland" }
+              ],
+              "founder": {
+                "@type": "Person",
+                "@id": "https://skale.dev/#founder",
+                "name": "DI Johann Waldherr",
+                "jobTitle": "AI Engineer"
+              },
+              "sameAs": [
+                "https://github.com/devskale"
+              ],
+              "knowsAbout": [
+                "AI Engineering",
+                "On-Premise KI",
+                "Large Language Models",
+                "Retrieval-Augmented Generation",
+                "Dokumentenanalyse",
+                "DSGVO-konforme KI"
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://skale.dev/#website",
+              "url": "https://skale.dev/",
+              "name": "skale.dev",
+              "inLanguage": "de-AT",
+              "publisher": { "@id": "https://skale.dev/#organization" }
+            },
+            {
+              "@type": "FAQPage",
+              "@id": "https://skale.dev/#faqpage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Wie läuft das erste Gespräch ab?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Unverbindlich, etwa 30 Minuten. Wir klären, ob Ihr Use Case KI-tauglich ist und was es für eine Umsetzung braucht. Danach erhalten Sie eine ehrliche Einschätzung."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Bleiben meine Daten bei mir?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Ja. Wir realisieren on-premise oder lokal. Daten verlassen Ihr Unternehmen nur dann, wenn Sie es ausdrücklich wollen."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Brauche ich eine Cloud-Infrastruktur?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Nein. Wir betreiben KI auch auf eigener Hardware vor Ort. Cloud ist eine Option, kein Muss."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Welche Modelle setzen Sie ein?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Vorwiegend Open-Source-Modelle wie Qwen, Llama und spezialisierte Vision-Modelle. Die Auswahl hängt vom Use Case und Ihren Anforderungen ab."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Was kostet ein KI-Projekt?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Das hängt vom Umfang ab. Nach dem Erstgespräch erhalten Sie eine klare Einschätzung von Aufwand und Kosten, bevor Sie sich entscheiden."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "On-premise oder Cloud — was passt zu uns?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Bei sensiblen Daten, regulatorischen Anforderungen oder hohen Abfragemengen lohnt sich on-premise: Die KI läuft auf eigener Hardware, Daten verlassen das Unternehmen nicht. Für maximale Intelligenz oder seltene Abfragen ist die Cloud die einfachere Wahl. Wir beraten ehrlich, was für Ihren Fall besser ist."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Lohnt sich KI für mein Unternehmen überhaupt?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Nicht für jedes Problem. Im Erstgespräch prüfen wir, ob Ihr Use Case tatsächlich von KI profitiert — oder ob eine einfachere Lösung schlauer ist. Wenn KI nicht das richtige Werkzeug ist, sagen wir das offen."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "Können Sie Open-Source-Modelle wie Llama oder Qwen selbst hosten?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Ja. Wir hosten Open-Weight-Modelle wie Llama, Qwen, DeepSeek und GLM auf eigener Hardware — ohne Cloud-Abhängigkeit und ohne pro Token zu zahlen. Die Hardwarekosten stehen fest, die Abrechnung wird berechenbar."
+                  }
+                }
+              ]
+            }
+          ]
+        }
+        </script>
     </head>
     <body>
         <a href="#main" class="skip-link">Zum Inhalt springen</a>
@@ -36,6 +197,7 @@
                     <a href="#case-study">Projekte</a>
                     <a href="#models">Modelle</a>
                     <a href="#faq">FAQ</a>
+                    <a href="/apps.html">Apps</a>
                     <a href="#contact" class="btn btn-nav-cta">Kontakt</a>
                 </div>
                 <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
@@ -52,11 +214,12 @@
                 <div class="hero-content">
                     <div class="hero-badge reveal">AI Engineering</div>
                     <h1 class="hero-title reveal">
-                        KI, die im Unternehmen <span class="accent">funktioniert</span>.
+                        Individuelle KI-Systeme für <span class="accent">Unternehmen</span>.
                     </h1>
                     <p class="hero-sub reveal">
-                        Individuelle KI-Systeme, lokal und on-premise betrieben.
-                        Ihre Daten bleiben, wo sie sind.
+                        KI auf Ihre Prozesse abgestimmt, lokal und on-premise
+                        betrieben. Ihre Daten bleiben, wo sie sind. Ihr Lernen
+                        gehört Ihnen.
                     </p>
                     <div class="hero-actions reveal">
                         <a href="#contact" class="btn btn-primary btn-lg"
@@ -125,11 +288,13 @@
                         </article>
                         <article class="bento-cell">
                             <span class="bento-kicker">03</span>
-                            <h3>Daten bleiben, wo sie sind</h3>
+                            <h3>Ihr Lernen bleibt im Haus</h3>
                             <p>
-                                On-premise, lokal, DSGVO-konform. Kein
-                                Cloud-Zwang, keine Datenabflüsse, keine
-                                Abhängigkeit von Drittanbietern.
+                                On-premise und DSGVO-konform — und mehr
+                                als das: Was Ihre Leute und Prozesse
+                                lernen, fließt in Ihre eigenen Systeme
+                                zurück. Nicht in das Modell eines
+                                Drittanbieters.
                             </p>
                         </article>
                     </div>
@@ -165,8 +330,8 @@
                         </li>
                         <li class="step">
                             <div class="step-marker"><span>4</span></div>
-                            <h3>Betrieb</h3>
-                            <p>Wartung, Updates und kontinuierliche Verbesserung nach dem Go-Live.</p>
+                            <h3>Betrieb &amp; Lern-Loop</h3>
+                            <p>Wartung und Updates — und kontinuierliches Besserwerden: Was im Einsatz auffällt, fließt als Verbesserung zurück. Das System wird mit der Zeit wertvoller, nicht älter.</p>
                         </li>
                     </ol>
                 </div>
@@ -226,6 +391,10 @@
                     <header class="section-head reveal">
                         <h2 class="section-title">Die Modell-Landschaft.</h2>
                         <p class="section-sub">
+                            Modelle sind austauschbar. Was zählt, ist das
+                            System darüber.
+                        </p>
+                        <p class="section-sub-note">
                             Proprietäre Modelle für maximale Intelligenz,
                             über die Cloud. Die kleineren Open-Source-Modelle
                             betreiben wir lokal, auf Ihrer Hardware.
@@ -412,6 +581,56 @@
                                     Erstgespräch erhalten Sie eine klare
                                     Einschätzung von Aufwand und Kosten, bevor
                                     Sie sich entscheiden.
+                                </p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>
+                                <span>On-premise oder Cloud — was passt zu uns?</span>
+                                <span class="faq-icon" aria-hidden="true"></span>
+                            </summary>
+                            <div class="faq-answer">
+                                <p>
+                                    Bei sensiblen Daten, regulatorischen
+                                    Anforderungen oder hohen Abfragemengen
+                                    lohnt sich on-premise: Die KI läuft auf
+                                    eigener Hardware, Daten verlassen das
+                                    Unternehmen nicht. Für maximale Intelligenz
+                                    oder seltene Abfragen ist die Cloud die
+                                    einfachere Wahl. Wir beraten ehrlich, was
+                                    für Ihren Fall besser ist.
+                                </p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>
+                                <span>Lohnt sich KI für mein Unternehmen überhaupt?</span>
+                                <span class="faq-icon" aria-hidden="true"></span>
+                            </summary>
+                            <div class="faq-answer">
+                                <p>
+                                    Nicht für jedes Problem. Im Erstgespräch
+                                    prüfen wir, ob Ihr Use Case tatsächlich von
+                                    KI profitiert — oder ob eine einfachere
+                                    Lösung schlauer ist. Wenn KI nicht das
+                                    richtige Werkzeug ist, sagen wir das
+                                    offen.
+                                </p>
+                            </div>
+                        </details>
+                        <details class="faq-item">
+                            <summary>
+                                <span>Können Sie Open-Source-Modelle wie Llama oder Qwen selbst hosten?</span>
+                                <span class="faq-icon" aria-hidden="true"></span>
+                            </summary>
+                            <div class="faq-answer">
+                                <p>
+                                    Ja. Wir hosten Open-Weight-Modelle wie
+                                    Llama, Qwen, DeepSeek und GLM auf eigener
+                                    Hardware — ohne Cloud-Abhängigkeit und ohne
+                                    pro Token zu zahlen. Die Hardwarekosten
+                                    stehen fest, die Abrechnung wird
+                                    berechenbar.
                                 </p>
                             </div>
                         </details>

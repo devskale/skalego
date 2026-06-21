@@ -1,0 +1,39 @@
+# skale.dev
+
+> AI Engineering für Unternehmen. Individuelle KI-Systeme, on-premise und DSGVO-konform. Sitz in Neusiedl am See, Österreich. Gegründet von DI Johann Waldherr.
+
+## Was wir machen
+Wir bauen maßgeschneiderte KI-Systeme für Unternehmen — KI-Workflows, produktionsreife Architektur und on-premise Betrieb. Daten und gelerntes Wissen bleiben im Haus. DSGVO-konform, lokal betreibbar, nicht an Drittanbieter gebunden.
+
+## Leistungen
+- Maßgeschneiderte KI-Workflows (Use Case bis produktive Pipeline)
+- Produktionsreife KI-Architektur (Modell-Serving, Monitoring, SLAs)
+- On-premise & DSGVO-konforme KI (eigene Hardware, keine Cloud-Pflicht)
+- Dokumentenanalyse (Rechnungserkennung, OCR/HTR, semantische Extraktion)
+- Retrieval-Augmented Generation (RAG)
+
+## Prozess
+Analyse → Prototyp → Integration → Betrieb & Lern-Loop.
+Ehrliche Einschätzung ob KI das Problem wirklich löst, bevor Infrastruktur entsteht.
+
+## Apps & Tools
+- [Firmenindex Österreich](https://skale.dev/firmenindex/): Firmensuche für Österreich (Firma, FN, Person, Branche). Über 40.000 Unternehmen.
+- [PDF Annotator](https://skale.dev/pdf-editor): PDF im Browser annotieren, client-seitig.
+- [ChopDok](https://skale.dev/chopdok): PDF-Seiten aufteilen und neu anordnen, kostenlos, werbefrei.
+
+## Modell-Landschaft
+Wir setzen vorwiegend Open-Source-Modelle ein (Qwen, Llama, DeepSeek, GLM) sowie Cloud-APIs (Claude, GPT, Gemini) je nach Use Case. Modelle sind austauschbar — das System darüber ist das, was zählt.
+
+## Kontakt
+- Website: https://skale.dev
+- E-Mail: dev@skale.dev
+- Standort: Esterhazystrasse 1, 7100 Neusiedl am See, Österreich
+- Gründer: DI Johann Waldherr
+- GitHub: https://github.com/devskale
+
+## Wichtige Seiten
+- [Startseite](https://skale.dev/)
+- [Apps & Tools](https://skale.dev/apps.html)
+- [Impressum](https://skale.dev/impressum.html)
+- [Datenschutzerklärung](https://skale.dev/datenschutz.html)
+- [AGB](https://skale.dev/tos.html)
