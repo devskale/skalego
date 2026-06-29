@@ -23,6 +23,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         apps: resolve(__dirname, 'apps.html'),
+        agentCoding: resolve(__dirname, 'agent-coding.html'),
         impressum: resolve(__dirname, 'impressum.html'),
         datenschutz: resolve(__dirname, 'datenschutz.html'),
         tos: resolve(__dirname, 'tos.html'),
