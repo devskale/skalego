@@ -234,6 +234,52 @@
         letter-spacing: 0.02em;
       }
 
+      .guide-top { position: relative; }
+      .guide-title a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .guide-title a:hover { color: var(--red-bright); }
+      .guide-path-group {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .copy-btn {
+        appearance: none;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        width: 30px;
+        height: 30px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--text-dim);
+        transition: color 0.15s, border-color 0.15s, background 0.15s;
+        flex-shrink: 0;
+      }
+      .copy-btn:hover {
+        color: var(--red-bright);
+        border-color: rgba(229,57,53,0.35);
+        background: rgba(229,57,53,0.06);
+      }
+      .copy-btn:focus-visible {
+        outline: 2px solid var(--red);
+        outline-offset: 2px;
+      }
+      .copy-btn svg { width: 14px; height: 14px; display: block; }
+      .copy-btn.copied {
+        color: #5fd068;
+        border-color: rgba(76,175,80,0.4);
+        background: rgba(76,175,80,0.08);
+      }
+      .copy-btn .icon-check { display: none; }
+      .copy-btn.copied .icon-clip { display: none; }
+      .copy-btn.copied .icon-check { display: block; }
+
       .ac-note {
         margin-top: 2.5rem;
         padding: 18px 22px;
@@ -250,6 +296,7 @@
         .ac-head h1 { font-size: 1.9rem; }
         .repo-card { flex-direction: column; gap: 14px; padding: 20px; }
         .guide-path { display: none; }
+        .guide-top { flex-wrap: wrap; }
       }
     </style>
     <script type="application/ld+json">
@@ -403,11 +450,17 @@
         <div class="guide-list">
 
           <!-- AGENTS.md -->
-          <a class="guide-card" href="/agentsmd" target="_blank" rel="noopener">
+          <article class="guide-card">
             <div class="guide-top">
               <div class="guide-icon red">AM</div>
-              <div class="guide-title">AGENTS.md Best Practices</div>
-              <div class="guide-path">skale.dev/agentsmd</div>
+              <div class="guide-title"><a href="/agentsmd" target="_blank" rel="noopener">AGENTS.md Best Practices</a></div>
+              <div class="guide-path-group">
+                <span class="guide-path">skale.dev/agentsmd</span>
+                <button class="copy-btn" data-copy="https://raw.githubusercontent.com/devskale/skale-skills/refs/heads/main/docs/agents-md-best-practices.md" aria-label="Raw-URL in Zwischenablage kopieren" title="Raw-URL kopieren &amp; in Agent einfügen">
+                  <svg class="icon-clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
             </div>
             <p class="guide-desc">
               Was in eine AGENTS.md gehört &mdash; und was nicht. Inhalte,
@@ -421,14 +474,20 @@
               <span class="guide-tag">Anti-Patterns</span>
               <span class="guide-tag">12 Abschnitte</span>
             </div>
-          </a>
+          </article>
 
           <!-- Agent Skills -->
-          <a class="guide-card" href="/agentskills" target="_blank" rel="noopener">
+          <article class="guide-card">
             <div class="guide-top">
               <div class="guide-icon blue">SK</div>
-              <div class="guide-title">Agent Skills Best Practices</div>
-              <div class="guide-path">skale.dev/agentskills</div>
+              <div class="guide-title"><a href="/agentskills" target="_blank" rel="noopener">Agent Skills Best Practices</a></div>
+              <div class="guide-path-group">
+                <span class="guide-path">skale.dev/agentskills</span>
+                <button class="copy-btn" data-copy="https://raw.githubusercontent.com/devskale/skale-skills/refs/heads/main/docs/agent-skills-best-practices.md" aria-label="Raw-URL in Zwischenablage kopieren" title="Raw-URL kopieren &amp; in Agent einfügen">
+                  <svg class="icon-clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
             </div>
             <p class="guide-desc">
               Das offene Agent-Skills-Format (agentskills.io): SKILL.md-Frontmatter
@@ -442,14 +501,20 @@
               <span class="guide-tag">Taxonomie</span>
               <span class="guide-tag">20 Abschnitte</span>
             </div>
-          </a>
+          </article>
 
           <!-- Pi Extensions -->
-          <a class="guide-card" href="/piextensions" target="_blank" rel="noopener">
+          <article class="guide-card">
             <div class="guide-top">
               <div class="guide-icon green">PE</div>
-              <div class="guide-title">Pi Extensions Best Practices</div>
-              <div class="guide-path">skale.dev/piextensions</div>
+              <div class="guide-title"><a href="/piextensions" target="_blank" rel="noopener">Pi Extensions Best Practices</a></div>
+              <div class="guide-path-group">
+                <span class="guide-path">skale.dev/piextensions</span>
+                <button class="copy-btn" data-copy="https://raw.githubusercontent.com/devskale/skale-skills/refs/heads/main/docs/pi-extensions-best-practices.md" aria-label="Raw-URL in Zwischenablage kopieren" title="Raw-URL kopieren &amp; in Agent einfügen">
+                  <svg class="icon-clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
             </div>
             <p class="guide-desc">
               Ein Feldführer für robuste, komposable und nutzerfreundliche
@@ -464,14 +529,20 @@
               <span class="guide-tag">Lifecycle</span>
               <span class="guide-tag">22 Abschnitte</span>
             </div>
-          </a>
+          </article>
 
           <!-- README -->
-          <a class="guide-card" href="https://github.com/devskale/skale-skills/blob/main/README.md" target="_blank" rel="noopener">
+          <article class="guide-card">
             <div class="guide-top">
               <div class="guide-icon amber">RM</div>
-              <div class="guide-title">skale-skills README</div>
-              <div class="guide-path">README.md</div>
+              <div class="guide-title"><a href="https://github.com/devskale/skale-skills/blob/main/README.md" target="_blank" rel="noopener">skale-skills README</a></div>
+              <div class="guide-path-group">
+                <span class="guide-path">README.md</span>
+                <button class="copy-btn" data-copy="https://raw.githubusercontent.com/devskale/skale-skills/refs/heads/main/README.md" aria-label="Raw-URL in Zwischenablage kopieren" title="Raw-URL kopieren &amp; in Agent einfügen">
+                  <svg class="icon-clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </button>
+              </div>
             </div>
             <p class="guide-desc">
               Der Einstieg ins Paket: vollständige Liste aller Skills, Extensions
@@ -483,7 +554,7 @@
               <span class="guide-tag">Installation</span>
               <span class="guide-tag">readme-write</span>
             </div>
-          </a>
+          </article>
 
         </div>
 
@@ -552,6 +623,32 @@
           links.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
         });
       }
+
+      // Copy raw URL to clipboard (for pasting into an agent)
+      function flashCopied(btn) {
+        const prev = btn.getAttribute('title');
+        btn.classList.add('copied');
+        btn.setAttribute('title', 'Kopiert!');
+        setTimeout(() => { btn.classList.remove('copied'); btn.setAttribute('title', prev); }, 1400);
+      }
+      document.querySelectorAll('.copy-btn').forEach((btn) => {
+        btn.addEventListener('click', async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const url = btn.getAttribute('data-copy');
+          try {
+            await navigator.clipboard.writeText(url);
+            flashCopied(btn);
+          } catch (err) {
+            // Fallback for non-secure contexts
+            const ta = document.createElement('textarea');
+            ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); flashCopied(btn); } catch (_) {}
+            document.body.removeChild(ta);
+          }
+        });
+      });
     </script>
   </body>
 </html>
