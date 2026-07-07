@@ -6,7 +6,7 @@
     { "source": "/firmenindex/api", "destination": "/api/firmenindex-api" },
     { "source": "/credgoo", "destination": "/api/credgoo" },
     { "source": "/uniinfer", "destination": "/api/uniinfer" },
-    { "source": "/chopdok", "destination": "https://chopdok.vercel.app/chopdok/" },
+    { "source": "/chopdok", "destination": "https://chopdok.vercel.app/chopdok" },
     { "source": "/chopdok/:path*", "destination": "https://chopdok.vercel.app/chopdok/:path*" }
   ],
   "redirects": [
