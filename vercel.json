@@ -6,12 +6,12 @@
     { "source": "/firmenindex/api", "destination": "/api/firmenindex-api" },
     { "source": "/credgoo", "destination": "/api/credgoo" },
     { "source": "/uniinfer", "destination": "/api/uniinfer" },
+    { "source": "/chopdok", "destination": "https://chopdok.vercel.app/chopdok" },
+    { "source": "/chopdok/:path*", "destination": "https://chopdok.vercel.app/chopdok/:path*" },
     { "source": "/pdf-editor", "destination": "https://pdf-editor-rouge-psi.vercel.app/" },
     { "source": "/pdf-editor/:path*", "destination": "https://pdf-editor-rouge-psi.vercel.app/:path*" }
   ],
   "redirects": [
-    { "source": "/chopdok", "destination": "https://chopdok.vercel.app/chopdok", "permanent": false },
-    { "source": "/chopdok/:path*", "destination": "https://chopdok.vercel.app/chopdok/:path*", "permanent": false },
     { "source": "/meet", "destination": "https://meet.google.com/uti-zsep-efw", "permanent": true },
     { "source": "/agentsmd", "destination": "https://github.com/devskale/skale-skills/blob/main/docs/agents-md-best-practices.md", "permanent": true },
     { "source": "/agentskills", "destination": "https://github.com/devskale/skale-skills/blob/main/docs/agent-skills-best-practices.md", "permanent": true },
