@@ -23,6 +23,10 @@ pnpm run build
 
 # Preview the production build locally
 pnpm run preview
+
+# Keystatic (dev-only): write/edit blog posts visually at http://localhost:4321/keystatic
+# (excluded from `astro build` → production stays pure static / zero-JS). Edits write
+# .md files into src/content/blog/ via local storage.
 ```
 
 ## Project Structure
