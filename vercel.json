@@ -1,6 +1,6 @@
 {
   "framework": "astro",
-  "buildCommand": "pnpm run build",
+  "buildCommand": "rm -rf .astro && pnpm run build",
   "outputDirectory": "dist",
   "rewrites": [
     { "source": "/firmenindex/api", "destination": "/api/firmenindex-api" },
