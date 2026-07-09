@@ -84,7 +84,7 @@ Astro emits a route per file in `src/pages/`. `format: 'directory'` → `/apps/i
 - **Git push IS the deploy — never use the `vercel` CLI.** Vercel is wired to this repo and auto-builds on every push: `main` → production (skale.dev), any other branch (e.g. `astro`) → an auto-generated **preview** URL. No `vercel deploy` / CLI step is needed or wanted (the local CLI is outdated anyway).
 - **Production branch is `main`.** To go live: commit → `git push origin main`, allow ~30-60s, verify with `curl -sI https://skale.dev/<file>` (200 = live).
 - **Preview a branch**: `git push origin astro`, then grab the preview URL from the Vercel dashboard / GitHub check. It does NOT touch skale.dev.
-- `vercel.json` sets `"framework": null` (Vercel runs our `pnpm run build` → `dist/` and still auto-detects `api/` functions). `buildCommand` = `pnpm run build`, `outputDirectory` = `dist`.
+- `vercel.json` sets `"framework": "astro"` (Vercel runs our `pnpm run build` → `dist/` and auto-detects `api/` functions). `buildCommand` = `pnpm run build`, `outputDirectory` = `dist`.
 - **Rewrites** (clean URLs → handlers): `/firmenindex/api` → `/api/firmenindex-api`; `/credgoo` → `/api/credgoo`; `/uniinfer` → `/api/uniinfer`.
 - **Proxy rewrites** (external Vercel apps under skale.dev): `/chopdok(/.*)` → `https://chopdok.vercel.app/chopdok$1`; `/pdf-editor(/.*)` → `https://pdf-editor-rouge-psi.vercel.app/$1`. Keep deployment URLs in sync with the real Vercel project URLs.
 - **Redirect**: `/meet` → Google Meet; `/agentsmd`, `/agentskills`, `/piextensions` → GitHub guides.
@@ -114,6 +114,7 @@ Screenshots go in `./research/` (gitignored). Rodney skill: `~/.pi/agent/skills/
 
 - **Production deploys from `main`, not `astro`/`relaunch`.** Pushing to the wrong branch = preview or no-deploy. The branch in the header is authoritative.
 - **Static Astro + `api/` functions coexist.** Astro builds `dist/`; Vercel still serves `api/*.js` as serverless functions and applies `vercel.json` rewrites. Don't add the Vercel SSR adapter — we want pure static.
+- **No `pnpm-workspace.yaml`.** Vercel resolves **pnpm@9.x** from the v9 lockfile; pnpm 9 errors (`packages field missing or empty`) on a workspace file that lacks a `packages:` field. The pnpm-10+ `allowBuilds` syntax is incompatible. pnpm 9 doesn't gate build scripts, so no workspace/approval file is needed on Vercel. (Locally pnpm 11 will print an "ignored build scripts" warning on fresh install — harmless, esbuild/sharp aren't invoked at build since we don't use `astro:assets`.)
 - **`public/firmenindex/` is a standalone sub-app** (own HTML/JS, query-param routing) copied verbatim. It is NOT an Astro page — edit its files directly under `public/`.
 - **Hugo legacy** (`config.toml`, `data/`, `static/`, `content/`) coexists but is never built. Changing it does nothing to the live site.
 - **The single client script is `src/scripts/site.js`** (hero particle canvas + scroll-reveal + nav + mobile menu). Astro inlines small scripts; check `dist/` if a feature seems missing.
