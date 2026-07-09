@@ -1,0 +1,328 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const guides = [
+  {
+    iconClass: 'red', icon: 'AM',
+    title: 'AGENTS.md Best Practices',
+    href: '/agentsmd',
+    pathLabel: 'skale.dev/agentsmd',
+    copy: 'https://raw.githubusercontent.com/devskale/skale-skills/refs/heads/main/docs/agents-md-best-practices.md',
+    desc: 'Was in eine AGENTS.md gehört &mdash; und was nicht. Inhalte, Datei-Hierarchie, das Inclusion-Test-Kriterium, Anti-Patterns und eine Cross-Tool-Kompatibilitäts-Referenz (Codex, Cursor, Claude Code, Copilot, Windsurf, Amp, Devin &hellip;).',
+    tags: ['AGENTS.md', 'Cross-Tool', 'Anti-Patterns', '12 Abschnitte'],
+  },
+  {
+    iconClass: 'blue', icon: 'SK',
+    title: 'Agent Skills Best Practices',
+    href: '/agentskills',
+    pathLabel: 'skale.dev/agentskills',
+    copy: 'https://raw.githubusercontent.com/devskale/skale-skills/refs/heads/main/docs/agent-skills-best-practices.md',
+    desc: 'Das offene Agent-Skills-Format (agentskills.io): SKILL.md-Frontmatter und -Body, Progressive Disclosure als Kernarchitektur, Skill-Taxonomie in vier Kategorien, Script-Bundling und der Dev-Loop zum Iterieren eigener Skills.',
+    tags: ['SKILL.md', 'Progressive Disclosure', 'Taxonomie', '20 Abschnitte'],
+  },
+  {
+    iconClass: 'green', icon: 'PE',
+    title: 'Pi Extensions Best Practices',
+    href: '/piextensions',
+    pathLabel: 'skale.dev/piextensions',
+    copy: 'https://raw.githubusercontent.com/devskale/skale-skills/refs/heads/main/docs/pi-extensions-best-practices.md',
+    desc: 'Ein Feldführer für robuste, komposable und nutzerfreundliche Extensions für den <code>pi</code> Coding Agent. Begleitet die offizielle Referenz mit Mustern und Fallstricken: Schema-Design mit TypeBox, State-Management, Output-Truncation, Lifecycle, Tests und Security.',
+    tags: ['pi', 'TypeBox', 'Lifecycle', '22 Abschnitte'],
+  },
+  {
+    iconClass: 'amber', icon: 'RM',
+    title: 'skale-skills README',
+    href: 'https://github.com/devskale/skale-skills/blob/main/README.md',
+    pathLabel: 'README.md',
+    copy: 'https://raw.githubusercontent.com/devskale/skale-skills/refs/heads/main/README.md',
+    desc: 'Der Einstieg ins Paket: vollständige Liste aller Skills, Extensions und Prompts mit Kurzbeschreibung. Plus der <code>readme-write</code>-Skill, der READMEs mit passender Struktur, Badges und Sektionen generiert.',
+    tags: ['Übersicht', 'Installation', 'readme-write'],
+  },
+];
+
+const clipIcon = '<svg class="icon-clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Startseite', item: 'https://skale.dev/' },
+        { '@type': 'ListItem', position: 2, name: 'Agentic Coding', item: 'https://skale.dev/agent-coding/' },
+      ],
+    },
+    {
+      '@type': 'CollectionPage',
+      name: 'Agentic Coding – skale-skills & Guides',
+      url: 'https://skale.dev/agent-coding/',
+      description: 'Open-Source-Arbeit von skale.dev rund um Agentic Coding: das pi-Paket skale-skills und Best-Practice-Guides zu AGENTS.md, Agent Skills und Pi Extensions.',
+      isPartOf: { '@id': 'https://skale.dev/#website' },
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, item: { '@type': 'SoftwareApplication', name: 'AGENTS.md Best Practices', applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', url: guides[0].copy, description: guides[0].desc } },
+          { '@type': 'ListItem', position: 2, item: { '@type': 'SoftwareApplication', name: 'Agent Skills Best Practices', applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', url: guides[1].copy, description: guides[1].desc } },
+          { '@type': 'ListItem', position: 3, item: { '@type': 'SoftwareApplication', name: 'Pi Extensions Best Practices', applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', url: guides[2].copy, description: guides[2].desc } },
+          { '@type': 'ListItem', position: 4, item: { '@type': 'SoftwareApplication', name: 'skale-skills README', applicationCategory: 'DeveloperApplication', operatingSystem: 'Any', url: guides[3].copy, description: guides[3].desc } },
+        ],
+      },
+    },
+  ],
+};
+
+const title = 'Agentic Coding – skale-skills & Guides – skale.dev';
+const description = 'Open-Source-Arbeit von skale.dev rund um Agentic Coding: das pi-Paket skale-skills mit Skills, Extensions und Prompts plus Best-Practice-Guides zu AGENTS.md, Agent Skills und Pi Extensions.';
+---
+
+<BaseLayout title={title} description={description} path="/agent-coding/">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
+  </Fragment>
+
+  <section class="ac-page">
+    <div class="container">
+      <a href="/" class="apps-back">← Zurück zur Startseite</a>
+
+      <header class="ac-head">
+        <h1>Agentic Coding.</h1>
+        <p>
+          Neben Kundenprojekten entsteht hier Open-Source-Arbeit für
+          AI-Coding-Agenten. Im Mittelpunkt steht
+          <strong style="color:var(--text-bright)">skale-skills</strong> &mdash;
+          ein Paket mit Skills, Extensions und Prompts &mdash; plus eine
+          wachsende Sammlung an Best-Practice-Guides für Agenten-Entwicklung.
+        </p>
+      </header>
+
+      <!-- REPO -->
+      <a class="repo-card" href="https://github.com/devskale/skale-skills" target="_blank" rel="noopener">
+        <div class="repo-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="color:var(--text-bright)"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-1.8c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 .1.8 1.7 2.6 1.2.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.6 18 4.9 18 4.9c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+        </div>
+        <div class="repo-body">
+          <div class="repo-name">devskale<span class="path">/skale-skills</span></div>
+          <p class="repo-desc">
+            Ein <code>pi</code>-Paket mit Skills, Extensions und Prompts für AI-Coding-Agenten. Funktioniert
+            mit pi, Claude Code, Codex, OpenCode und anderen. Skills decken Web-Suche,
+            Web-Extraktion, YouTube, Headless-Browser-Automatisierung, TODO-Tracking
+            und mehr ab &mdash; plus Werkzeuge zum Erstellen eigener Skills und
+            AGENTS.md-Dateien.
+          </p>
+          <div class="repo-meta">
+            <span>★ Open Source</span>
+            <span>· pi / Claude Code / Codex</span>
+            <span>· Skills · Extensions · Prompts</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- INSTALL -->
+      <div class="install">
+        <div class="install-bar"><span>install</span></div>
+        <pre><span class="c"># Alles installieren (pi)</span>
+<span class="p">pi</span> install git:github.com/devskale/skale-skills
+
+<span class="c"># Oder erst ausprobieren, ohne zu installieren</span>
+<span class="p">pi</span> -e git:github.com/devskale/skale-skills</pre>
+      </div>
+
+      <h2 class="ac-section-head">Best-Practice-Guides</h2>
+
+      <div class="guide-list">
+        {guides.map((g) => (
+          <article class="guide-card">
+            <div class="guide-top">
+              <div class={`guide-icon ${g.iconClass}`}>{g.icon}</div>
+              <div class="guide-title"><a href={g.href} target="_blank" rel="noopener">{g.title}</a></div>
+              <div class="guide-path-group">
+                <span class="guide-path">{g.pathLabel}</span>
+                <button
+                  class="copy-btn"
+                  data-copy={g.copy}
+                  aria-label="Raw-URL in Zwischenablage kopieren"
+                  title="Raw-URL kopieren &amp; in Agent einfügen"
+                ><Fragment set:html={clipIcon} /></button>
+              </div>
+            </div>
+            <p class="guide-desc" set:html={g.desc}></p>
+            <div class="guide-tags">
+              {g.tags.map((t) => <span class="guide-tag">{t}</span>)}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div class="ac-note">
+        <strong>Warum Open Source?</strong> Wir bauen täglich mit AI-Coding-Agenten
+        &mdash; die Skills und Guides sind Abfallprodukte echter Arbeit, aufgeräumt
+        und weitergegeben. Alles bleibt frei nutzbar; Feedback und PRs willkommen.
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  .ac-page { padding: 120px 0 80px; }
+  .ac-page .container { max-width: 980px; }
+
+  .apps-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--text-dim); text-decoration: none;
+    font-size: 0.9rem; margin-bottom: 2rem; transition: color 0.2s;
+  }
+  .apps-back:hover { color: var(--red); }
+
+  .ac-head h1 {
+    font-size: 2.4rem; font-weight: 800; margin-bottom: 0.6rem;
+    color: var(--text-bright); letter-spacing: -0.5px;
+  }
+  .ac-head p { font-size: 1.08rem; color: var(--text-dim); max-width: 620px; line-height: 1.65; }
+  .ac-head code { font-family: var(--mono); font-size: .9em; }
+
+  .repo-card {
+    margin-top: 2.5rem;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px 26px;
+    display: flex; align-items: flex-start; gap: 20px;
+    text-decoration: none; color: inherit;
+    transition: border-color 0.2s, transform 0.2s, background 0.2s;
+  }
+  .repo-card:hover { border-color: rgba(229,57,53,0.35); transform: translateY(-2px); background: var(--bg-card-hover); }
+  .repo-mark {
+    width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  }
+  .repo-mark svg { width: 22px; height: 22px; }
+  .repo-body { min-width: 0; flex: 1; }
+  .repo-name { font-family: var(--mono); font-size: 1.05rem; font-weight: 700; color: var(--text-bright); margin-bottom: 4px; }
+  .repo-name .path { color: var(--text-dim); font-weight: 500; }
+  .repo-desc { font-size: 0.92rem; color: var(--text); line-height: 1.6; margin-bottom: 12px; }
+  .repo-desc code { font-family: var(--mono); font-size: .9em; }
+  .repo-meta { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.8rem; color: var(--text-dim); font-family: var(--mono); }
+
+  .install {
+    margin-top: 28px; background: var(--bg-alt);
+    border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+  }
+  .install-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02);
+  }
+  .install-bar span { font-family: var(--mono); font-size: 0.76rem; color: var(--text-dim); letter-spacing: 0.03em; }
+  .install pre {
+    margin: 0; padding: 16px 18px; font-family: var(--mono);
+    font-size: 0.86rem; line-height: 1.7; color: var(--text-bright); overflow-x: auto;
+  }
+  .install pre .c { color: var(--text-faint); }
+  .install pre .p { color: var(--red); }
+
+  .ac-section-head {
+    margin: 3.5rem 0 0.4rem; font-size: 0.78rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-dim); font-family: var(--mono);
+  }
+
+  .guide-list { display: grid; gap: 16px; margin-top: 1.4rem; }
+  .guide-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 22px 24px;
+    text-decoration: none; color: inherit;
+    transition: border-color 0.2s, transform 0.2s, background 0.2s; display: block;
+  }
+  .guide-card:hover { border-color: rgba(229,57,53,0.35); transform: translateY(-2px); background: var(--bg-card-hover); }
+  .guide-top { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; position: relative; }
+  .guide-icon {
+    width: 36px; height: 36px; border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 0.82rem; font-weight: 700; flex-shrink: 0;
+  }
+  .guide-icon.red   { background: rgba(229,57,53,0.12); color: #ff6a5f; }
+  .guide-icon.blue  { background: rgba(66,133,244,0.12); color: #6ea8ff; }
+  .guide-icon.green { background: rgba(76,175,80,0.12); color: #5fd068; }
+  .guide-icon.amber { background: rgba(255,176,32,0.12); color: #ffc24a; }
+  .guide-title { font-size: 1.08rem; font-weight: 700; color: var(--text-bright); }
+  .guide-title a { color: inherit; text-decoration: none; }
+  .guide-title a:hover { color: var(--red-bright); }
+  .guide-path-group { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; }
+  .guide-path { font-family: var(--mono); font-size: 0.74rem; color: var(--text-faint); white-space: nowrap; }
+  .guide-desc { font-size: 0.92rem; color: var(--text); line-height: 1.6; margin-bottom: 12px; }
+  .guide-desc code { font-family: var(--mono); font-size: .9em; }
+  .guide-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .guide-tag {
+    font-family: var(--mono); font-size: 0.68rem; padding: 2px 7px;
+    border-radius: 5px; background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border); color: var(--text-dim); letter-spacing: 0.02em;
+  }
+
+  .copy-btn {
+    appearance: none; background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border); border-radius: 6px;
+    width: 30px; height: 30px;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--text-dim);
+    transition: color 0.15s, border-color 0.15s, background 0.15s; flex-shrink: 0;
+  }
+  .copy-btn:hover { color: var(--red-bright); border-color: rgba(229,57,53,0.35); background: rgba(229,57,53,0.06); }
+  .copy-btn:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+  .copy-btn svg { width: 14px; height: 14px; display: block; }
+  .copy-btn.copied { color: #5fd068; border-color: rgba(76,175,80,0.4); background: rgba(76,175,80,0.08); }
+  .copy-btn .icon-check { display: none; }
+  .copy-btn.copied .icon-clip { display: none; }
+  .copy-btn.copied .icon-check { display: block; }
+
+  .ac-note {
+    margin-top: 2.5rem; padding: 18px 22px; border-radius: var(--radius);
+    border: 1px solid var(--border); background: var(--red-soft);
+    font-size: 0.9rem; line-height: 1.6; color: var(--text);
+  }
+  .ac-note strong { color: var(--text-bright); }
+
+  @media (max-width: 640px) {
+    .ac-head h1 { font-size: 1.9rem; }
+    .repo-card { flex-direction: column; gap: 14px; padding: 20px; }
+    .guide-path { display: none; }
+    .guide-top { flex-wrap: wrap; }
+  }
+</style>
+
+<script>
+  // Copy raw URL to clipboard (for pasting into an agent)
+  function flashCopied(btn: HTMLElement) {
+    const prev = btn.getAttribute('title');
+    btn.classList.add('copied');
+    btn.setAttribute('title', 'Kopiert!');
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      if (prev) btn.setAttribute('title', prev);
+    }, 1400);
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.copy-btn').forEach((btn) => {
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const url = btn.getAttribute('data-copy');
+      if (!url) return;
+      try {
+        await navigator.clipboard.writeText(url);
+        flashCopied(btn);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          flashCopied(btn);
+        } catch {
+          /* ignore */
+        }
+        document.body.removeChild(ta);
+      }
+    });
+  });
+</script>

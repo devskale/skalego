@@ -1,0 +1,72 @@
+---
+// Models — intelligence vs. cost landscape. Data from artificialanalysis.ai (June 2026).
+import { models } from '@data/site.js';
+---
+
+<section id="models">
+  <div class="container">
+    <header class="section-head reveal">
+      <h2 class="section-title">Die Modell-Landschaft.</h2>
+      <p class="section-sub">
+        Modelle sind austauschbar. Was zählt, ist das
+        System darüber.
+      </p>
+      <p class="section-sub-note">
+        Proprietäre Modelle für maximale Intelligenz,
+        über die Cloud. Die kleineren Open-Source-Modelle
+        betreiben wir lokal, auf Ihrer Hardware.
+      </p>
+    </header>
+
+    <div class="table-scroll reveal">
+      <div class="table-scroll-inner">
+        <table class="models-table">
+          <thead>
+            <tr>
+              <th scope="col">Modell</th>
+              <th scope="col" class="num">
+                <span class="th-label">Intelligenz *</span>
+                <span class="th-unit">Index v4</span>
+              </th>
+              <th scope="col" class="num">
+                <span class="th-label">Output</span>
+                <span class="th-unit">$/1M Tokens</span>
+              </th>
+              <th scope="col" class="num">
+                <span class="th-label">Blended</span>
+                <span class="th-unit">$/1M Tokens</span>
+              </th>
+              <th scope="col" class="col-lic">
+                <span class="th-label">Lizenz</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {models.map((m) => (
+              <tr>
+                <td><span class="model-name">{m.name}</span><span class="model-creator">{m.creator}</span></td>
+                <td class="num idx">{m.idx}</td>
+                <td class="num price">{m.price}</td>
+                <td class="num blended">{m.blended}</td>
+                <td class="lic"><span class={`lic-tag ${m.open ? 'lic-open' : 'lic-prop'}`}>{m.lic}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="table-notes reveal">
+      <dl>
+        <dt>* Intelligenz</dt>
+        <dd>Artificial Analysis Intelligence Index v4. Höher bedeutet intelligenter.</dd>
+        <dt>Output</dt>
+        <dd>Preis pro 1 Million Ausgabe-Tokens. Der teuerste Preisbestandteil.</dd>
+        <dt>Blended</dt>
+        <dd>Gemittelter API-Preis (AA-Formel: 7 × Cache + 2 × Input + Output, durch 10). Beim Self-Hosting entfällt er; hier als Referenz für das Preis-Leistungs-Verhältnis.</dd>
+        <dt>Lizenz</dt>
+        <dd>Proprietär: nur Cloud-API, nicht selbst hostbar. Open: kleinere Open-Weight-Modelle, die auf eigener Hardware laufen. Die realen Kosten sind dann die Hardware.</dd>
+      </dl>
+      <p class="table-source">Quelle: artificialanalysis.ai, Stand Juni 2026. Preise in USD pro 1M Tokens.</p>
+    </div>
+  </div>
+</section>

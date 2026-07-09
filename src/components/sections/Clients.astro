@@ -1,0 +1,28 @@
+---
+// Clients belt — marquee of customer logos. Belt paused on hover (layout.css).
+const logos = [
+  { src: '/sylents.png', alt: 'sylents', dark: true },
+  { src: '/wwhb.png', alt: 'WWHB', dark: true },
+  { src: '/meduni.png', alt: 'MedUni Wien', dark: true },
+  { src: '/gwenenergiespeicher.png', alt: 'gwen energiespeicher', dark: false },
+  { src: '/Vectacore.png', alt: 'Vectacore', dark: true },
+];
+---
+
+<section id="clients" class="clients-bar">
+  <p class="belt-label reveal">Im Einsatz bei</p>
+  <div class="belt-mask">
+    <div class="belt-track">
+      <div class="belt-copy">
+        {logos.map((l) => (
+          <img src={l.src} alt={l.alt} class={`belt-logo ${l.dark ? 'belt-logo-dark' : ''}`} loading="lazy" />
+        ))}
+      </div>
+      <div class="belt-copy" aria-hidden="true">
+        {logos.map((l) => (
+          <img src={l.src} alt="" class={`belt-logo ${l.dark ? 'belt-logo-dark' : ''}`} loading="lazy" />
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

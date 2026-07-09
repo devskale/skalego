@@ -1,0 +1,28 @@
+---
+// Primary nav. Same markup/classes as the original index.html so layout.css
+// applies unchanged. Links use /#section so they resolve from any page.
+const links = [
+  { href: '/#services', label: 'Services' },
+  { href: '/#process', label: 'Prozess' },
+  { href: '/#case-study', label: 'Projekte' },
+  { href: '/#models', label: 'Modelle' },
+  { href: '/#faq', label: 'FAQ' },
+  { href: '/agent-coding/', label: 'Agentic' },
+  { href: '/apps/', label: 'Apps' },
+];
+---
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo" aria-label="skale.dev Startseite">
+      <span class="logo-box">skale</span><span class="logo-ext">.dev</span>
+    </a>
+    <div class="nav-links">
+      {links.map((l) => <a href={l.href}>{l.label}</a>)}
+      <a href="/#contact" class="btn btn-nav-cta">Kontakt</a>
+    </div>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>

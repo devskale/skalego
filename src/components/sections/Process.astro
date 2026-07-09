@@ -1,0 +1,31 @@
+---
+// Process — four-step stepper.
+const steps = [
+  { n: '1', title: 'Analyse', text: 'Use Cases, Datenlage und Prozesse verstehen. Wir prüfen, ob KI das Problem wirklich löst.' },
+  { n: '2', title: 'Prototyp', text: 'Ein MVP mit Ihren echten Daten. Schnell validierbar, bevor teure Infrastruktur entsteht.' },
+  { n: '3', title: 'Integration', text: 'Anbindung an bestehende Systeme. Produktionssicher, dokumentiert, mit Monitoring.' },
+  { n: '4', title: 'Betrieb & Lern-Loop', text: 'Wartung und Updates — und kontinuierliches Besserwerden: Was im Einsatz auffällt, fließt als Verbesserung zurück. Das System wird mit der Zeit wertvoller, nicht älter.' },
+];
+---
+
+<section id="process">
+  <div class="container">
+    <header class="section-head reveal">
+      <h2 class="section-title">So arbeiten wir.</h2>
+      <p class="section-sub">
+        Ein klarer Prozess statt Bauchgefühl. In vier
+        Schritten vom Use Case bis zum produktiven Betrieb.
+      </p>
+    </header>
+
+    <ol class="stepper reveal">
+      {steps.map((s) => (
+        <li class="step">
+          <div class="step-marker"><span>{s.n}</span></div>
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

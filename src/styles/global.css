@@ -1,4 +1,271 @@
 /* ============================================================
+   global.css — skale.dev design system
+   tokens → base → components → layout (merged from Vite modules)
+   ============================================================ */
+
+/* ============================================================
+   tokens.css - Design Tokens
+   Single source of truth for color, type, radius, motion.
+   Accent lock: --red everywhere. One accent only.
+   ============================================================ */
+
+:root {
+    color-scheme: dark;
+
+    /* surfaces */
+    --bg: #08080a;
+    --bg-alt: #0d0d10;
+    --bg-card: rgba(255, 255, 255, 0.025);
+    --bg-card-hover: rgba(255, 255, 255, 0.045);
+
+    /* accent (single, locked) */
+    --red: #e53935;
+    --red-bright: #ff5a4d;
+    --red-dark: #b71c1c;
+    --red-glow: rgba(229, 57, 53, 0.12);
+    --red-soft: rgba(229, 57, 53, 0.06);
+
+    /* text */
+    --text: #d4d4d8;
+    --text-dim: #71717a;
+    --text-faint: #52525b;
+    --text-bright: #fafafa;
+
+    /* lines */
+    --border: rgba(255, 255, 255, 0.07);
+    --border-strong: rgba(255, 255, 255, 0.12);
+
+    /* type */
+    --font: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --display: "Inter Tight", "Inter", -apple-system, sans-serif;
+    --mono: "JetBrains Mono", "Fira Code", monospace;
+
+    /* radii (locked system) */
+    --radius-sm: 8px;
+    --radius: 12px;
+    --radius-pill: 100px;
+
+    /* motion */
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ============================================================
+   base.css - Reset, global element defaults, utilities
+   ============================================================ */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
+
+* { scrollbar-width: thin; scrollbar-color: var(--bg-alt) transparent; }
+*::-webkit-scrollbar { width: 6px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: #1c1c20; border-radius: 3px; }
+
+body {
+    font-family: var(--font);
+    font-size: 15px;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--red); color: #fff; }
+
+/* ---- LAYOUT CONTAINER ---- */
+.container { max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+.container.narrow { max-width: 760px; }
+
+/* ---- SKIP LINK (a11y) ---- */
+.skip-link {
+    position: absolute; top: -100%; left: 16px; z-index: 2000;
+    padding: 10px 18px; background: var(--red); color: #fff;
+    font-weight: 600; font-size: 0.85rem; text-decoration: none;
+    border-radius: var(--radius-sm); transition: top 0.2s var(--ease);
+}
+.skip-link:focus { top: 12px; }
+
+/* ---- NAV SENTINEL (scroll detection, no scroll listener) ---- */
+.nav-sentinel { position: relative; height: 1px; width: 100%; pointer-events: none; }
+
+/* ---- SCROLL REVEAL (hidden only when JS is present) ---- */
+.js .reveal { opacity: 0; transform: translateY(22px); will-change: transform, opacity;
+    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
+.js .reveal.is-visible { opacity: 1; transform: none; }
+.js .hero-content .reveal { transition-delay: 0s; }
+.js .hero-content .reveal:nth-child(2) { transition-delay: 0.08s; }
+.js .hero-content .reveal:nth-child(3) { transition-delay: 0.16s; }
+.js .hero-content .reveal:nth-child(4) { transition-delay: 0.24s; }
+
+/* ---- REDUCED MOTION (global) ---- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important; scroll-behavior: auto !important;
+    }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    #hero-canvas, .hero-glow { display: none; }
+    .belt-track { animation: none; }
+}
+
+/* ============================================================
+   components.css - Reusable UI components
+   Brand mark, buttons, models table, FAQ accordion.
+   ============================================================ */
+
+/* ---- BRAND MARK ---- */
+.logo-box {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--red); color: #0a0a0c;
+    font-family: var(--mono); font-weight: 700; font-size: 1.05rem;
+    padding: 5px 11px; border-radius: var(--radius-sm);
+    letter-spacing: -0.4px; line-height: 1;
+}
+.logo-box.small { font-size: 0.9rem; padding: 4px 9px; }
+.logo-ext {
+    font-family: var(--mono); font-size: 0.78rem; font-weight: 500;
+    color: var(--text-dim); letter-spacing: -0.2px; padding-left: 4px;
+}
+
+/* ---- BUTTONS ---- */
+.btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 11px 22px; border-radius: var(--radius-sm); font-size: 0.92rem;
+    font-weight: 600; text-decoration: none; cursor: pointer; border: none;
+    font-family: var(--font); line-height: 1; white-space: nowrap;
+    transition: background 0.18s var(--ease), transform 0.18s var(--ease),
+                box-shadow 0.18s var(--ease), border-color 0.18s var(--ease), color 0.18s var(--ease);
+    touch-action: manipulation;
+}
+.btn:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+.btn-primary { background: var(--red); color: #fff; box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset; }
+.btn-primary:hover { background: var(--red-bright); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(229,57,53,0.28); }
+.btn-primary:active { transform: translateY(0) scale(0.98); }
+.btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border-strong); }
+.btn-outline:hover { border-color: var(--text-dim); color: var(--text-bright); background: var(--bg-card); }
+.btn-outline:active { transform: scale(0.98); }
+.btn-lg { padding: 15px 30px; font-size: 1rem; }
+
+/* nav CTA: ghost button variant */
+.btn-nav-cta {
+    color: var(--text) !important; padding: 8px 16px !important;
+    border: 1px solid var(--border) !important; border-radius: var(--radius-sm) !important;
+    font-weight: 500 !important; transition: border-color 0.18s var(--ease), color 0.18s var(--ease), background 0.18s var(--ease);
+}
+.btn-nav-cta:hover { color: var(--text-bright) !important; border-color: var(--red) !important; background: var(--red-soft) !important; }
+
+/* ---- MODELS TABLE ---- */
+.table-scroll { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.table-scroll-inner { overflow-x: auto; }
+.models-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; min-width: 600px; }
+.models-table thead th {
+    text-align: left; padding: 16px 20px;
+    background: var(--bg-alt); border-bottom: 1px solid var(--border);
+    white-space: nowrap; vertical-align: bottom;
+}
+.models-table th .th-label {
+    display: block; font-family: var(--mono); font-size: 0.72rem; font-weight: 500;
+    color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.models-table th .th-unit {
+    display: block; font-family: var(--mono); font-size: 0.64rem; font-weight: 400;
+    color: var(--text-faint); letter-spacing: 0.04em; margin-top: 3px;
+}
+.models-table th.num, .models-table td.num { text-align: right; }
+.models-table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.18s var(--ease); }
+.models-table tbody tr:last-child { border-bottom: none; }
+.models-table tbody tr:hover { background: var(--bg-card); }
+.models-table td { padding: 15px 20px; vertical-align: middle; }
+.models-table .model-name {
+    font-weight: 600; color: var(--text-bright); letter-spacing: -0.01em;
+    display: block; line-height: 1.3;
+}
+.models-table .model-creator {
+    display: block; font-size: 0.76rem; color: var(--text-faint);
+    font-weight: 400; margin-top: 1px;
+}
+.models-table .num {
+    font-family: var(--mono); font-feature-settings: "tnum" 1;
+    font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.models-table .idx { color: var(--text-bright); font-weight: 600; }
+.models-table .price { color: var(--text-faint); }
+.models-table .blended { color: var(--text); font-weight: 500; }
+.models-table th.col-lic, .models-table td.lic { text-align: left; }
+.models-table .lic-tag {
+    display: inline-block; font-family: var(--mono); font-size: 0.72rem;
+    letter-spacing: 0.02em; padding: 3px 10px; border-radius: var(--radius-sm);
+    border: 1px solid var(--border); white-space: nowrap;
+}
+.models-table .lic-open { color: var(--red-bright); border-color: rgba(229, 57, 53, 0.3); background: var(--red-soft); }
+.models-table .lic-prop { color: var(--text-faint); }
+
+/* ---- MODELS TABLE on mobile: sticky first column + scroll hint ---- */
+@media (max-width: 760px) {
+    .table-scroll-inner {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .models-table th:first-child,
+    .models-table td:first-child {
+        position: sticky; left: 0; z-index: 2;
+        background: var(--bg);
+        box-shadow: 6px 0 12px -8px rgba(0,0,0,0.7);
+    }
+    .models-table thead th:first-child { background: var(--bg-alt); }
+    /* subtle hint that the table scrolls */
+    .table-scroll::after {
+        content: "\2194  wischen zum Scrollen";
+        display: block; text-align: center;
+        font-family: var(--mono); font-size: 0.7rem;
+        color: var(--text-faint); padding: 10px 0 0;
+        letter-spacing: 0.02em;
+    }
+}
+.table-notes { margin-top: 22px; }
+.table-notes dl { display: grid; grid-template-columns: max-content 1fr; gap: 9px 20px; margin-bottom: 16px; }
+.table-notes dt { font-family: var(--mono); font-size: 0.78rem; color: var(--text-dim); font-weight: 500; padding-top: 1px; }
+.table-notes dd { font-size: 0.84rem; color: var(--text-faint); line-height: 1.6; }
+.table-notes .table-source { font-size: 0.76rem; color: var(--text-faint); font-family: var(--mono); }
+
+/* ---- FAQ ACCORDION ---- */
+.faq { display: flex; flex-direction: column; }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-item:first-child { border-top: 1px solid var(--border); }
+.faq-item summary {
+    list-style: none; cursor: pointer; padding: 22px 4px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    font-family: var(--display); font-size: 1.05rem; font-weight: 500;
+    color: var(--text-bright); letter-spacing: -0.01em;
+    transition: color 0.18s var(--ease);
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary:hover { color: var(--red-bright); }
+.faq-item summary:focus-visible { outline: 2px solid var(--red); outline-offset: 4px; border-radius: 4px; }
+.faq-icon { flex-shrink: 0; width: 16px; height: 16px; position: relative; }
+.faq-icon::before, .faq-icon::after {
+    content: ""; position: absolute; top: 50%; left: 50%;
+    background: var(--text-dim); border-radius: 1px; transition: transform 0.25s var(--ease), background 0.25s var(--ease);
+}
+.faq-icon::before { width: 12px; height: 1.5px; transform: translate(-50%, -50%); }
+.faq-icon::after { width: 1.5px; height: 12px; transform: translate(-50%, -50%); }
+.faq-item[open] .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+.faq-item[open] .faq-icon::before { background: var(--red); }
+.faq-answer { padding: 0 4px 24px; max-width: 62ch; }
+.faq-answer p { font-size: 0.95rem; color: var(--text-dim); line-height: 1.7; }
+
+/* ============================================================
    layout.css - Page structure + section blocks + breakpoints
    Nav, hero, section scaffolding, each content section, footer.
    ============================================================ */

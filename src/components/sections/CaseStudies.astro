@@ -1,0 +1,42 @@
+---
+// Case studies — two concrete implementation examples.
+const cases = [
+  {
+    label: 'Rechnungserkennung',
+    title: 'Rechnungen automatisch strukturieren',
+    body: 'Mehrseitige Rechnungen werden gescannt, verstanden und in ein standardisiertes Format überführt. Vollständig lokal, ohne dass Daten das Unternehmen verlassen.',
+    tech: ['Qwen 3.6 35B (lokal)', 'Vision-Layout-Erkennung', 'Strukturierte JSON-Ausgabe', 'On-premise Infrastruktur'],
+  },
+  {
+    label: 'Schwierige Dokumente',
+    title: 'Auch dort, wo OCR versagt',
+    body: 'Formulare, handschriftliche Notizen, eingescannte Akten. Die KI erkennt den Inhalt auch bei schlechter Qualität und liefert strukturierte Daten aus Chaos.',
+    tech: ['Multimodale Dokumentenanalyse', 'Handschriftenerkennung (HTR)', 'Semantische Extraktion', 'Workflow-Integration'],
+  },
+];
+---
+
+<section id="case-study">
+  <div class="container">
+    <header class="section-head reveal">
+      <h2 class="section-title">Aus der Praxis.</h2>
+      <p class="section-sub">
+        Konkrete Probleme, konkrete Modelle. Zwei Beispiele
+        aus laufenden Implementierungen.
+      </p>
+    </header>
+
+    <div class="case-grid">
+      {cases.map((c) => (
+        <article class="case-card reveal">
+          <div class="case-label">{c.label}</div>
+          <h3>{c.title}</h3>
+          <p>{c.body}</p>
+          <ul class="case-tech">
+            {c.tech.map((t) => <li>{t}</li>)}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

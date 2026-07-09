@@ -1,0 +1,70 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import Clients from '@components/sections/Clients.astro';
+import Services from '@components/sections/Services.astro';
+import Process from '@components/sections/Process.astro';
+import CaseStudies from '@components/sections/CaseStudies.astro';
+import Models from '@components/sections/Models.astro';
+import FAQ from '@components/sections/FAQ.astro';
+import Contact from '@components/sections/Contact.astro';
+import { organization, faqs } from '@data/site.js';
+
+// Structured data: Organization (ProfessionalService) + WebSite + FAQPage.
+// FAQ answers are sourced from the same array as the visible <details>.
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'ProfessionalService',
+      '@id': 'https://skale.dev/#organization',
+      name: organization.name,
+      alternateName: organization.alternateName,
+      description: organization.description,
+      url: organization.url,
+      email: organization.email,
+      logo: organization.logo,
+      image: organization.image,
+      priceRange: organization.priceRange,
+      address: { '@type': 'PostalAddress', ...organization.address },
+      geo: { '@type': 'GeoCoordinates', ...organization.geo },
+      areaServed: organization.areaServed,
+      founder: { '@type': 'Person', '@id': 'https://skale.dev/#founder', ...organization.founder },
+      sameAs: organization.sameAs,
+      knowsAbout: organization.knowsAbout,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://skale.dev/#website',
+      url: organization.url,
+      name: organization.name,
+      inLanguage: 'de-AT',
+      publisher: { '@id': 'https://skale.dev/#organization' },
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': 'https://skale.dev/#faqpage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+  ],
+};
+---
+
+<BaseLayout title="skale.dev – AI Engineering & on-premise KI für Unternehmen">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
+  </Fragment>
+
+  <Hero />
+  <Clients />
+  <Services />
+  <Process />
+  <CaseStudies />
+  <Models />
+  <FAQ />
+  <Contact />
+</BaseLayout>
