@@ -12,6 +12,11 @@
     { "source": "/pdf-editor/:path*", "destination": "https://pdf-editor-rouge-psi.vercel.app/:path*" }
   ],
   "redirects": [
+    { "source": "/apps.html", "destination": "/apps/", "permanent": true },
+    { "source": "/impressum.html", "destination": "/impressum/", "permanent": true },
+    { "source": "/datenschutz.html", "destination": "/datenschutz/", "permanent": true },
+    { "source": "/tos.html", "destination": "/tos/", "permanent": true },
+    { "source": "/agent-coding.html", "destination": "/agent-coding/", "permanent": true },
     { "source": "/meet", "destination": "https://meet.google.com/uti-zsep-efw", "permanent": true },
     { "source": "/agentsmd", "destination": "https://github.com/devskale/skale-skills/blob/main/docs/agents-md-best-practices.md", "permanent": true },
     { "source": "/agentskills", "destination": "https://github.com/devskale/skale-skills/blob/main/docs/agent-skills-best-practices.md", "permanent": true },
