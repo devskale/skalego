@@ -1,0 +1,179 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { authorName } from '@lib/authors';
+import { getBlogPostingSchema } from '@lib/schema';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) =>
+    import.meta.env.PROD ? data.draft !== true : true
+  );
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const schema = getBlogPostingSchema(post);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('de-AT', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<BaseLayout title={`${post.data.title} – skale.dev`} description={post.data.description} path={`/blog/${post.id}/`}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </Fragment>
+
+  <article class="post">
+    <header class="post-hero">
+      <div class="container narrow">
+        <a href="/blog/" class="back-link">← Zurück zum Blog</a>
+        <div class="post-meta">
+          <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+          {post.data.author && <span class="meta-sep">·</span>}
+          {post.data.author && <span>von {authorName(post.data.author)}</span>}
+        </div>
+        <h1>{post.data.title}</h1>
+        {post.data.description && <p class="post-lead">{post.data.description}</p>}
+        {post.data.tags && post.data.tags.length > 0 && (
+          <div class="post-tags">
+            {post.data.tags.map((tag: string) => <span class="tag">{tag}</span>)}
+          </div>
+        )}
+      </div>
+    </header>
+
+    <div class="post-body">
+      <div class="container narrow">
+        <div class="prose">
+          <Content />
+        </div>
+
+        <nav class="post-cta">
+          <h2>Interesse geweckt?</h2>
+          <p>Unverbindliches Erstgespräch, 30 Minuten. Wir prüfen, ob KI Ihr Problem wirklich löst.</p>
+          <a href="/#contact" class="btn btn-primary btn-lg">Erstgespräch vereinbaren</a>
+        </nav>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style is:global>
+  .post-hero {
+    padding: 130px 0 56px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .back-link {
+    display: inline-block; font-size: 0.88rem; color: var(--text-dim);
+    text-decoration: none; margin-bottom: 28px; transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--red-bright); }
+  .post-meta {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: var(--mono); font-size: 0.78rem; color: var(--text-faint);
+    margin-bottom: 20px;
+  }
+  .meta-sep { opacity: 0.5; }
+  .post-hero h1 {
+    font-family: var(--display); font-size: clamp(1.9rem, 4vw, 2.6rem);
+    font-weight: 700; line-height: 1.12; letter-spacing: -0.03em;
+    color: var(--text-bright); margin-bottom: 18px; text-wrap: balance;
+  }
+  .post-lead {
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem); line-height: 1.55;
+    color: var(--text-dim); font-weight: 400; margin-bottom: 24px; text-wrap: pretty;
+  }
+  .post-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag {
+    display: inline-block; padding: 4px 11px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    font-family: var(--mono); font-size: 0.72rem; color: var(--text-dim);
+  }
+
+  .post-body { padding: 56px 0 120px; }
+
+  /* ===== Prose (dark) ===== */
+  .prose { color: var(--text); }
+  .prose :global(h2) {
+    font-family: var(--display); font-size: clamp(1.4rem, 2.5vw, 1.7rem);
+    font-weight: 600; line-height: 1.2; color: var(--text-bright);
+    margin-top: 2.2em; margin-bottom: 0.7em; letter-spacing: -0.02em;
+    scroll-margin-top: 90px;
+  }
+  .prose :global(h3) {
+    font-family: var(--display); font-size: clamp(1.15rem, 2vw, 1.35rem);
+    font-weight: 600; line-height: 1.25; color: var(--text-bright);
+    margin-top: 1.8em; margin-bottom: 0.5em; letter-spacing: -0.01em;
+  }
+  .prose :global(p) {
+    font-size: 1.02rem; line-height: 1.75; margin-bottom: 1.2em;
+    color: var(--text);
+  }
+  .prose :global(strong) { color: var(--text-bright); font-weight: 600; }
+  .prose :global(a) {
+    color: var(--red-bright); text-decoration: underline;
+    text-decoration-color: var(--border-strong); text-underline-offset: 3px;
+    transition: text-decoration-color 0.18s;
+  }
+  .prose :global(a:hover) { text-decoration-color: var(--red); }
+  .prose :global(ul), .prose :global(ol) {
+    padding-left: 1.4em; margin: 0 0 1.3em; font-size: 1.02rem; line-height: 1.75;
+  }
+  .prose :global(li) { margin-bottom: 0.5em; }
+  .prose :global(li)::marker { color: var(--red); }
+  .prose :global(img) {
+    width: 100%; border-radius: var(--radius); margin: 1.8em 0;
+    border: 1px solid var(--border);
+  }
+  .prose :global(blockquote) {
+    border-left: 3px solid var(--red); padding: 0.3em 0 0.3em 1.3em;
+    margin: 1.8em 0; font-size: 1.1rem; line-height: 1.6; font-style: italic;
+    color: var(--text-dim);
+  }
+  .prose :global(hr) {
+    border: none; border-top: 1px solid var(--border); margin: 2.5em 0;
+  }
+  .prose :global(code) {
+    font-family: var(--mono); font-size: 0.88em;
+    background: var(--bg-card); border: 1px solid var(--border);
+    padding: 0.12em 0.4em; border-radius: var(--radius-sm);
+  }
+  .prose :global(pre) {
+    background: var(--bg-alt); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px 18px; overflow-x: auto;
+    margin: 1.6em 0;
+  }
+  .prose :global(pre code) {
+    background: none; border: none; padding: 0; font-size: 0.86rem;
+  }
+  .prose :global(table) { width: 100%; border-collapse: collapse; margin: 1.6em 0; }
+  .prose :global(th), .prose :global(td) {
+    border: 1px solid var(--border); padding: 10px 14px; text-align: left;
+  }
+  .prose :global(th) { background: var(--bg-alt); color: var(--text-bright); }
+  .prose > :global(*:first-child) { margin-top: 0; }
+
+  /* ===== CTA ===== */
+  .post-cta {
+    margin-top: 72px; padding: 36px; text-align: center;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .post-cta h2 {
+    font-family: var(--display); font-size: 1.5rem; font-weight: 600;
+    color: var(--text-bright); margin-bottom: 10px; letter-spacing: -0.02em;
+  }
+  .post-cta p { font-size: 0.96rem; color: var(--text-dim); margin-bottom: 22px; }
+
+  @media (max-width: 640px) {
+    .post-hero { padding: 116px 0 40px; }
+    .post-body { padding: 44px 0 90px; }
+    .post-cta { padding: 26px 20px; }
+  }
+</style>

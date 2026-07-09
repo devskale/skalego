@@ -1,0 +1,211 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { authorName } from '@lib/authors';
+
+// Drafts are hidden in production, shown in dev (so you can preview work).
+const allPosts = await getCollection('blog', ({ data }) =>
+  import.meta.env.PROD ? data.draft !== true : true
+);
+const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const featured = posts[0];
+const rest = posts.slice(1);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('de-AT', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'skale.dev Blog',
+  url: 'https://skale.dev/blog/',
+  description: 'Praxis-Insights zu AI Engineering, on-premise KI und Modell-Landschaft.',
+  publisher: { '@id': 'https://skale.dev/#organization' },
+};
+
+const title = 'Blog – skale.dev';
+const description = 'Praxis-Insights zu AI Engineering, on-premise KI, RAG und der Modell-Landschaft.';
+---
+
+<BaseLayout title={title} description={description} path="/blog/">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
+  </Fragment>
+
+  <section class="blog-head">
+    <div class="container">
+      <header class="section-head reveal" style="margin-bottom:3.5rem;">
+        <span class="hero-badge reveal" style="margin-bottom:18px;">skale.dev Blog</span>
+        <h2 class="section-title">AI Engineering aus der Praxis.</h2>
+        <p class="section-sub">
+          Einsichten, Learnings und Feldberichte zu on-premise KI, RAG,
+          Dokumentenanalyse und der sich rasch ändernden Modell-Landschaft.
+        </p>
+      </header>
+
+      {posts.length === 0 && (
+        <p class="empty reveal">Bald erscheinen hier die ersten Beiträge.</p>
+      )}
+    </div>
+  </section>
+
+  {featured && (
+    <section class="container blog-section">
+      <a href={`/blog/${featured.id}/`} class={`featured-card reveal${featured.data.image ? '' : ' no-image'}`}>
+        {featured.data.image && (
+          <div class="featured-image">
+            <img src={featured.data.image} alt={featured.data.title} loading="lazy" />
+          </div>
+        )}
+        <div class="featured-body">
+          <span class="featured-badge">Neuester Beitrag</span>
+          <div class="post-meta">
+            <time datetime={featured.data.date.toISOString()}>{fmt(featured.data.date)}</time>
+            {featured.data.author && <span class="meta-sep">·</span>}
+            {featured.data.author && <span>von {authorName(featured.data.author)}</span>}
+          </div>
+          <h3>{featured.data.title}</h3>
+          {featured.data.description && <p class="featured-lead">{featured.data.description}</p>}
+          <span class="featured-link">
+            Weiterlesen
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </div>
+      </a>
+
+      {rest.length > 0 && (
+        <div class="posts-grid reveal">
+          {rest.map((post) => (
+            <a href={`/blog/${post.id}/`} class="post-card">
+              {post.data.image && (
+                <div class="post-image">
+                  <img src={post.data.image} alt={post.data.title} loading="lazy" />
+                </div>
+              )}
+              <div class="post-body">
+                <div class="post-meta">
+                  <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+                  {post.data.author && <span class="meta-sep">·</span>}
+                  {post.data.author && <span>{authorName(post.data.author)}</span>}
+                </div>
+                <h4>{post.data.title}</h4>
+                {post.data.description && <p>{post.data.description}</p>}
+                <span class="post-link">
+                  Weiterlesen
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+    </section>
+  )}
+</BaseLayout>
+
+<style is:global>
+  .blog-head { padding: 120px 0 24px; }
+  .blog-section { padding-bottom: 132px; }
+  .empty { text-align: center; color: var(--text-dim); padding: 80px 0; }
+
+  /* ===== Featured card ===== */
+  .featured-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 28px;
+    transition: border-color 0.25s var(--ease), transform 0.25s var(--ease), background 0.25s var(--ease);
+  }
+  .featured-card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-4px);
+    background: var(--bg-card-hover);
+  }
+  .featured-card.no-image { grid-template-columns: 1fr; }
+  .featured-image { overflow: hidden; min-height: 300px; background: var(--bg-alt); }
+  .featured-image img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s var(--ease); opacity: 0.92;
+  }
+  .featured-card:hover .featured-image img { transform: scale(1.04); opacity: 1; }
+  .featured-body { padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+  .featured-badge {
+    display: inline-block; align-self: flex-start;
+    font-family: var(--mono); font-size: 0.72rem; font-weight: 600;
+    color: var(--red-bright); letter-spacing: 0.06em; text-transform: uppercase;
+    background: var(--red-glow); border: 1px solid rgba(229,57,53,0.2);
+    padding: 4px 11px; border-radius: var(--radius-pill); margin-bottom: 18px;
+  }
+  .post-meta {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: var(--mono); font-size: 0.78rem; color: var(--text-faint);
+    margin-bottom: 14px;
+  }
+  .meta-sep { opacity: 0.5; }
+  .featured-body h3 {
+    font-family: var(--display); font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    font-weight: 600; line-height: 1.2; color: var(--text-bright);
+    letter-spacing: -0.02em; margin-bottom: 14px; transition: color 0.2s;
+  }
+  .featured-card:hover .featured-body h3 { color: var(--red-bright); }
+  .featured-lead { font-size: 1rem; line-height: 1.65; color: var(--text-dim); margin-bottom: 22px; }
+  .featured-link {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.92rem; font-weight: 600; color: var(--red-bright);
+    transition: gap 0.2s;
+  }
+  .featured-card:hover .featured-link { gap: 0.7rem; }
+
+  /* ===== Posts grid ===== */
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .post-card {
+    display: flex; flex-direction: column;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    text-decoration: none; color: inherit;
+    transition: border-color 0.25s var(--ease), transform 0.25s var(--ease), background 0.25s var(--ease);
+  }
+  .post-card:hover {
+    border-color: var(--border-strong); transform: translateY(-4px);
+    background: var(--bg-card-hover);
+  }
+  .post-image { aspect-ratio: 16 / 9; overflow: hidden; background: var(--bg-alt); }
+  .post-image img {
+    width: 100%; height: 100%; object-fit: cover; opacity: 0.92;
+    transition: transform 0.5s var(--ease), opacity 0.25s var(--ease);
+  }
+  .post-card:hover .post-image img { transform: scale(1.05); opacity: 1; }
+  .post-body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+  .post-body h4 {
+    font-family: var(--display); font-size: 1.12rem; font-weight: 600;
+    line-height: 1.25; color: var(--text-bright); margin-bottom: 8px;
+    letter-spacing: -0.01em; transition: color 0.2s;
+  }
+  .post-card:hover h4 { color: var(--red-bright); }
+  .post-body p {
+    font-size: 0.9rem; line-height: 1.6; color: var(--text-dim);
+    flex: 1; margin-bottom: 16px;
+  }
+  .post-link {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.86rem; font-weight: 600; color: var(--red-bright);
+    transition: gap 0.2s;
+  }
+  .post-card:hover .post-link { gap: 0.7rem; }
+
+  @media (max-width: 760px) {
+    .featured-card { grid-template-columns: 1fr; }
+    .featured-image { min-height: 200px; }
+    .featured-body { padding: 28px; }
+    .blog-head { padding: 110px 0 24px; }
+  }
+</style>
