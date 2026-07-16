@@ -66,10 +66,10 @@ const description = 'One-line install for recommended agent skills: curl -fsSL s
   .skill-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1.5rem; display: flex; flex-direction: column; gap: 0.85rem; }
   .skill-card__title { font-family: 'JetBrains Mono', monospace; font-size: 1.15rem; font-weight: 600; color: var(--fg, #fff); margin: 0; }
   .skill-card__desc { color: var(--muted, #aab); font-size: 0.92rem; line-height: 1.5; margin: 0; flex: 1; }
-  .install-box { display:flex; align-items:center; gap:.5rem; background:#050506; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:.7rem .85rem; overflow-x:auto; }
-  .install-box code { font-family:'JetBrains Mono',monospace; font-size:.8rem; color:#7fe7c1; white-space:nowrap; flex:1; }
-  .copy { flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; padding:0; background:transparent; color:var(--muted,#8a8a99); border:1px solid transparent; border-radius:6px; cursor:pointer; opacity:0; transition:opacity .15s, color .15s, background .15s; }
-  .install-box:hover .copy, .install-box:focus-within .copy, .copy:focus { opacity:1; }
+  .install-box { display:flex; align-items:center; gap:.4rem; background:#050506; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:.7rem .85rem; }
+  .install-box code { font-family:'JetBrains Mono',monospace; font-size:.8rem; color:#7fe7c1; white-space:nowrap; overflow-x:auto; flex:1 1 auto; min-width:0; scrollbar-width:none; }
+  .install-box code::-webkit-scrollbar { display:none; }
+  .copy { flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; padding:0; background:transparent; color:var(--muted,#8a8a99); border:1px solid transparent; border-radius:6px; cursor:pointer; transition:color .15s, background .15s; }
   .copy:hover { color:var(--fg,#fff); background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15); }
-  .copy.copied { color:#7fe7c1; opacity:1; }
+  .copy.copied { color:#7fe7c1; }
 </style>
