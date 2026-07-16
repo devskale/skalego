@@ -7,9 +7,6 @@ const links = [
   { href: '/#case-study', label: 'Projekte' },
   { href: '/#models', label: 'Modelle' },
   { href: '/#faq', label: 'FAQ' },
-  { href: '/agent-coding/', label: 'Agentic' },
-  { href: '/apps/', label: 'Apps' },
-  { href: '/blog/', label: 'Blog' },
 ];
 ---
 
@@ -20,6 +17,13 @@ const links = [
     </a>
     <div class="nav-links">
       {links.map((l) => <a href={l.href}>{l.label}</a>)}
+      <div class="nav-group">
+        <a href="/agent-coding/" class="nav-group__trigger" aria-haspopup="true">Agents <span class="nav-group__caret" aria-hidden="true">▾</span></a>
+        <div class="nav-group__menu">
+          <a href="/agent-coding/">Agentic Coding</a>
+          <a href="/skills/">Skills</a>
+        </div>
+      </div>
       <a href="/#contact" class="btn btn-nav-cta">Kontakt</a>
     </div>
     <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
@@ -27,3 +31,29 @@ const links = [
     </button>
   </div>
 </nav>
+
+<style>
+  .nav-group { position: relative; }
+  .nav-group__trigger { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+  .nav-group__caret { font-size: 0.7em; opacity: 0.7; }
+  .nav-group__menu {
+    position: absolute; top: 100%; left: 50%; transform: translate(-50%, -4px);
+    display: flex; flex-direction: column; gap: 2px; min-width: 220px; padding: 8px;
+    background: var(--bg-alt, #0d0d10);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+    opacity: 0; visibility: hidden; transition: opacity .15s, transform .15s, visibility .15s;
+    z-index: 60;
+  }
+  .nav-group:hover .nav-group__menu,
+  .nav-group:focus-within .nav-group__menu { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+  .nav-group__menu a { white-space: nowrap; padding: 8px 12px; border-radius: 6px; color: var(--text, #cfd0d6); }
+  .nav-group__menu a:hover { background: var(--bg-card-hover, rgba(255,255,255,0.06)); color: var(--text-bright, #fff); }
+  @media (max-width: 760px) {
+    .nav-group__caret { display: none; }
+    .nav-group__menu {
+      position: static; transform: none; opacity: 1; visibility: visible;
+      padding: 0 0 0 16px; background: none; border: none; min-width: 0; gap: 0;
+    }
+    .nav-group__menu a { padding: 14px 0; }
+  }
+</style>

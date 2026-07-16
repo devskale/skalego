@@ -17,7 +17,7 @@ const description = 'One-line install for recommended agent skills: curl -fsSL s
     <div class="container">
       <header class="section-head reveal">
         <span class="hero-badge reveal">skale.dev / skills</span>
-        <h2 class="section-title">One-line skill installs.</h2>
+        <h2 class="section-title">Recommended skills.</h2>
         <p class="section-sub">
           Each installs with <code>curl -fsSL skale.dev/s/&lt;name&gt; | bash</code>.
           Our own pi-skills enable via the package whitelist; external ones run their upstream installer.
@@ -31,7 +31,12 @@ const description = 'One-line install for recommended agent skills: curl -fsSL s
             <li class="skill-card reveal">
               <h3 class="skill-card__title">{s.slug}</h3>
               <p class="skill-card__desc">{s.desc}</p>
-              <div class="install-box"><code>{cmd}</code></div>
+              <div class="install-box">
+                <code>{cmd}</code>
+                <button class="copy" type="button" data-copy={cmd} aria-label="Copy install command">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                </button>
+              </div>
             </li>
           );
         })}
@@ -40,12 +45,31 @@ const description = 'One-line install for recommended agent skills: curl -fsSL s
   </section>
 </BaseLayout>
 
+<script is:inline>
+  document.querySelectorAll('.copy').forEach((b) => {
+    b.addEventListener('click', async () => {
+      const text = b.getAttribute('data-copy') || '';
+      try { await navigator.clipboard.writeText(text); }
+      catch {
+        const r = document.createRange(); r.selectNode(b.parentElement.querySelector('code'));
+        const s = getSelection(); s.removeAllRanges(); s.addRange(r); document.execCommand('copy'); s.removeAllRanges();
+      }
+      b.classList.add('copied');
+      setTimeout(() => b.classList.remove('copied'), 1200);
+    });
+  });
+</script>
+
 <style>
   .skills { padding: 7rem 0 6rem; }
   .skill-grid { list-style: none; padding: 0; margin: 3rem 0 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
   .skill-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1.5rem; display: flex; flex-direction: column; gap: 0.85rem; }
   .skill-card__title { font-family: 'JetBrains Mono', monospace; font-size: 1.15rem; font-weight: 600; color: var(--fg, #fff); margin: 0; }
   .skill-card__desc { color: var(--muted, #aab); font-size: 0.92rem; line-height: 1.5; margin: 0; flex: 1; }
-  .install-box { background: #050506; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.7rem 0.85rem; overflow-x: auto; }
-  .install-box code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: #7fe7c1; white-space: nowrap; }
+  .install-box { display:flex; align-items:center; gap:.5rem; background:#050506; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:.7rem .85rem; overflow-x:auto; }
+  .install-box code { font-family:'JetBrains Mono',monospace; font-size:.8rem; color:#7fe7c1; white-space:nowrap; flex:1; }
+  .copy { flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; padding:0; background:transparent; color:var(--muted,#8a8a99); border:1px solid transparent; border-radius:6px; cursor:pointer; opacity:0; transition:opacity .15s, color .15s, background .15s; }
+  .install-box:hover .copy, .install-box:focus-within .copy, .copy:focus { opacity:1; }
+  .copy:hover { color:var(--fg,#fff); background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15); }
+  .copy.copied { color:#7fe7c1; opacity:1; }
 </style>
