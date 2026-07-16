@@ -58,6 +58,20 @@ export default config({
             image: { directory: 'public/images/blog', publicPath: '/images/blog/' },
           },
         }),
+        skills: fields.array(
+          fields.object({
+            slug: fields.text({ label: 'Slug', validation: { length: { min: 1 } } }),
+            desc: fields.text({ label: 'Beschreibung', multiline: true }),
+            install: fields.text({
+              label: 'Install',
+              description: 'pi-skill | pi-skillset:a,b | command:<cmd>',
+            }),
+          }),
+          {
+            label: 'Recommended skills (drives /skills + /s/<slug>)',
+            itemLabel: (props) => props.fields.slug.value,
+          }
+        ),
       },
     }),
   },

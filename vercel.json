@@ -1,8 +1,9 @@
 {
   "framework": "astro",
-  "buildCommand": "rm -rf .astro && pnpm run build",
+  "buildCommand": "rm -rf .astro node_modules/.astro && pnpm run build",
   "outputDirectory": "dist",
   "rewrites": [
+    { "source": "/s/:slug", "destination": "/api/skills?slug=:slug" },
     { "source": "/firmenindex/api", "destination": "/api/firmenindex-api" },
     { "source": "/credgoo", "destination": "/api/credgoo" },
     { "source": "/uniinfer", "destination": "/api/uniinfer" },

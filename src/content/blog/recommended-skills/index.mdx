@@ -1,0 +1,38 @@
+---
+title: Recommended Skills
+description: One-line installs for the agent skills we recommend — curl skale.dev/s/<name> | bash
+date: 2025-07-15
+author: johann
+tags: [skills, agents, pi]
+draft: false
+skills:
+  - slug: fetch-url
+    desc: "Fetch and extract readable text from any web page — articles, docs, Reddit, GitHub, StackOverflow."
+    install: pi-skill
+  - slug: web-search
+    desc: "Web search via SearXNG + Duck API. Images, news, videos. Works out of the box."
+    install: pi-skill
+  - slug: surf
+    desc: "Drive your real, logged-in Google Chrome on macOS — scrape, click, fill, screenshot. No daemon, no debug port."
+    install: pi-skill
+  - slug: web
+    desc: "The web research + browser bundle: fetch-url + web-search + surf. Installs all three."
+    install: "pi-skillset:fetch-url,web-search,surf"
+  - slug: impeccable
+    desc: "Design skill — shape, critique, harden, and polish frontend UI + anti-pattern detector. Cross-harness."
+    install: "command:npx impeccable install"
+  - slug: gakefay
+    desc: "Test skill — does nothing. Used to verify the install flow end-to-end."
+    install: "command:echo '✓ gakefay installed (no-op test skill)'"
+---
+
+We ship a small set of agent skills for [pi](https://pi.farm) and recommend a few
+from upstream. Each installs with one line:
+
+```bash
+curl -fsSL https://skale.dev/s/<name> | bash
+```
+
+Our own skills (`fetch-url`, `web-search`, `surf`) enable via pi's package
+whitelist; external ones (`impeccable`, …) run their upstream installer. Browse
+all installable skills on [**/skills**](/skills/).

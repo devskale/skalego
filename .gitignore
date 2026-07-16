@@ -13,3 +13,4 @@ screenshots/
 updateplan.md
 skills-lock.json
 tests/
+api/skills.registry.js
