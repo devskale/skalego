@@ -32,7 +32,7 @@ PY
 
 # Run the native bundle installer in a temp dir so the user's own skills-lock.json
 # is never touched; then copy the result into their project's .agents/skills/.
-( cd "$TMP" && npx -y skills@latest experimental_install -y )
+( cd "$TMP" && npx -y skills@latest experimental_install -y ) || true   # CLI exits 1 even on success (telemetry); don't let set -e abort before the copy-back
 
 mkdir -p "$ORIG/.agents/skills"
 if [ -d "$TMP/.agents/skills" ]; then
