@@ -65,9 +65,10 @@ export default function handler(req, res) {
   if (!skill) {
     res.statusCode = 404;
     res.setHeader("Content-Type", "text/plain; charset=utf-8");
+    const visible = Object.keys(skills).filter((k) => !skills[k].hidden);
     res.send(
-      (Object.keys(skills).length
-        ? `available: ${Object.keys(skills).join(", ")}\n`
+      (visible.length
+        ? `available: ${visible.join(", ")}\n`
         : `(registry not generated — run: node scripts/gen-skills-json.mjs)\n`) +
         `browse: https://skale.dev/skills\n`
     );

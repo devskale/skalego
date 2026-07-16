@@ -54,6 +54,7 @@ function expand(s) {
     entry.type = 'command';
     entry.install = inst;
   }
+  entry.hidden = !!s.hidden;
   return entry;
 }
 
