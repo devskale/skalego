@@ -17,6 +17,7 @@ const blog = defineCollection({
       slug: z.string(),
       desc: z.string(),
       install: z.string(),
+      hidden: z.boolean().default(false),
     })).optional(),
   }),
 });

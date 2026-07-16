@@ -6,7 +6,7 @@ import { getCollection } from 'astro:content';
 // Edit that one blog post (Keystatic or markdown) → this list updates on next build.
 const all = await getCollection('blog', ({ data }) => (import.meta.env.PROD ? data.draft !== true : true));
 const entry = all.find((p) => Array.isArray(p.data.skills) && p.data.skills.length);
-const skills = entry?.data.skills ?? [];
+const skills = (entry?.data.skills ?? []).filter((s) => !s.hidden);
 
 const title = 'Skills – skale.dev';
 const description = 'One-line install for recommended agent skills: curl -fsSL skale.dev/s/<name> | bash';

@@ -66,6 +66,11 @@ export default config({
               label: 'Install',
               description: 'pi-skill | pi-skillset:a,b | command:<cmd>',
             }),
+            hidden: fields.checkbox({
+              label: 'Hidden',
+              description: 'Hide from /skills list (still installable via /s/<slug>)',
+              defaultValue: false,
+            }),
           }),
           {
             label: 'Recommended skills (drives /skills + /s/<slug>)',
