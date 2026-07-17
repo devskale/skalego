@@ -41,4 +41,24 @@ Our own skills (`fetch-url`, `web-search`, `surf`) enable via pi's package
 whitelist; external ones (`impeccable`, …) run their upstream installer. Browse
 all installable skills on [**/skills**](/skills/).
 
+### `improve-architecture` — a 7-skill family
+
+One install pulls in [@mattpocock](https://github.com/mattpocock)'s architecture-review family — seven skills that work together:
+
+- **`improve-codebase-architecture`** — scan for deepening opportunities, render an HTML report, then grill through the one you pick.
+- **`codebase-design`** — the shared deep-module vocabulary (module, interface, depth, seam, adapter) the others speak.
+- **`domain-modeling`** — maintain the project's domain model (`CONTEXT.md` terms, ADRs).
+- **`grilling`** — the relentless decision-tree interview at the core of the grill step.
+- **`grill-me`** — a relentless interview to sharpen a plan or design.
+- **`grill-with-docs`** — grilling + domain-modeling combined, writing ADRs/glossary as it goes.
+- **`batch-grill-me`** — a relentless interview that asks every frontier question at once, round by round.
+
+Install all seven:
+
+```bash
+curl -fsSL https://skale.dev/s/improve-architecture | bash
+```
+
+They land in `.agents/skills/` (pi reads it automatically).
+
 Once installed, manage **skills and extensions** any time with `pi config` (interactive TUI — space toggles, Tab switches scope) or `pi config -l` (opens straight in project scope). No re-install needed to turn things on or off.
