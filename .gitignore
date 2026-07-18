@@ -14,3 +14,6 @@ updateplan.md
 skills-lock.json
 tests/
 api/skills.registry.js
+
+# Local MCP server config (may contain tokens)
+.mcp.json

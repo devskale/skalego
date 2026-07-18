@@ -1,0 +1,28 @@
+---
+// skale.dev/aiui — πui embedded full-screen in an iframe.
+//
+// The iframe loads the app from lubu (neusiedl.duckdns.org:8001/aiui), so all
+// data + SSE streaming goes browser → lubu DIRECTLY — it never transits Vercel
+// (which would buffer SSE). The address bar stays skale.dev/aiui; the app runs
+// inside the iframe under its own origin (so cookies/login "just work").
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>πui</title>
+    <style>
+      html, body { margin: 0; padding: 0; height: 100%; background: #0c0c0e; overflow: hidden; }
+      iframe { border: 0; width: 100%; height: 100%; display: block; }
+    </style>
+  </head>
+  <body>
+    <iframe
+      src="https://neusiedl.duckdns.org:8001/aiui/"
+      title="πui"
+      allow="clipboard-read; clipboard-write; clipboard"
+      loading="eager"
+    ></iframe>
+  </body>
+</html>
