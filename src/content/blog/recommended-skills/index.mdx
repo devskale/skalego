@@ -45,6 +45,12 @@ skills:
         - "Explore — walk recent git history for hot spots; use a subagent to find shallow modules (interface as complex as implementation), missing locality, leaky seams. Apply the deletion test."
         - "Present candidates — write a self-contained HTML report (Tailwind + Mermaid) to the OS temp dir, one card per candidate: files, problem, solution, benefits, before/after diagram, strength badge. Open it, then ask which to explore."
         - "Grill — run the /grilling skill on the picked candidate (decision tree: constraints, dependencies, seam shape, surviving tests). Run /domain-modeling inline to keep CONTEXT.md and ADRs current as decisions crystallize."
+  - slug: implement
+    desc: "Implement work from a spec or tickets — TDD at seams, typecheck as you go, /code-review at the end. Installs implement + tdd + code-review. By @mattpocock."
+    install: "command:npx -y skills@latest add https://github.com/mattpocock/skills --skill implement tdd code-review -a codex -y </dev/null"
+    details:
+      what: "Implement a piece of work based on a spec or set of tickets. Installs the full set: implement + tdd + code-review."
+      how: "TDD at pre-agreed seams where possible. Runs typechecking regularly, single test files regularly, and the full suite once at the end. Finishes with /code-review, then commits to the current branch."
   - slug: gakefay
     desc: "Test skill — does nothing. Used to verify the install flow end-to-end."
     install: "command:echo '✓ gakefay installed (no-op test skill)'"
@@ -81,5 +87,13 @@ curl -fsSL https://skale.dev/s/improve-architecture | bash
 ```
 
 They land in `.agents/skills/` (pi reads it automatically).
+
+### `implement` — spec/ticket → committed code
+
+Another [@mattpocock](https://github.com/mattpocock) skill: implement a piece of work from a spec or tickets. TDD at pre-agreed seams where possible, typecheck regularly, run the full suite once at the end, then `/code-review` and commit to the current branch.
+
+```bash
+curl -fsSL https://skale.dev/s/implement | bash
+```
 
 Once installed, manage **skills and extensions** any time with `pi config` (interactive TUI — space toggles, Tab switches scope) or `pi config -l` (opens straight in project scope). No re-install needed to turn things on or off.
