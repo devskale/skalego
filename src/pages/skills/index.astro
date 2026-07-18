@@ -23,6 +23,15 @@ const description = 'One-line install for recommended agent skills: curl -fsSL s
           Our own pi-skills enable via the package whitelist; external ones run their upstream installer.
           Click <span class="chevron-inline">▸</span> on any card for the tech details.
         </p>
+        <div class="skill-source reveal">
+          <span>Our pi-skills live in <a class="skill-source__link" href="https://github.com/devskale/skale-skills" target="_blank" rel="noopener">github.com/devskale/skale-skills</a>. Install the whole package:</span>
+          <div class="install-box">
+            <code>pi install git:github.com/devskale/skale-skills</code>
+            <button class="copy" type="button" data-copy="pi install git:github.com/devskale/skale-skills" aria-label="Copy install command">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+            </button>
+          </div>
+        </div>
       </header>
 
       <ul class="skill-grid">
@@ -93,6 +102,13 @@ const description = 'One-line install for recommended agent skills: curl -fsSL s
   .copy { flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; padding:0; background:transparent; color:var(--muted,#8a8a99); border:1px solid transparent; border-radius:6px; cursor:pointer; transition:color .15s, background .15s; }
   .copy:hover { color:var(--fg,#fff); background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15); }
   .copy.copied { color:#7fe7c1; }
+
+  /* source block — repo link + whole-package install command (reuses .install-box + .copy) */
+  .skill-source { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; }
+  .skill-source > span { color: var(--text-dim, #8a8a94); font-size: 0.85rem; line-height: 1.6; }
+  .skill-source__link { color: var(--text-bright, #fafafa); text-decoration: none; border-bottom: 1px solid rgba(229,57,53,0.4); transition: border-color 0.15s; }
+  .skill-source__link:hover { border-color: var(--red, #e53935); }
+  .skill-source .install-box { max-width: 560px; }
 
   /* chevron disclosure — native <details>, zero JS, keyboard-accessible */
   .skill-details { margin-top: 0.15rem; }
