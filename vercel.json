@@ -10,7 +10,9 @@
     { "source": "/chopdok", "destination": "https://chopdok.vercel.app/chopdok" },
     { "source": "/chopdok/:path*", "destination": "https://chopdok.vercel.app/chopdok/:path*" },
     { "source": "/pdf-editor", "destination": "https://pdf-editor-rouge-psi.vercel.app/" },
-    { "source": "/pdf-editor/:path*", "destination": "https://pdf-editor-rouge-psi.vercel.app/:path*" }
+    { "source": "/pdf-editor/:path*", "destination": "https://pdf-editor-rouge-psi.vercel.app/:path*" },
+    { "source": "/aiui", "destination": "https://neusiedl.duckdns.org:8001/aiui/" },
+    { "source": "/aiui/:path*", "destination": "https://neusiedl.duckdns.org:8001/aiui/:path*" }
   ],
   "redirects": [
     { "source": "/apps.html", "destination": "/apps/", "permanent": true },
