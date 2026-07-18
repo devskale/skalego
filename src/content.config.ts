@@ -18,6 +18,13 @@ const blog = defineCollection({
       desc: z.string(),
       install: z.string(),
       hidden: z.boolean().default(false),
+      // Optional tech-architecture details shown via a chevron disclosure on /skills/.
+      // `what` = one-line pitch; `how` = mechanism under the hood; `steps` = ordered process.
+      details: z.object({
+        what: z.string(),
+        how: z.string().optional(),
+        steps: z.array(z.string()).optional(),
+      }).optional(),
     })).optional(),
   }),
 });

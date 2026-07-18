@@ -9,21 +9,42 @@ skills:
   - slug: fetch-url
     desc: "Fetch and extract readable text from any web page — articles, docs, Reddit, GitHub, StackOverflow."
     install: pi-skill
+    details:
+      what: "Extracts readable text from any web page — articles, docs, Reddit, GitHub, StackOverflow."
+      how: "Auto-selects the best backend per site: free local tools first (w3m, lynx), then free APIs (jina, markdown), then headless Chrome for Cloudflare/JS-protected pages. Ships a `fetch-url` CLI in ~/.local/bin; auto-updates every 7 days."
   - slug: web-search
     desc: "Web search via SearXNG + Duck API. Images, news, videos. Works out of the box."
     install: pi-skill
+    details:
+      what: "Web search with automatic backend selection — works out of the box with public SearXNG."
+      how: "Picks SearXNG (free, no creds) or the Duck API (advanced filters: --site, --filetype, --inurl). Supports images/news/videos, time-range, region, JSON output. Optional private SearXNG via `credgoo searx`."
   - slug: surf
     desc: "Drive your real, logged-in Google Chrome on macOS — scrape, click, fill, screenshot. No daemon, no debug port."
     install: pi-skill
+    details:
+      what: "Drive your real, logged-in Google Chrome from the CLI on macOS — scrape, click, fill, screenshot."
+      how: "macOS AppleScript + Chrome's 'Allow JavaScript from Apple Events'. No daemon, no debug port, no extension, no per-connection dialog. Cookies/sessions/tabs stay intact. Targets the active tab; `surf select w1.t3` pins a background tab."
   - slug: web
     desc: "The web research + browser bundle: fetch-url + web-search + surf. Installs all three."
     install: "pi-skillset:fetch-url,web-search,surf"
+    details:
+      what: "The web research + browser bundle: fetch-url + web-search + surf in one install."
+      how: "Installs all three skills at once via pi's package whitelist. Together they cover fetch (read a page), search (find pages), and surf (drive your logged-in browser)."
   - slug: impeccable
     desc: "Design skill — shape, critique, harden, and polish frontend UI + anti-pattern detector. Cross-harness."
     install: "command:npx impeccable install"
+    details:
+      what: "Design skill — shape, critique, harden, and polish frontend UI + anti-pattern detector. Cross-harness."
+      how: "Reads a design-system JSON (tokens, components, anti-patterns) and runs critique/harden/live commands. By @pbakaus. Installs via `npx impeccable install` into .agents/."
   - slug: improve-architecture
     desc: "Architecture review family — scan for deepening opportunities, HTML report, grill-through. Installs 7 skills (the family incl. batch-grill-me) into .agents/skills/. By @mattpocock."
     install: "command:npx -y skills@latest add https://github.com/mattpocock/skills --skill improve-codebase-architecture codebase-design domain-modeling grilling grill-me grill-with-docs batch-grill-me -a codex -y </dev/null"
+    details:
+      what: "Architecture review family — scan for deepening opportunities, HTML report, grill-through. 7 skills by @mattpocock."
+      steps:
+        - "Explore — walk recent git history for hot spots; use a subagent to find shallow modules (interface as complex as implementation), missing locality, leaky seams. Apply the deletion test."
+        - "Present candidates — write a self-contained HTML report (Tailwind + Mermaid) to the OS temp dir, one card per candidate: files, problem, solution, benefits, before/after diagram, strength badge. Open it, then ask which to explore."
+        - "Grill — run the /grilling skill on the picked candidate (decision tree: constraints, dependencies, seam shape, surviving tests). Run /domain-modeling inline to keep CONTEXT.md and ADRs current as decisions crystallize."
   - slug: gakefay
     desc: "Test skill — does nothing. Used to verify the install flow end-to-end."
     install: "command:echo '✓ gakefay installed (no-op test skill)'"

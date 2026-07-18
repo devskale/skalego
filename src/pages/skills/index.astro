@@ -21,12 +21,14 @@ const description = 'One-line install for recommended agent skills: curl -fsSL s
         <p class="section-sub">
           Each installs with <code>curl -fsSL skale.dev/s/&lt;name&gt; | bash</code>.
           Our own pi-skills enable via the package whitelist; external ones run their upstream installer.
+          Click <span class="chevron-inline">▸</span> on any card for the tech details.
         </p>
       </header>
 
       <ul class="skill-grid">
         {skills.map((s) => {
           const cmd = `curl -fsSL https://skale.dev/s/${s.slug} | bash`;
+          const d = s.details;
           return (
             <li class="skill-card reveal">
               <h3 class="skill-card__title">{s.slug}</h3>
@@ -37,6 +39,25 @@ const description = 'One-line install for recommended agent skills: curl -fsSL s
                   <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
                 </button>
               </div>
+              {d && (
+                <details class="skill-details">
+                  <summary>
+                    <svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                    <span>How it works</span>
+                  </summary>
+                  <div class="skill-details__body">
+                    <p class="skill-details__what">{d.what}</p>
+                    {d.how && (
+                      <p class="skill-details__how"><span class="skill-details__label">how</span> {d.how}</p>
+                    )}
+                    {d.steps && (
+                      <ol class="skill-details__steps">
+                        {d.steps.map((step) => <li>{step}</li>)}
+                      </ol>
+                    )}
+                  </div>
+                </details>
+              )}
             </li>
           );
         })}
@@ -72,4 +93,54 @@ const description = 'One-line install for recommended agent skills: curl -fsSL s
   .copy { flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; padding:0; background:transparent; color:var(--muted,#8a8a99); border:1px solid transparent; border-radius:6px; cursor:pointer; transition:color .15s, background .15s; }
   .copy:hover { color:var(--fg,#fff); background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15); }
   .copy.copied { color:#7fe7c1; }
+
+  /* chevron disclosure — native <details>, zero JS, keyboard-accessible */
+  .skill-details { margin-top: 0.15rem; }
+  .skill-details > summary {
+    list-style: none; cursor: pointer;
+    display: flex; align-items: center; gap: 0.5rem;
+    padding: 0.35rem 0;
+    color: var(--text-dim, #8a8a94);
+    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    transition: color 0.15s var(--ease, ease);
+    user-select: none;
+  }
+  .skill-details > summary::-webkit-details-marker { display: none; }
+  .skill-details > summary:hover { color: var(--text-bright, #fafafa); }
+  .skill-details > summary:focus-visible { outline: 2px solid var(--red, #e53935); outline-offset: 3px; border-radius: 4px; }
+  .skill-details .chevron { flex: 0 0 auto; transition: transform 0.18s var(--ease, ease); color: var(--text-faint, #7a7a82); }
+  .skill-details[open] > summary .chevron { transform: rotate(90deg); color: var(--red, #e53935); }
+  .skill-details[open] > summary { color: var(--text-bright, #fafafa); }
+
+  .skill-details__body {
+    margin-top: 0.6rem; padding: 0.85rem 0.95rem;
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 9px;
+    display: flex; flex-direction: column; gap: 0.6rem;
+  }
+  .skill-details__what { margin: 0; color: var(--text, #d4d4d8); font-size: 0.84rem; line-height: 1.55; }
+  .skill-details__how { margin: 0; color: var(--text-dim, #8a8a94); font-size: 0.8rem; line-height: 1.6; }
+  .skill-details__label {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+    color: var(--text-faint, #7a7a82); text-transform: uppercase; letter-spacing: 0.1em;
+    margin-right: 0.35rem;
+  }
+  .skill-details__steps { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.55rem; counter-reset: step; }
+  .skill-details__steps li {
+    position: relative; padding-left: 1.7rem;
+    color: var(--text-dim, #8a8a94); font-size: 0.8rem; line-height: 1.6;
+    counter-increment: step;
+  }
+  .skill-details__steps li::before {
+    content: counter(step);
+    position: absolute; left: 0; top: 0;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 600;
+    color: var(--red, #e53935);
+    width: 1.2rem; height: 1.2rem; line-height: 1.2rem; text-align: center;
+    border: 1px solid rgba(229, 57, 53, 0.3); border-radius: 4px;
+  }
+
+  .chevron-inline { color: var(--red, #e53935); font-family: 'JetBrains Mono', monospace; }
 </style>
