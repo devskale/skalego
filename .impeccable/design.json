@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-09T00:00:00Z",
+  "title": "Design System: skale.dev",
+  "extensions": {
+    "colorMeta": {
+      "signal-red": {
+        "role": "primary",
+        "displayName": "Signal Red",
+        "canonical": "#e53935",
+        "tonalRamp": ["#2a0808", "#5a1010", "#8a1818", "#b71c1c", "#e53935", "#ff5a4d", "#ff8a7f", "#ffbab2"]
+      },
+      "signal-red-bright": {
+        "role": "primary",
+        "displayName": "Signal Red Bright",
+        "canonical": "#ff5a4d",
+        "tonalRamp": ["#2a0808", "#5a1010", "#8a1818", "#b71c1c", "#e53935", "#ff5a4d", "#ff8a7f", "#ffbab2"]
+      },
+      "signal-red-dark": {
+        "role": "primary",
+        "displayName": "Signal Red Dark",
+        "canonical": "#b71c1c",
+        "tonalRamp": ["#2a0808", "#5a1010", "#8a1818", "#b71c1c", "#e53935", "#ff5a4d", "#ff8a7f", "#ffbab2"]
+      },
+      "workshop-black": {
+        "role": "neutral",
+        "displayName": "Workshop Black",
+        "canonical": "#08080a",
+        "tonalRamp": ["#08080a", "#0d0d10", "#16161a", "#27272e", "#3f3f47", "#5e5e68", "#8a8a94", "#d4d4d8"]
+      },
+      "workshop-black-alt": {
+        "role": "neutral",
+        "displayName": "Workshop Black Alt",
+        "canonical": "#0d0d10",
+        "tonalRamp": ["#08080a", "#0d0d10", "#16161a", "#27272e", "#3f3f47", "#5e5e68", "#8a8a94", "#d4d4d8"]
+      },
+      "bright-ink": {
+        "role": "neutral",
+        "displayName": "Bright Ink",
+        "canonical": "#fafafa",
+        "tonalRamp": ["#3f3f47", "#5e5e68", "#8a8a94", "#b4b4b8", "#d4d4d8", "#e4e4e6", "#fafafa", "#ffffff"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#d4d4d8",
+        "tonalRamp": ["#3f3f47", "#5e5e68", "#8a8a94", "#b4b4b8", "#d4d4d8", "#e4e4e6", "#fafafa", "#ffffff"]
+      },
+      "ink-dim": {
+        "role": "neutral",
+        "displayName": "Ink Dim",
+        "canonical": "#8a8a94",
+        "tonalRamp": ["#1c1c20", "#27272e", "#3f3f47", "#52525b", "#71717a", "#8a8a94", "#b4b4b8", "#d4d4d8"]
+      },
+      "ink-faint": {
+        "role": "neutral",
+        "displayName": "Ink Faint",
+        "canonical": "#7a7a82",
+        "tonalRamp": ["#16161a", "#1c1c20", "#27272e", "#3f3f47", "#52525b", "#7a7a82", "#9a9aa3", "#c4c4ca"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero H1 only. Inter Tight 700, clamp(2.6rem, 6vw, 4.6rem), letter-spacing -0.035em, text-wrap: balance." },
+      "headline": { "displayName": "Headline", "purpose": "Section titles. Inter Tight 700, clamp(1.9rem, 4vw, 2.8rem), letter-spacing -0.03em." },
+      "title": { "displayName": "Title", "purpose": "Card/step headings, blog titles. Inter Tight 600, 1.1–1.5rem, letter-spacing -0.01 to -0.02em." },
+      "body": { "displayName": "Body", "purpose": "Default copy. Inter 400, 15px, line-height 1.65, capped 62–75ch." },
+      "label": { "displayName": "Label (Mono)", "purpose": "Kickers, tags, table headers/units, code. JetBrains Mono 500, 0.64–0.78rem, uppercase + tracked when a metadata label." }
+    },
+    "shadows": [
+      { "name": "primary-hover-glow", "value": "0 8px 28px rgba(229,57,53,0.28)", "purpose": "The only shadow in the system. Appears under .btn-primary on hover only — a red glow under the filled CTA. Never on cards." },
+      { "name": "primary-inset-highlight", "value": "0 1px 0 rgba(255,255,255,0.15) inset", "purpose": "1px top-edge highlight on the primary button at rest, giving the solid red a subtle physical edge." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "The single easing curve for every transition in the system (var(--ease)). Exponential ease-out. No bounce, no elastic." },
+      { "name": "reveal-duration", "value": "0.8s", "purpose": "Scroll-reveal transition duration (opacity + translateY 22px). Staggered in the hero only (0s/0.08s/0.16s/0.24s)." },
+      { "name": "belt-scroll", "value": "48s linear infinite", "purpose": "Client logo marquee. Paused on hover. Disabled on reduced motion." },
+      { "name": "state-duration", "value": "0.18s–0.25s", "purpose": "Hover/focus state transitions on buttons, cards, nav links, accordion summaries." }
+    ],
+    "breakpoints": [
+      { "name": "lg", "value": "960px", "purpose": "Stepper collapses 4→2 columns." },
+      { "name": "md", "value": "760px", "purpose": "Primary collapse point: nav → off-canvas, bento → 1 col, case grid → 1 col, models table → sticky first col + scroll hint, hero actions stack." },
+      { "name": "sm", "value": "640px", "purpose": "App/guide cards → single column." },
+      { "name": "xs", "value": "480px", "purpose": "Footer → 1 col, container padding tightens to 20px." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The Erstgespräch CTA — the most important affordance. Solid Signal Red, white text, 8px radius. Hover lifts to bright red + red glow.",
+      "html": "<button class=\"ds-btn-primary\">Erstgespräch vereinbaren</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; padding: 11px 22px; border-radius: 8px; font-family: Inter, -apple-system, sans-serif; font-size: 0.92rem; font-weight: 600; line-height: 1; background: #e53935; color: #fff; border: none; cursor: pointer; box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset; transition: background 0.18s cubic-bezier(0.16,1,0.3,1), transform 0.18s cubic-bezier(0.16,1,0.3,1), box-shadow 0.18s cubic-bezier(0.16,1,0.3,1); } .ds-btn-primary:hover { background: #ff5a4d; transform: translateY(-1px); box-shadow: 0 8px 28px rgba(229,57,53,0.28); } .ds-btn-primary:active { transform: translateY(0) scale(0.98); } .ds-btn-primary:focus-visible { outline: 2px solid #e53935; outline-offset: 3px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action. Transparent with a hairline border; hover lifts border + fills faintly.",
+      "html": "<button class=\"ds-btn-outline\">Services ansehen</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; padding: 11px 22px; border-radius: 8px; font-family: Inter, -apple-system, sans-serif; font-size: 0.92rem; font-weight: 600; line-height: 1; background: transparent; color: #d4d4d8; border: 1px solid rgba(255,255,255,0.12); cursor: pointer; transition: border-color 0.18s cubic-bezier(0.16,1,0.3,1), color 0.18s cubic-bezier(0.16,1,0.3,1), background 0.18s cubic-bezier(0.16,1,0.3,1); } .ds-btn-outline:hover { border-color: #71717a; color: #fafafa; background: rgba(255,255,255,0.025); } .ds-btn-outline:active { transform: scale(0.98); } .ds-btn-outline:focus-visible { outline: 2px solid #e53935; outline-offset: 3px; }"
+    },
+    {
+      "name": "Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Mono tech-stack / metadata tag. Surface Card fill, hairline border, Ink Dim mono text.",
+      "html": "<span class=\"ds-tag\">Qwen 3.6 35B (lokal)</span>",
+      "css": ".ds-tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.73rem; color: #71717a; background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.07); padding: 4px 10px; border-radius: 8px; letter-spacing: 0.02em; line-height: 1.4; }"
+    },
+    {
+      "name": "License Tag (Open)",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "The open-source signal tag — Signal Red Bright text on a red-soft fill with a red-tinted border. The red = live/open state.",
+      "html": "<span class=\"ds-lic-open\">Open</span>",
+      "css": ".ds-lic-open { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.02em; padding: 3px 10px; border-radius: 8px; border: 1px solid rgba(229,57,53,0.3); background: rgba(229,57,53,0.06); color: #ff5a4d; white-space: nowrap; line-height: 1.4; }"
+    },
+    {
+      "name": "Case Card",
+      "kind": "card",
+      "refersTo": "button-primary",
+      "description": "Case-study card. Surface Card fill, hairline border, 12px radius. Hover lifts border to red tint + translates up 2px. No shadow.",
+      "html": "<article class=\"ds-case-card\"><span class=\"ds-case-label\">Rechnungserkennung</span><h3>Rechnungen automatisch strukturieren</h3><p>Mehrseitige Rechnungen werden gescannt, verstanden und überführt.</p></article>",
+      "css": ".ds-case-card { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 32px 30px; transition: border-color 0.25s cubic-bezier(0.16,1,0.3,1), background 0.25s cubic-bezier(0.16,1,0.3,1), transform 0.25s cubic-bezier(0.16,1,0.3,1); font-family: Inter, sans-serif; } .ds-case-card:hover { border-color: rgba(229,57,53,0.35); background: rgba(255,255,255,0.045); transform: translateY(-2px); } .ds-case-card .ds-case-label { display: inline-block; padding: 4px 11px; background: rgba(229,57,53,0.12); border: 1px solid rgba(229,57,53,0.2); border-radius: 100px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 500; color: #ff5a4d; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 16px; } .ds-case-card h3 { font-family: 'Inter Tight', sans-serif; font-size: 1.28rem; font-weight: 600; color: #fafafa; margin-bottom: 12px; line-height: 1.3; letter-spacing: -0.02em; } .ds-case-card p { font-size: 0.9rem; color: #71717a; line-height: 1.7; }"
+    },
+    {
+      "name": "Models Table Row",
+      "kind": "custom",
+      "refersTo": "tag",
+      "description": "The credibility artifact — real model data with mono tabular-nums. Sticky first column on mobile. The license tag carries the red open-source signal.",
+      "html": "<div class=\"ds-models-table\"><div class=\"ds-th\"><span>Modell</span><span class=\"ds-num\">Intelligenz</span><span class=\"ds-num\">Output $/1M</span><span class=\"ds-num\">Blended $/1M</span><span>Lizenz</span></div><div class=\"ds-tr\"><span class=\"ds-model\"><span class=\"ds-name\">DeepSeek V4 Flash</span><span class=\"ds-creator\">DeepSeek</span></span><span class=\"ds-num ds-idx\">46.5</span><span class=\"ds-num ds-price\">0.28</span><span class=\"ds-num ds-blended\">0.06</span><span><span class=\"ds-lic-open\">Open</span></span></div></div>",
+      "css": ".ds-models-table { border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; overflow: hidden; font-family: Inter, sans-serif; } .ds-th, .ds-tr { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 0.8fr; align-items: center; gap: 8px; padding: 15px 20px; } .ds-th { background: #0d0d10; border-bottom: 1px solid rgba(255,255,255,0.07); font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 500; color: #71717a; letter-spacing: 0.08em; text-transform: uppercase; } .ds-tr { border-bottom: 1px solid rgba(255,255,255,0.07); transition: background 0.18s cubic-bezier(0.16,1,0.3,1); } .ds-tr:last-child { border-bottom: none; } .ds-tr:hover { background: rgba(255,255,255,0.025); } .ds-num { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; } .ds-model { display: flex; flex-direction: column; } .ds-name { font-weight: 600; color: #fafafa; letter-spacing: -0.01em; line-height: 1.3; } .ds-creator { font-size: 0.76rem; color: #52525b; margin-top: 1px; } .ds-idx { color: #fafafa; font-weight: 600; } .ds-price { color: #52525b; } .ds-blended { color: #d4d4d8; font-weight: 500; } .ds-lic-open { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.02em; padding: 3px 10px; border-radius: 8px; border: 1px solid rgba(229,57,53,0.3); background: rgba(229,57,53,0.06); color: #ff5a4d; white-space: nowrap; }"
+    },
+    {
+      "name": "FAQ Accordion Item",
+      "kind": "custom",
+      "refersTo": "tag",
+      "description": "Native details/summary, no JS. Plus icon rotates to a red minus on open. The red-on-open is the one signal.",
+      "html": "<details class=\"ds-faq\" open><summary><span>Bleiben meine Daten bei mir?</span><span class=\"ds-faq-icon\" aria-hidden=\"true\"></span></summary><div class=\"ds-faq-answer\"><p>Ja. Wir realisieren on-premise oder lokal.</p></div></details>",
+      "css": ".ds-faq { border-bottom: 1px solid rgba(255,255,255,0.07); } .ds-faq summary { list-style: none; cursor: pointer; padding: 22px 4px; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-family: 'Inter Tight', sans-serif; font-size: 1.05rem; font-weight: 500; color: #fafafa; letter-spacing: -0.01em; transition: color 0.18s cubic-bezier(0.16,1,0.3,1); } .ds-faq summary::-webkit-details-marker { display: none; } .ds-faq summary:hover { color: #ff5a4d; } .ds-faq summary:focus-visible { outline: 2px solid #e53935; outline-offset: 4px; border-radius: 4px; } .ds-faq-icon { flex-shrink: 0; width: 16px; height: 16px; position: relative; } .ds-faq-icon::before, .ds-faq-icon::after { content: ''; position: absolute; top: 50%; left: 50%; background: #71717a; border-radius: 1px; transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), background 0.25s cubic-bezier(0.16,1,0.3,1); } .ds-faq-icon::before { width: 12px; height: 1.5px; transform: translate(-50%, -50%); } .ds-faq-icon::after { width: 1.5px; height: 12px; transform: translate(-50%, -50%); } .ds-faq[open] .ds-faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; } .ds-faq[open] .ds-faq-icon::before { background: #e53935; } .ds-faq-answer { padding: 0 4px 24px; max-width: 62ch; } .ds-faq-answer p { font-size: 0.95rem; color: #71717a; line-height: 1.7; }"
+    },
+    {
+      "name": "Bento Cell (Services)",
+      "kind": "card",
+      "refersTo": "button-primary",
+      "description": "Services bento — 2-col grid with 1px hairline gutters (grid bg shows through as dividers), cells on Workshop Black. First cell spans full width. No card borders.",
+      "html": "<div class=\"ds-bento\"><article class=\"ds-bento-cell ds-bento-wide\"><span class=\"ds-bento-kicker\">01</span><h3>Maßgeschneiderte KI-Workflows</h3><p>Wir bauen KI-Systeme um Ihre Prozesse herum.</p></article><article class=\"ds-bento-cell\"><span class=\"ds-bento-kicker\">02</span><h3>Produktionsreife Architektur</h3><p>Modell-Serving, Monitoring, SLAs.</p></article></div>",
+      "css": ".ds-bento { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; overflow: hidden; } .ds-bento-cell { background: #08080a; padding: 36px 32px; transition: background 0.25s cubic-bezier(0.16,1,0.3,1); } .ds-bento-cell:hover { background: #0d0d10; } .ds-bento-wide { grid-column: 1 / -1; } .ds-bento-kicker { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; font-weight: 500; color: #e53935; letter-spacing: 0.05em; margin-bottom: 18px; } .ds-bento-cell h3 { font-family: 'Inter Tight', sans-serif; font-size: 1.22rem; font-weight: 600; color: #fafafa; margin-bottom: 10px; letter-spacing: -0.02em; line-height: 1.25; } .ds-bento-wide h3 { font-size: 1.5rem; } .ds-bento-cell p { font-size: 0.92rem; color: #71717a; line-height: 1.7; max-width: 52ch; }"
+    },
+    {
+      "name": "Terminal Install Block",
+      "kind": "custom",
+      "refersTo": "tag",
+      "description": "Workshop Black Alt panel with a faux title bar and mono code. Comments in Ink Faint, the `pi` prompt in Signal Red. The 'practice what you preach' principle made literal.",
+      "html": "<div class=\"ds-install\"><div class=\"ds-install-bar\"><span>install</span></div><pre><span class=\"ds-c\"># Alles installieren (pi)</span>\n<span class=\"ds-p\">pi</span> install git:github.com/devskale/skale-skills</pre></div>",
+      "css": ".ds-install { background: #0d0d10; border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; overflow: hidden; } .ds-install-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); } .ds-install-bar span { font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; color: #71717a; letter-spacing: 0.03em; } .ds-install pre { margin: 0; padding: 16px 18px; font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; line-height: 1.7; color: #fafafa; overflow-x: auto; } .ds-install .ds-c { color: #52525b; } .ds-install .ds-p { color: #e53935; }"
+    },
+    {
+      "name": "Nav",
+      "kind": "nav",
+      "refersTo": "button-nav-cta",
+      "description": "Fixed top bar, 68px, Workshop Black at 60% opacity + 16px backdrop blur, lifting to 82% + hairline border on scroll. Logo is the mono red 'skale' box + '.dev' dim extension.",
+      "html": "<nav class=\"ds-nav\"><div class=\"ds-nav-inner\"><a class=\"ds-nav-logo\" href=\"#\"><span class=\"ds-logo-box\">skale</span><span class=\"ds-logo-ext\">.dev</span></a><div class=\"ds-nav-links\"><a href=\"#services\">Services</a><a href=\"#process\">Prozess</a><a class=\"ds-btn-nav-cta\" href=\"#contact\">Kontakt</a></div></div></nav>",
+      "css": ".ds-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(8,8,10,0.6); backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%); border-bottom: 1px solid transparent; transition: background 0.3s cubic-bezier(0.16,1,0.3,1), border-color 0.3s cubic-bezier(0.16,1,0.3,1); } .ds-nav.ds-scrolled { background: rgba(8,8,10,0.82); border-bottom-color: rgba(255,255,255,0.07); } .ds-nav-inner { max-width: 1120px; margin: 0 auto; padding: 0 24px; height: 68px; display: flex; align-items: center; justify-content: space-between; } .ds-nav-logo { display: flex; align-items: center; gap: 2px; text-decoration: none; } .ds-logo-box { display: inline-flex; align-items: center; justify-content: center; background: #e53935; color: #0a0a0c; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1.05rem; padding: 5px 11px; border-radius: 8px; letter-spacing: -0.4px; line-height: 1; } .ds-logo-ext { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 500; color: #71717a; padding-left: 4px; } .ds-nav-links { display: flex; align-items: center; gap: 30px; } .ds-nav-links a { color: #71717a; text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.18s cubic-bezier(0.16,1,0.3,1); } .ds-nav-links a:hover { color: #fafafa; } .ds-btn-nav-cta { color: #d4d4d8 !important; padding: 8px 16px !important; border: 1px solid rgba(255,255,255,0.12) !important; border-radius: 8px !important; font-weight: 500 !important; } .ds-btn-nav-cta:hover { color: #fafafa !important; border-color: #e53935 !important; background: rgba(229,57,53,0.06) !important; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Workshop Floor",
+    "overview": "This is a working engineer's bench, not a showroom. Dark surfaces, mono annotations that read like part numbers and status codes, tabular data laid out for inspection, and exactly one red tag reserved for what actually matters — the call to action, the open state, the live signal. Everything else stays quiet so the red carries weight when it appears. The visitor is a technical person sizing up whether this outfit can build real systems; the page should look like something built by people who build real systems.\n\nThe system is restrained on purpose. Depth comes from tonal layering (Workshop Black → its alt → white-transparency card surfaces) and hairline borders, never from decorative shadows or glass. Motion is a single exponential ease, used for state transitions and one orchestrated hero entrance — never choreography for its own sake, and never gated so hard that content ships blank on a paused tab. Type pairs a tight grotesque display (Inter Tight) with its humanist sibling (Inter) for body, and a monospace (JetBrains Mono) carries every label, kicker, number, and code block. The mono is earned: this is a site that shows install commands, model indices, and tech stacks. It is not costume.\n\nWhat this system explicitly rejects: generic chatbot marketing, SaaS-hype landing-page clichés (the hero-metric template, identical icon-card grids, gradient text, glassmorphism decoration, tiny uppercase tracked eyebrows above every section), cloud-dependency framing, \"AI as magic\" vagueness, and vendor-voice urgency. The build itself is part of the credibility claim — static, fast, zero-JS by default — so the design must never ship heavy decoration to sell lean engineering.",
+    "keyCharacteristics": [
+      "Dark-first; one accent (Signal Red) used sparingly as state, not as theme.",
+      "Tonal layering + hairlines for depth; flat by default, shadows only as state response.",
+      "Three-family type system: Inter Tight (display) + Inter (body) + JetBrains Mono (labels/data/code).",
+      "Mono labels are functional annotations (part numbers, status, units), never decorative kickers above every section.",
+      "Fluid clamp() headings with tight (but never touching) letter-spacing; text-wrap: balance on headings.",
+      "Locked radii: 8px / 12px / 100px. No over-rounding.",
+      "One easing curve everywhere; reduced-motion is non-optional and fully gated."
+    ],
+    "rules": [
+      { "name": "The One Signal Rule", "body": "Signal Red is used on ≤10% of any given screen. Its rarity is the point. If two red elements compete on one fold, one is in the wrong place. Never introduce a second accent color.", "section": "colors" },
+      { "name": "The Zero-Chroma Neutral Rule", "body": "Neutrals are true grayscale. Do not tint Workshop Black or the ink ramp toward warm or cool. Warmth is carried by the red accent and the copy, not by the surface.", "section": "colors" },
+      { "name": "The Letter-Spacing Floor Rule", "body": "Display and headline letter-spacing never goes below -0.04em. Hero at -0.035em, section titles at -0.03em. Anything tighter and the letters touch; cramped is not designed.", "section": "typography" },
+      { "name": "The Earned Mono Rule", "body": "JetBrains Mono is used where monospace carries information — numbers, code, units, part-number labels, status tags. Never decorative 'technical' costume for body or headings. If a mono label doesn't annotate real data, it doesn't belong.", "section": "typography" },
+      { "name": "The One Kicker Rule", "body": "A mono uppercase tracked label is a deliberate brand element as a single named system. Repeating a tiny uppercase tracked eyebrow above every section heading is prohibited scaffolding, not voice.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Surfaces are flat at rest. Shadows appear only as a response to state (the primary-button hover glow). Never pair a 1px border with a soft wide drop shadow on the same element — the ghost-card pattern is prohibited.", "section": "elevation" },
+      { "name": "The Tonal-Step Rule", "body": "When two surfaces need to separate, step the tonal layer (bg → bg-alt → surface-card) before reaching for a border, and reach for a border before reaching for a shadow.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use Signal Red (#e53935) as the single accent, reserved for CTAs, active/open states, focus rings, and the occasional callout tag — and keep it under ~10% of any screen.",
+      "Do convey depth with tonal steps (bg → bg-alt → surface-card) and 1px hairlines before reaching for any shadow.",
+      "Do hold body text (Ink #d4d4d8) at ≥4.5:1 against Workshop Black; if a muted tone is too close, bump it toward Bright Ink, not toward elegance.",
+      "Do keep display letter-spacing at -0.03 to -0.035em (floor -0.04em) and use text-wrap: balance on h1–h3.",
+      "Do use JetBrains Mono only where it annotates real data — numbers, code, units, part-number labels, status tags.",
+      "Do gate every animation on prefers-reduced-motion: hide the hero canvas and belt, and force .reveal to visible. Reveals must enhance an already-visible default, never gate content visibility on a class trigger.",
+      "Do keep radii to 8px / 12px / 100px (pill). Cards cap at 12px.",
+      "Do back every claim with a concrete artifact — real model data in the table, named tech stacks on case studies, a shown install command. This is the show, don't tell principle."
+    ],
+    "donts": [
+      "Don't introduce a second accent color. There is no blue/green/purple in the brand palette (the colored app/guide icon chips are the documented exception for differentiating external tools only).",
+      "Don't tint the neutrals warm or cool. Workshop Black and the ink ramp are zero-chroma gray. The cream/sand/beige warm-neutral body background is explicitly prohibited — this is an engineering surface, not paper.",
+      "Don't pair a 1px border with a soft wide (≥16px blur) drop shadow on the same element — the ghost-card pattern. Pick a border OR a defined shadow, never both as decoration.",
+      "Don't use gradient text (background-clip: text + gradient). Emphasis is via weight, size, or the single solid Signal Red — never a gradient.",
+      "Don't use glassmorphism / decorative blurs as the default card treatment. The nav's backdrop-blur is a structural necessity, not a card style.",
+      "Don't ship the hero-metric template (big number + small label + gradient accent) or identical icon-card grids repeated endlessly — these are the SaaS-hype clichés PRODUCT.md rejects.",
+      "Don't repeat a tiny uppercase tracked eyebrow above every section heading. One named kicker system is voice; an eyebrow on every section is AI scaffolding.",
+      "Don't use mono as decorative 'technical' costume for body copy or headings. If a mono label doesn't annotate real data, it doesn't belong.",
+      "Don't frame AI as magic, imply cloud-dependency, or use vendor-voice urgency. Copy qualifies the wrong visitor out on purpose — don't soften it into agency warmth.",
+      "Don't ship heavy, JS-laden decoration to sell lean engineering. The build itself is a credibility claim — keep it static, fast, zero-JS by default.",
+      "Don't over-round cards (24px+). No brand wants insanely rounded."
+    ]
+  }
+}
