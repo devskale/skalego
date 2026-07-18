@@ -10,9 +10,7 @@
     { "source": "/chopdok", "destination": "https://chopdok.vercel.app/chopdok" },
     { "source": "/chopdok/:path*", "destination": "https://chopdok.vercel.app/chopdok/:path*" },
     { "source": "/pdf-editor", "destination": "https://pdf-editor-rouge-psi.vercel.app/" },
-    { "source": "/pdf-editor/:path*", "destination": "https://pdf-editor-rouge-psi.vercel.app/:path*" },
-    { "source": "/aiui", "destination": "https://neusiedl.duckdns.org:8001/aiui/" },
-    { "source": "/aiui/:path*", "destination": "https://neusiedl.duckdns.org:8001/aiui/:path*" }
+    { "source": "/pdf-editor/:path*", "destination": "https://pdf-editor-rouge-psi.vercel.app/:path*" }
   ],
   "redirects": [
     { "source": "/apps.html", "destination": "/apps/", "permanent": true },
@@ -23,6 +21,8 @@
     { "source": "/meet", "destination": "https://meet.google.com/uti-zsep-efw", "permanent": true },
     { "source": "/agentsmd", "destination": "https://github.com/devskale/skale-skills/blob/main/docs/agents-md-best-practices.md", "permanent": true },
     { "source": "/agentskills", "destination": "https://github.com/devskale/skale-skills/blob/main/docs/agent-skills-best-practices.md", "permanent": true },
-    { "source": "/piextensions", "destination": "https://github.com/devskale/skale-skills/blob/main/docs/pi-extensions-best-practices.md", "permanent": true }
+    { "source": "/piextensions", "destination": "https://github.com/devskale/skale-skills/blob/main/docs/pi-extensions-best-practices.md", "permanent": true },
+    { "source": "/aiui", "destination": "https://neusiedl.duckdns.org:8001/aiui/", "permanent": false },
+    { "source": "/aiui/:path*", "destination": "https://neusiedl.duckdns.org:8001/aiui/:path*", "permanent": false }
   ]
 }
