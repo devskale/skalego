@@ -184,9 +184,42 @@ function initMobileMenu() {
   );
 }
 
+/* ---------- scrollspy: mark the nav link of the section in view ---------- */
+function initScrollSpy() {
+  const links = Array.from(document.querySelectorAll('.nav-links a:not(.btn)'));
+  if (!links.length || !('IntersectionObserver' in window)) return;
+  const byId = new Map();
+  links.forEach((a) => {
+    const id = (a.getAttribute('href') || '').split('#')[1];
+    if (id) byId.set(id, a);
+  });
+  const sections = Array.from(document.querySelectorAll('section[id]')).filter((s) => byId.has(s.id));
+  if (!sections.length) return;
+  let current = '';
+  const setActive = (id) => {
+    if (id === current) return;
+    current = id;
+    links.forEach((a) => {
+      const aid = (a.getAttribute('href') || '').split('#')[1];
+      a.classList.toggle('is-active', aid === id);
+    });
+  };
+  // center-line root: a section is active when it spans the viewport's vertical middle
+  const spy = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) setActive(e.target.id);
+      });
+    },
+    { rootMargin: '-50% 0px -50% 0px', threshold: 0 }
+  );
+  sections.forEach((s) => spy.observe(s));
+}
+
 /* ---------- boot ---------- */
 initHeroCanvas();
 revealHero();
 initScrollReveals();
 initNav();
+initScrollSpy();
 initMobileMenu();
