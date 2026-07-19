@@ -23,6 +23,7 @@
     { "source": "/agentskills", "destination": "https://github.com/devskale/skale-skills/blob/main/docs/agent-skills-best-practices.md", "permanent": true },
     { "source": "/piextensions", "destination": "https://github.com/devskale/skale-skills/blob/main/docs/pi-extensions-best-practices.md", "permanent": true },
     { "source": "/aiui", "destination": "https://neusiedl.duckdns.org:8001/aiui/", "permanent": false },
+    { "source": "/aiui/", "destination": "https://neusiedl.duckdns.org:8001/aiui/", "permanent": false },
     { "source": "/aiui/:path*", "destination": "https://neusiedl.duckdns.org:8001/aiui/:path*", "permanent": false }
   ]
 }
