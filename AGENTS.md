@@ -117,6 +117,14 @@ recommended-skills.mdx  (frontmatter skills[])
 - **Rewrites** (clean URLs → handlers): `/firmenindex/api` → `/api/firmenindex-api`; `/credgoo` → `/api/credgoo`; `/uniinfer` → `/api/uniinfer`; **`/s/:slug` → `/api/skills?slug=:slug`** (skill install endpoints).
 - **Proxy rewrites** (external Vercel apps under skale.dev): `/chopdok(/.*)` → `https://chopdok.vercel.app/chopdok$1`; `/pdf-editor(/.*)` → `https://pdf-editor-rouge-psi.vercel.app/$1`. Keep deployment URLs in sync with the real Vercel project URLs.
 - **Redirect**: `/meet` → Google Meet; `/agentsmd`, `/agentskills`, `/piextensions` → GitHub guides.
+- **External redirect `/aiui` → `https://neusiedl.duckdns.org:8001/aiui/`** (the πui app,
+  self-hosted on lubu behind nginx, *not* a Vercel app). **Both `/aiui` and
+  `/aiui/` (trailing slash) must have redirect rules** in `vercel.json` — the
+  nav link uses `/aiui/`, and a bare `/aiui` rule alone 404s the slashed form.
+  `permanent: false` (307) so the user lands on the neusiedl origin (first-party
+  cookies; an earlier iframe embed was reverted — cross-site cookies blocked).
+  Changing this redirect → commit + push to `main` (same git-push deploys as
+  everything else here).
 
 ## Boundaries
 
