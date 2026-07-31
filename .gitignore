@@ -17,3 +17,10 @@ api/skills.registry.js
 
 # Local MCP server config (may contain tokens)
 .mcp.json
+# Local secrets — never commit
+*.token
+*.secret
+*.key
+# Local Vercel project metadata (project id / org id)
+vercel.project.md
+scripts/vercel-skalego.sh

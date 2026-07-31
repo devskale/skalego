@@ -1,39 +1,107 @@
-# Raditian Free Hugo Theme
-## Raditian Hugo Theme for Personal Websites
+# skale.dev
 
-use https://stackoverflow.com/a/38454037/15782010 
+The website for **skale** — a German-language consultancy / agentic-coding site.
+Live at **[skale.dev](https://skale.dev)**, built with **Astro 7** (pure static
+output) and deployed on **Vercel**.
 
+> This README is the quick-start. For the full project bible — routing rules,
+> skills system, SEO wiring, Vercel rewrites, boundaries, footguns — read
+> **[`AGENTS.md`](./AGENTS.md)**. It is authoritative whenever this file and
+> `AGENTS.md` disagree.
 
+## Stack
 
-A free Hugo Theme by Radity: Modern, Fast, Fresh and of course responsive.
+- **Astro 7** — static output to `dist/`, file-based routing from `src/pages/`.
+  No framework runtime in production; ships plain HTML + one small client script
+  (`src/scripts/site.js`).
+- **pnpm** for everything (lockfile is v9; locally pnpm 11 also works).
+- **Vercel** — Git push to `main` is the deploy. `dist/` is served statically;
+  `api/*.js` run as serverless functions; `vercel.json` applies rewrites.
+- **Content Collections** (`src/content.config.ts` → `blog`) drive the blog and the
+  skills registry.
+- **Keystatic** (dev-only) at `/keystatic` for visually editing blog posts —
+  excluded from `astro build`, so production stays zero-JS.
 
-Demo: https://raditian-hugo.radity.com
+## Quick start
 
-<img src="https://raditycmswebsite-live-5f5ab2ec57ec4907b-b52c0bb.divio-media.net/filer_public/73/76/7376fcbd-46ff-4e8b-85b6-e4f9175658ad/01_-_mainpage_exportable_copy_31x_2.png"  width="100%" alt="raditian-free-hugo-theme">
+```bash
+pnpm install
+pnpm dev        # http://localhost:4321  (HMR on src/ + public/ changes)
+```
 
-## Download
+> Don't launch a second dev server — it will fight for port 4321. After adding an
+> integration or content collection, **restart** the dev pane so new routes resolve.
 
-- Clone the repo: `git clone https://github.com/radity/raditian-free-hugo-theme.git`.
-- [Download from Github](https://github.com/radity/raditian-free-hugo-theme/archive/master.zip).
+## Commands
 
-## Installation
-#### Install Hugo
-    To use raditian-free-hugo-theme you need to install Hugo by following https://gohugo.io/getting-started/installing/.
+```bash
+pnpm dev            # dev server with HMR
+pnpm run build      # regenerates the skills registry, then astro build → dist/
+pnpm run preview    # serve the production build locally
+```
 
-#### Create your personal website and run
-    > hugo new site <your website's name>
-    > cd <your website's name>/themes/
-    Clone the raditian-free-hugo-theme (git clone https://github.com/radity/raditian-free-hugo-theme.git).
-    Replace the "config.toml" file that in the project's root directory with themes/raditian-free-hugo-theme/exampleSite/config.toml
-    > hugo server -D
-    The theme is alive on http://localhost:1313/ 
+`pnpm run build` is exactly what Vercel runs: `node scripts/gen-skills-json.mjs && astro build`.
 
-## License
+## Project layout
 
-- Copyright 2020 Radity (https://radity.com/)
-- Licensed under MIT (https://github.com/radity/raditian-free-hugo-theme/blob/master/LICENSE)
+```
+astro.config.mjs        static output, site https://skale.dev, directory URLs
+src/
+  pages/                one .astro per route (index, apps, agent-coding, blog/, skills/, + legal pages)
+  content/blog/         blog posts — one folder per post, index.md(x)
+  content.config.ts     blog collection (Zod schema) + optional skills[] frontmatter
+  layouts/              BaseLayout.astro (head/SEO/nav/footer + slot="head"), LegalLayout.astro
+  components/           Nav, Footer, and sections/ (Hero, Clients, Services, Process, CaseStudies, Models, FAQ, Contact)
+  lib/                  authors.ts, schema.ts (BlogPosting JSON-LD helpers)
+  styles/global.css     design system: tokens → base → components → layout
+  scripts/site.js       the ONE client script (hero canvas, scroll-reveal, nav, mobile menu)
+  data/site.js          single source of truth: org info, FAQs, models (drives JSON-LD too)
+api/                    Vercel serverless functions (credgoo, firmenindex-api, uniinfer, skills)
+public/                 served at root verbatim (robots, sitemap, manifest, fonts, OG image, firmenindex/ sub-app)
+```
 
-## Support
+Import aliases (`tsconfig.json`): `@components/*`, `@layouts/*`, `@data/*`, `@styles/*`.
 
-If you have any problem please do not hesitate to [contact us](https://radity.com/en/contact/).# raditian_site
+## Adding a page or blog post
 
+- **Page:** create `src/pages/<name>.astro` (using `BaseLayout` or `LegalLayout`).
+  It routes automatically — nothing to register.
+- **Blog post:** create `src/content/blog/<slug>/index.md(x)` with validated
+  frontmatter. It routes to `/blog/<slug>/`.
+
+## Skills system
+
+A single blog entry — `src/content/blog/recommended-skills/index.mdx` — is the
+source of truth. Its frontmatter `skills[]` array becomes both the
+`/skills/` listing page and per-skill install endpoints at `/s/<slug>`
+
+```
+curl -fsSL https://skale.dev/s/<slug> | bash
+```
+
+Edit that one entry, push to `main`, and everything updates. See `AGENTS.md`
+for install formats (`pi-skill`, `pi-skillset:a,b,c`, `command:…`) and internals.
+
+## Deployment
+
+**Git push is the deploy — never use the `vercel` CLI.**
+
+- `main` → production at **skale.dev**
+- any other branch (e.g. `astro`) → auto-generated Vercel **preview** URL
+
+After pushing, verify with `curl -sI https://skale.dev/<file>` (200 = live).
+
+## Conventions
+
+- **German** content; **English** code and comments.
+- Single red accent (`--red: #e53935`), dark theme. Fonts (Inter / JetBrains Mono)
+  are **self-hosted** in `public/fonts/` — no third-party CDN (DSGVO).
+- CSS custom properties live at the top of `src/styles/global.css`.
+- Zero client JS by default; all motion is CSS-driven and honors
+  `prefers-reduced-motion`.
+
+## Related docs
+
+- [`AGENTS.md`](./AGENTS.md) — the authoritative project bible (read this for anything non-trivial)
+- [`APPS.md`](./APPS.md) — the `public/firmenindex/` sub-app and other apps
+- [`DESIGN.md`](./DESIGN.md), [`PRODUCT.md`](./PRODUCT.md), [`relaunch.md`](./relaunch.md) — design & product context
