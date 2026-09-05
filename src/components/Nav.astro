@@ -7,7 +7,6 @@ const links = [
   { href: '/#case-study', label: 'Projekte' },
   { href: '/#models', label: 'Modelle' },
   { href: '/#faq', label: 'FAQ' },
-  { href: '/aiui/', label: 'πui' },
 ];
 ---
 
@@ -19,8 +18,11 @@ const links = [
     <div class="nav-links">
       {links.map((l) => <a href={l.href}>{l.label}</a>)}
       <div class="nav-group">
-        <a href="/agent-coding/" class="nav-group__trigger" aria-haspopup="true">Agents <span class="nav-group__caret" aria-hidden="true">▾</span></a>
+        <a href="/apps/" class="nav-group__trigger" aria-haspopup="true">Apps <span class="nav-group__caret" aria-hidden="true">▾</span></a>
         <div class="nav-group__menu">
+          <a href="/apps/">Apps &amp; Tools</a>
+          <a href="/throway/">throway</a>
+          <a href="/aiui/">πui</a>
           <a href="/agent-coding/">Agentic Coding</a>
           <a href="/skills/">Skills</a>
         </div>
