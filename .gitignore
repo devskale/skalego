@@ -23,4 +23,5 @@ api/skills.registry.js
 *.key
 # Local Vercel project metadata (project id / org id)
 vercel.project.md
-scripts/vercel-skalego.sh
+# Local deploy config
+/deploy.config
