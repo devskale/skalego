@@ -1,6 +1,7 @@
 # AGENTS.md — skalego / skale.dev
 
-Production branch: **`main`** (Vercel deploys from this) · `astro` = Astro conversion branch · Live: **skale.dev**
+Production branch: **`main`** · Live: **skale.dev**
+**Deploy = `./scripts/deploy-skale.sh --build`** (build + sync + smoke check). Target and infrastructure details live in the script and `deploy.config` — deliberately NOT in this file. `git push` is repo backup only — it deploys nothing.
 
 ## Stack
 
@@ -8,7 +9,7 @@ Production branch: **`main`** (Vercel deploys from this) · `astro` = Astro conv
 - **Astro reference**: [`astro_guide.md`](./astro_guide.md) — indexed map of all canonical doc pages on `docs.astro.build`. Best-practices guide (project structure, content collections, SEO, TS): [`../gwen.at/astro_guide.md`](../gwen.at/astro_guide.md).
 - **Hugo** (`config.toml` + `data/`) — legacy only; not part of the live build. The `themes/skalego_theme` submodule was **removed**.
 - **pnpm** lockfile present; all commands use `pnpm` (not npm).
-- **Serverless**: Vercel auto-detects `api/` (firmenindex-api, credgoo, uniinfer, **skills**) alongside the static Astro build.
+- **Hosting**: pure static — the web server just serves `dist/`. `api/` and `vercel.json` are legacy from a previous host; the live `/s/<slug>` install endpoints are **static files** generated at build time.
 - **Language**: German (de) content; English code/comments.
 
 ## Commands
@@ -18,8 +19,11 @@ Production branch: **`main`** (Vercel deploys from this) · `astro` = Astro conv
 pnpm dev
 # Auto-reloads on any change to src/ or public/. Do NOT launch a second dev server (port conflict).
 
-# Production build → dist/  (this is what Vercel runs; also regenerates the skills registry from the blog entry)
+# Production build → dist/  (also writes the static /s/<slug> install scripts)
 pnpm run build
+
+# Deploy (build + sync + smoke check) — THE deploy; details in scripts/deploy-skale.sh
+./scripts/deploy-skale.sh --build
 
 # Preview the production build locally
 pnpm run preview
@@ -49,7 +53,7 @@ src/
   scripts/site.js       ← the ONE client script: hero canvas + reveals + nav + mobile menu
   data/site.js          ← single source of truth: organization, faqs, models (drives JSON-LD too)
   assets/seo/           ← SVG sources for OG image + PWA icons (rendered to PNG in public/)
-api/                    ← Vercel serverless functions (firmenindex-api, credgoo, uniinfer)
+api/                    ← legacy functions from a previous host (not part of the static build)
 public/firmenindex/     ← Firmensuche sub-app (standalone HTML/JS, copied verbatim)
 public/                 ← served at site root: robots.txt, sitemap.xml, llms.txt, site.webmanifest,
                           og-image.png, logos/, screenshots, client PNGs — copied verbatim to dist/
@@ -77,7 +81,7 @@ Astro emits a route per file in `src/pages/`. `format: 'directory'` → `/apps/i
 
 ## Skills system — `skale.dev/s/<slug>` installs
 
-One blog entry is the single source of truth; a prebuild step + a Vercel function turn it into per-skill install endpoints + a listing page. **Edit one entry → push → everything updates.**
+One blog entry is the single source of truth; a build-time Astro integration turns it into static per-skill install files + a listing page. **Edit one entry → build + deploy → everything updates.**
 
 **The registry = one blog post:** `src/content/blog/recommended-skills/index.mdx`
 - frontmatter `skills[]` array: `{ slug, desc, install, hidden? }` — edit this (Keystatic at `/keystatic` in dev, or the markdown) to add/remove/reorder a skill. Nothing else changes.
@@ -87,19 +91,20 @@ One blog entry is the single source of truth; a prebuild step + a Vercel functio
 **Data flow:**
 ```
 recommended-skills.mdx  (frontmatter skills[])
-   ├── pnpm build → scripts/gen-skills-json.mjs → api/skills.registry.js  (gitignored ESM module)
-   │                └── api/skills.js  (Vercel fn) reads it → GET /s/<slug>  returns the bash install script
-   └── pnpm build → getCollection('blog') → src/pages/skills/index.astro  (the /skills/ list page)
+   ├── astro build → skillsStatic integration (astro.config.mjs) → dist/s/<slug>
+   │                 static install scripts, served as plain files (hidden included;
+   │                 dist/s/available lists the visible ones)
+   └── astro build → getCollection('blog') → src/pages/skills/index.astro  (the /skills/ list page)
 ```
-- `vercel.json` rewrite: `/s/:slug` → `/api/skills?slug=:slug`.
-- `package.json` `build` = `node scripts/gen-skills-json.mjs && astro build`, so the registry is regenerated every build; `api/skills.registry.js` is **gitignored** (generated artifact).
-- **Add a skill:** edit the blog entry's `skills[]` → `git push origin main` → Vercel rebuilds → live on `/skills/` + `/s/<slug>`.
+- No runtime backend: the web server serves the extensionless files directly. The script template shared with the legacy generator lives in `scripts/skills-lib.mjs`.
+- `package.json` `build` = `node scripts/gen-skills-json.mjs && astro build` — the gen step only emits the legacy `api/skills.registry.js` (gitignored). The live `/s/` files come from the integration, which runs on EVERY `astro build` (including the deploy script's direct build call).
+- **Add a skill:** edit the blog entry's `skills[]` → `./scripts/deploy-skale.sh --build` → live on `/skills/` + `/s/<slug>`.
 - **Install UX:** `curl -fsSL https://skale.dev/s/<slug> | bash`. Each card on `/skills/` has a copy-on-click icon (code scrolls internally; icon stays pinned).
 - `pi-skill`/`pi-skillset` installs edit `~/.pi/agent/settings.json` (idempotent whitelist-add); `command` runs whatever you specify. `npx skills`-style bundles install into `.agents/skills/` (use `-a codex` to keep it to `.agents/` only — no per-agent symlinks).
 
 ## SEO (keep consistent)
 
-- **Canonical domain: `skale.dev`** (Vercel). Every canonical/OG/JSON-LD URL uses this. Do **not** use `skale.io` (decommissioned).
+- **Canonical domain: `skale.dev`**. Every canonical/OG/JSON-LD URL uses this. Do **not** use `skale.io` (decommissioned).
 - **Static SEO files** in `public/` served at root: `robots.txt`, `llms.txt`, `site.webmanifest`, `og-image.png`, PWA icons. **`sitemap-index.xml` is auto-generated by `@astrojs/sitemap`** (includes every page + blog post) — there is no manual sitemap to edit.
 - **Structured data** is wired via `<Fragment slot="head">` per page: `index.astro` → ProfessionalService + WebSite + FAQPage (FAQ sourced from `src/data/site.js`); `apps.astro` & `agent-coding.astro` → BreadcrumbList + CollectionPage/SoftwareApplication; `blog/index.astro` → Blog; each blog post → BlogPosting (via `src/lib/schema.ts`). Legal pages carry no JSON-LD.
 - **Every page head** (BaseLayout) carries: canonical, Open Graph, Twitter card, theme-color, robots.
@@ -108,29 +113,23 @@ recommended-skills.mdx  (frontmatter skills[])
   pnpm run build && python3 -c "import re,json,glob;[json.loads(b) for f in glob.glob('dist/**/*.html',recursive=True) for b in re.findall(r'<script type=\"application/ld\+json\">(.*?)</script>',open(f).read(),re.S)] and print('JSON-LD OK')"
   ```
 
-## Deployment (Vercel)
+## Deployment
 
-- **Git push IS the deploy — never use the `vercel` CLI.** Vercel is wired to this repo and auto-builds on every push: `main` → production (skale.dev), any other branch (e.g. `astro`) → an auto-generated **preview** URL. No `vercel deploy` / CLI step is needed or wanted (the local CLI is outdated anyway).
-- **Production branch is `main`.** To go live: commit → `git push origin main`, allow ~30-60s, verify with `curl -sI https://skale.dev/<file>` (200 = live).
-- **Preview a branch**: `git push origin astro`, then grab the preview URL from the Vercel dashboard / GitHub check. It does NOT touch skale.dev.
-- `vercel.json` sets `"framework": "astro"` (Vercel runs our `pnpm run build` → `dist/` and auto-detects `api/` functions). `buildCommand` = `pnpm run build`, `outputDirectory` = `dist`.
-- **Rewrites** (clean URLs → handlers): `/firmenindex/api` → `/api/firmenindex-api`; `/credgoo` → `/api/credgoo`; `/uniinfer` → `/api/uniinfer`; **`/s/:slug` → `/api/skills?slug=:slug`** (skill install endpoints).
-- **Proxy rewrites** (external Vercel apps under skale.dev): `/chopdok(/.*)` → `https://chopdok.vercel.app/chopdok$1`; `/pdf-editor(/.*)` → `https://pdf-editor-rouge-psi.vercel.app/$1`. Keep deployment URLs in sync with the real Vercel project URLs.
-- **Redirect**: `/meet` → Google Meet; `/agentsmd`, `/agentskills`, `/piextensions` → GitHub guides.
-- **External redirect `/aiui` → `https://neusiedl.duckdns.org:8001/aiui/`** (the πui app,
-  self-hosted on lubu behind nginx, *not* a Vercel app). **Both `/aiui` and
-  `/aiui/` (trailing slash) must have redirect rules** in `vercel.json` — the
-  nav link uses `/aiui/`, and a bare `/aiui` rule alone 404s the slashed form.
-  `permanent: false` (307) so the user lands on the neusiedl origin (first-party
-  cookies; an earlier iframe embed was reverted — cross-site cookies blocked).
-  Changing this redirect → commit + push to `main` (same git-push deploys as
-  everything else here).
+- **Deploy = `./scripts/deploy-skale.sh --build`.** Builds, syncs `dist/` to the live webroot, then smoke-checks that the live site serves the fresh build (md5 diff, exit 1 on mismatch). Target, SSH alias and paths live in `deploy.config` (gitignored) + the script.
+- **git push is NOT a deploy.** Commit → run the script → verify. A pushed-but-not-deployed change is never live.
+- Script guards: dirty-tree abort · firmenindex files must NEVER enter this build (the app has its own webroot and own deploy — incident 2026-09-10) · stale-dist abort (source newer than build → use `--build`).
+- Verify after deploy: `curl -sI https://skale.dev/<file>` (200) and `curl -s https://skale.dev/s/fetch-url | head -3` (install script).
+- **Target sidefiles** — agents: read the one matching the live target before touching server config or endpoints:
+  - [`deploy.oci.md`](deploy.oci.md) — **ACTIVE**: OCI VM, self-hosted nginx, pure static.
+  - [`deploy.vercel.md`](deploy.vercel.md) — **RETIRED**: history only; don't deploy there, endpoints documented there are dead.
+
+Infrastructure details (server, paths, redirects, proxies) belong in the sidefiles + `deploy.config`/`scripts/deploy-skale.sh` — keep this file deploy-agnostic. Redirects/rewrites live in web-server config on the target, not in this repo.
 
 ## Boundaries
 
 - **Never modify**: `node_modules/`, `dist/`, `.astro/`
 - **Never commit**: secrets, API keys, tokens
-- **Ask before**: changing canonical domain, adding API endpoints, modifying `vercel.json` rewrites/redirects
+- **Ask before**: changing canonical domain, adding API endpoints, changing redirects/rewrites in the web-server config on the deploy target
 - **Safe without asking**: CSS tweaks, content copy edits, adding sections/pages, JS animation changes
 
 ## E2E Validation (rodney)
@@ -149,9 +148,9 @@ Screenshots go in `./research/` (gitignored). Rodney skill: `~/.pi/agent/skills/
 
 ## Known Footguns
 
-- **Production deploys from `main`, not `astro`/`relaunch`.** Pushing to the wrong branch = preview or no-deploy. The branch in the header is authoritative.
-- **Static Astro + `api/` functions coexist.** Astro builds `dist/`; Vercel still serves `api/*.js` as serverless functions and applies `vercel.json` rewrites. Don't add the Vercel SSR adapter — we want pure static.
-- **No `pnpm-workspace.yaml`.** Vercel resolves **pnpm@9.x** from the v9 lockfile; pnpm 9 errors (`packages field missing or empty`) on a workspace file that lacks a `packages:` field. The pnpm-10+ `allowBuilds` syntax is incompatible. pnpm 9 doesn't gate build scripts, so no workspace/approval file is needed on Vercel. (Locally pnpm 11 will print an "ignored build scripts" warning on fresh install — harmless, esbuild/sharp aren't invoked at build since we don't use `astro:assets`.)
+- **Deploy ist der Script, nicht git push.** `./scripts/deploy-skale.sh --build` nach jedem Commit, der live gehen soll.
+- **Pure static.** No SSR adapter, no runtime backend — `/s/<slug>` is static files; the web server only serves files. **`api/` + `vercel.json` are legacy** — don't extend them, don't point users at endpoints that rely on a runtime.
+- **No `pnpm-workspace.yaml`.** The lockfile is pnpm@9; pnpm 9 errors (`packages field missing or empty`) on a workspace file that lacks a `packages:` field, and the pnpm-10+ `allowBuilds` syntax is incompatible. (Locally pnpm 11 prints an "ignored build scripts" warning on fresh install — harmless, esbuild/sharp aren't invoked at build since we don't use `astro:assets`.)
 - **`public/firmenindex/` is a standalone sub-app** (own HTML/JS, query-param routing) copied verbatim. It is NOT an Astro page — edit its files directly under `public/`.
 - **Hugo legacy** (`config.toml`, `data/`, `static/`, `content/`) coexists but is never built. Changing it does nothing to the live site.
 - **The single client script is `src/scripts/site.js`** (hero particle canvas + scroll-reveal + nav + mobile menu). Astro inlines small scripts; check `dist/` if a feature seems missing.
