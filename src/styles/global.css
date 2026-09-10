@@ -480,6 +480,33 @@ section#clients { padding: 56px 0 64px; }
     overflow-wrap: anywhere; word-break: break-word;
 }
 
+/* ---- APPS (home) ---- */
+.apps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.app-mini {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; text-decoration: none; color: inherit;
+    display: flex; flex-direction: column;
+    transition: border-color 0.25s var(--ease), background 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.app-mini:hover { border-color: var(--border-strong); background: var(--bg-card-hover); transform: translateY(-2px); }
+.app-mini:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+/* source shots are 1280×800 (16:10), so this shows them undistorted */
+.app-mini-shot {
+    display: block; aspect-ratio: 16 / 10; overflow: hidden;
+    border-bottom: 1px solid var(--border); background: #111;
+}
+.app-mini-shot img {
+    width: 100%; height: 100%; object-fit: cover; object-position: top;
+    display: block; opacity: 0.85; transition: opacity 0.25s var(--ease);
+}
+.app-mini:hover .app-mini-shot img { opacity: 1; }
+.app-mini-body { padding: 14px 16px 16px; min-width: 0; }
+.app-mini-name {
+    display: block; font-family: var(--display); font-size: 0.98rem; font-weight: 600;
+    color: var(--text-bright); letter-spacing: -0.01em; margin-bottom: 4px;
+}
+.app-mini-desc { display: block; font-size: 0.82rem; color: var(--text-dim); line-height: 1.55; }
+
 /* ---- CONTACT / CTA ---- */
 #contact .container { max-width: 760px; }
 .cta { text-align: center; }
@@ -511,6 +538,7 @@ section#clients { padding: 56px 0 64px; }
 @media (max-width: 960px) {
     .stepper { grid-template-columns: repeat(2, 1fr); gap: 36px 0; }
     .stepper::before { display: none; }
+    .apps-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 760px) {
     /* nav collapses to off-canvas menu */
@@ -550,6 +578,7 @@ section#clients { padding: 56px 0 64px; }
     .step-marker { position: absolute; left: 0; top: 22px; margin-bottom: 0; }
 
     .case-grid { grid-template-columns: 1fr; }
+    .apps-grid { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
 }
 @media (max-width: 480px) {

@@ -1,0 +1,30 @@
+---
+// Apps — the four self-serve tools, featured on the home page.
+// Data (names, links, shots, copy) comes from src/data/apps.js,
+// shared with /apps/ and its JSON-LD.
+import { apps } from '@data/apps.js';
+---
+
+<section id="apps">
+  <div class="container">
+    <header class="section-head reveal">
+      <h2 class="section-title">Fertige Apps &amp; Tools.</h2>
+      <p class="section-sub">
+        Aus Projekten entstanden und frei nutzbar: vier Web-Tools,
+        direkt im Browser. Keine Anmeldung, keine Kosten.
+      </p>
+    </header>
+
+    <div class="apps-grid">
+      {apps.map((a) => (
+        <a href={a.href} class="app-mini reveal">
+          <span class="app-mini-shot"><img src={a.shot} alt={a.alt} width="1280" height="800" loading="lazy" /></span>
+          <span class="app-mini-body">
+            <span class="app-mini-name">{a.name}</span>
+            <span class="app-mini-desc">{a.short}</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
