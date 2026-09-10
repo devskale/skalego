@@ -55,9 +55,12 @@ const { title, description } = Astro.props;
   }
   .legal-page a {
     color: var(--red);
-    text-decoration: none;
+    /* permanent underline — links must be distinguishable by more than color (WCAG 1.4.1; axe link-in-text-block: red-on-gray was 2.85:1) */
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: rgba(229, 57, 53, 0.55);
   }
-  .legal-page a:hover { text-decoration: underline; }
+  .legal-page a:hover { text-decoration-color: var(--red); }
   .legal-stand {
     font-size: 0.9rem;
     color: var(--text-dim);

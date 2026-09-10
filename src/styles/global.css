@@ -39,6 +39,9 @@
     --red: #e53935;
     --red-bright: #ff5a4d;
     --red-dark: #b71c1c;
+    /* filled-button fills — white label needs 4.5:1 (WCAG 1.4.3); --red #e53935 is 4.23:1 (axe-flagged on the home CTA). Same Material red family, one step deeper. */
+    --red-btn: #c62828;        /* 5.6:1 vs #fff */
+    --red-btn-hover: #d32f2f;  /* 5.0:1 vs #fff, brighter than base (hover = lighter) */
     --red-glow: rgba(229, 57, 53, 0.12);
     --red-soft: rgba(229, 57, 53, 0.06);
 
@@ -166,8 +169,8 @@ body {
     touch-action: manipulation;
 }
 .btn:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
-.btn-primary { background: var(--red); color: #fff; box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset; }
-.btn-primary:hover { background: var(--red-bright); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(229,57,53,0.28); }
+.btn-primary { background: var(--red-btn); color: #fff; box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset; }
+.btn-primary:hover { background: var(--red-btn-hover); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(229,57,53,0.28); }
 .btn-primary:active { transform: translateY(0) scale(0.98); }
 .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border-strong); }
 .btn-outline:hover { border-color: var(--text-dim); color: var(--text-bright); background: var(--bg-card); }
@@ -526,7 +529,7 @@ section#clients { padding: 56px 0 64px; }
 .footer-contact a { color: var(--text-dim); font-size: 0.88rem; text-decoration: none; padding: 4px 0; transition: color 0.18s var(--ease); }
 .footer-contact a:hover { color: var(--text-bright); }
 .footer-contact a:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; border-radius: 3px; }
-.footer-links h4 { font-family: var(--mono); font-size: 0.72rem; font-weight: 500; color: var(--text-faint); margin-bottom: 14px; letter-spacing: 0.12em; text-transform: uppercase; }
+.footer-links h2 { font-family: var(--mono); font-size: 0.72rem; font-weight: 500; color: var(--text-faint); margin-bottom: 14px; letter-spacing: 0.12em; text-transform: uppercase; }
 .footer-links a { display: block; color: var(--text-dim); text-decoration: none; font-size: 0.88rem; padding: 4px 0; transition: color 0.18s var(--ease); }
 .footer-links a:hover { color: var(--text-bright); }
 .footer-links a:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; border-radius: 3px; }
