@@ -57,16 +57,16 @@ export const faqs = [
     a: 'Das hängt vom Umfang ab. Nach dem Erstgespräch erhalten Sie eine klare Einschätzung von Aufwand und Kosten, bevor Sie sich entscheiden.',
   },
   {
-    q: 'On-premise oder Cloud — was passt zu uns?',
+    q: 'On-premise oder Cloud: was passt zu uns?',
     a: 'Bei sensiblen Daten, regulatorischen Anforderungen oder hohen Abfragemengen lohnt sich on-premise: Die KI läuft auf eigener Hardware, Daten verlassen das Unternehmen nicht. Für maximale Intelligenz oder seltene Abfragen ist die Cloud die einfachere Wahl. Wir beraten ehrlich, was für Ihren Fall besser ist.',
   },
   {
     q: 'Lohnt sich KI für mein Unternehmen überhaupt?',
-    a: 'Nicht für jedes Problem. Im Erstgespräch prüfen wir, ob Ihr Use Case tatsächlich von KI profitiert — oder ob eine einfachere Lösung schlauer ist. Wenn KI nicht das richtige Werkzeug ist, sagen wir das offen.',
+    a: 'Nicht für jedes Problem. Im Erstgespräch prüfen wir, ob Ihr Use Case tatsächlich von KI profitiert, oder ob eine einfachere Lösung schlauer ist. Wenn KI nicht das richtige Werkzeug ist, sagen wir das offen.',
   },
   {
     q: 'Können Sie Open-Source-Modelle wie Llama oder Qwen selbst hosten?',
-    a: 'Ja. Wir hosten Open-Weight-Modelle wie Llama, Qwen, DeepSeek und GLM auf eigener Hardware — ohne Cloud-Abhängigkeit und ohne pro Token zu zahlen. Die Hardwarekosten stehen fest, die Abrechnung wird berechenbar.',
+    a: 'Ja. Wir hosten Open-Weight-Modelle wie Llama, Qwen, DeepSeek und GLM auf eigener Hardware, ohne Cloud-Abhängigkeit und ohne pro Token zu zahlen. Die Hardwarekosten stehen fest, die Abrechnung wird berechenbar.',
   },
 ];
 
