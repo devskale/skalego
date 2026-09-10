@@ -32,6 +32,7 @@ export const organization = {
     'Retrieval-Augmented Generation',
     'Dokumentenanalyse',
     'DSGVO-konforme KI',
+    'Agentic Coding',
   ],
 };
 
