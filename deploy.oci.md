@@ -8,6 +8,7 @@ before touching server config or the deploy flow.
 - OCI VM, SSH alias **`amd2`** (`~/.ssh/config` → amd2.skale.dev, user `ubuntu`, key `~/.ssh/oci`).
 - **nginx** serves the static Astro build from **`/var/www/skale.dev`**.
 - Site config: `/etc/nginx/sites-enabled/*skale*`. Catch-all: `location / { try_files $uri $uri/ =404; }`.
+- **Footgun**: `sites-enabled/skale.dev` is a **standalone file**, NOT a symlink to `sites-available/skale.dev` — edit the one in `sites-enabled/` (and keep `sites-available/` in sync if you care). Never leave `.bak` files inside `sites-enabled/` — nginx includes `sites-enabled/*`, duplicates cause "conflicting server name" warnings.
 
 ## Deploy flow
 
@@ -45,7 +46,7 @@ Target/path config lives in `deploy.config` (gitignored): `DEPLOY_HOST`, `DEPLOY
 | `/agentsmd`, `/agentskills`, `/piextensions` | GitHub guides |
 | `/chopdok`, `/chopdok/*` | `chopdok.vercel.app` |
 | `/pdf-editor`, `/pdf-editor/*` | `pdf-editor-rouge-psi.vercel.app` |
-| `/aiui` AND `/aiui/` | 307 → `https://neusiedl.duckdns.org:8001/aiui/` (πui on lubu; 307 keeps cookies first-party — an earlier iframe embed was reverted) |
+| `/aiui` AND `/aiui/` | 307 → `https://lubu.skale.dev/aiui/` (πui on lubu; 307 keeps cookies first-party — an earlier iframe embed was reverted) |
 
 Changing any of these: edit nginx on amd2 → `sudo nginx -t && sudo systemctl reload nginx` →
 keep THIS file in sync. Don't put them in AGENTS.md (that file stays deploy-agnostic).
