@@ -110,8 +110,17 @@ rsync -az --stats \
   "$DIST"/ "$HOST:$REMOTE_DIR/"
 
 sleep 1
-SMOKE_REMOTE="$(curl -s -m 15 https://skale.dev/ | md5 -q 2>/dev/null || echo curlfail)"
-SMOKE_LOCAL="$(md5 -q "$DIST/index.html")"
+# md5 portabel: macOS hat `md5 -q`, Linux `md5sum` (vorfall 2026-10-31: linux-host →
+# `md5: command not found` → smoke-check starb mit 127, deploy lief zwar raus aber rot)
+smoke_md5() {
+  if command -v md5sum >/dev/null 2>&1; then
+    md5sum "$1" | awk '{print $1}'
+  else
+    md5 -q "$1"
+  fi
+}
+SMOKE_REMOTE="$(curl -s -m 15 https://skale.dev/ | smoke_md5 /dev/stdin 2>/dev/null || echo curlfail)"
+SMOKE_LOCAL="$(smoke_md5 "$DIST/index.html")"
 if [ "$SMOKE_REMOTE" != "$SMOKE_LOCAL" ]; then
   echo "✗ POST-DEPLOY-SMOKE GESCHEITERT: skale.dev/ liefert NICHT den eben deployten index.html"
   echo "   (remote=$SMOKE_REMOTE local=$SMOKE_LOCAL) — konkurrierender deploy oder nginx-cache?" >&2
