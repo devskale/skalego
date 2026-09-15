@@ -1,8 +1,9 @@
 ---
 // Clients belt — marquee of customer logos. Belt paused on hover (layout.css).
+// href optional — only linked clients get an <a> wrapper
 const logos = [
   { src: '/sylents.png', alt: 'sylents', dark: true },
-  { src: '/wwhb.png', alt: 'WWHB', dark: true },
+  { src: '/wwhb.png', alt: 'Wiener Wohnen Hausbetreuung', dark: true, href: 'https://www.hausbetreuung-wien.at/' },
   { src: '/meduni.png', alt: 'MedUni Wien', dark: true },
   { src: '/gwenenergiespeicher.png', alt: 'gwen energiespeicher', dark: false },
   { src: '/Vectacore.png', alt: 'Vectacore', dark: true },
@@ -14,14 +15,26 @@ const logos = [
   <div class="belt-mask">
     <div class="belt-track">
       <div class="belt-copy">
-        {logos.map((l) => (
-          <img src={l.src} alt={l.alt} class={`belt-logo ${l.dark ? 'belt-logo-dark' : ''}`} loading="lazy" />
-        ))}
+        {logos.map((l) =>
+          l.href ? (
+            <a href={l.href} target="_blank" rel="noopener">
+              <img src={l.src} alt={l.alt} class={`belt-logo ${l.dark ? 'belt-logo-dark' : ''}`} loading="lazy" />
+            </a>
+          ) : (
+            <img src={l.src} alt={l.alt} class={`belt-logo ${l.dark ? 'belt-logo-dark' : ''}`} loading="lazy" />
+          )
+        )}
       </div>
       <div class="belt-copy" aria-hidden="true">
-        {logos.map((l) => (
-          <img src={l.src} alt="" class={`belt-logo ${l.dark ? 'belt-logo-dark' : ''}`} loading="lazy" />
-        ))}
+        {logos.map((l) =>
+          l.href ? (
+            <a href={l.href} tabindex="-1" aria-hidden="true">
+              <img src={l.src} alt="" class={`belt-logo ${l.dark ? 'belt-logo-dark' : ''}`} loading="lazy" />
+            </a>
+          ) : (
+            <img src={l.src} alt="" class={`belt-logo ${l.dark ? 'belt-logo-dark' : ''}`} loading="lazy" />
+          )
+        )}
       </div>
     </div>
   </div>
