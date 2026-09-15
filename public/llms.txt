@@ -17,7 +17,7 @@ Analyse → Prototyp → Integration → Betrieb & Lern-Loop.
 Ehrliche Einschätzung ob KI das Problem wirklich löst, bevor Infrastruktur entsteht.
 
 ## Apps & Tools
-- [Firmenindex Österreich](https://skale.dev/firmenindex/): Firmensuche für Österreich (Firma, FN, Person, Branche). Über 40.000 Unternehmen.
+- [Firmenindex Österreich](https://skale.dev/firmenindex/): Firmensuche für Österreich (Firma, FN, Person, Branche). 333.000+ Firmen mit Gesellschaftern, GF, Historie (Zeitreise) und offener API — plus Branchen (ÖNACE), Insolvenzen, e.U. via GISA/WKO.
 - [PDF Annotator](https://skale.dev/pdf-editor): PDF im Browser annotieren, client-seitig.
 - [ChopDok](https://skale.dev/chopdok): PDF-Seiten aufteilen und neu anordnen, kostenlos, werbefrei.
 
