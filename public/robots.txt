@@ -11,5 +11,6 @@ Disallow: /firmenindex/api
 # Sitemap
 Sitemap: https://skale.dev/sitemap-index.xml
 Sitemap: https://skale.dev/firmenindex/sitemap.xml
+Sitemap: https://skale.dev/firmenindex/firma-sitemap.xml
 
 # Für KI-/LLM-Crawler: https://skale.dev/llms.txt
