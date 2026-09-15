@@ -2,6 +2,9 @@
 # AI Engineering für Unternehmen
 
 User-agent: *
+# Content-Signal (contentsignals.org): was crawler mit den bytes dürfen —
+# search=suchergebnisse, ai-input=live-kontext in KI-antworten, ai-train=training
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 # Tool- und API-Routeten nicht crawlen
