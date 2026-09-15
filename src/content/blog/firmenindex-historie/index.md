@@ -1,5 +1,5 @@
 ---
-title: "Firmenindex — das österreichische Firmenbuch, durchsuchbar bis in die Historie"
+title: "Firmenindex: 333.000 Firmen mit Zeitreise-Historie"
 description: 333.000 Firmen, verifizierte Personen, Eigentümer-Graph und Zeitreise zu jedem Stichtag — unser Firmenindex für Österreich. Kostenlos, ohne Login, mit offener API.
 date: 2026-09-15
 author: johann
