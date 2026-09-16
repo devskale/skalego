@@ -1,6 +1,6 @@
 ---
 title: "Firmenindex: 333.000 Firmen mit Zeitreise-Historie"
-description: 333.000 Firmen, verifizierte Personen, Eigentümer-Graph und Zeitreise zu jedem Stichtag — unser Firmenindex für Österreich. Kostenlos, ohne Login, mit offener API.
+description: 333.000 Firmen, verifizierte Personen, Eigentümer-Graph und Zeitreise zu jedem Stichtag. Der Firmenindex für Österreich — kostenlos, ohne Login.
 date: 2026-09-15
 author: johann
 tags: [firmenindex, firmenbuch, daten, österreich]
