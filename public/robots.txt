@@ -15,4 +15,5 @@ Disallow: /firmenindex/api
 Sitemap: https://skale.dev/sitemap-index.xml
 Sitemap: https://skale.dev/firmenindex/sitemap.xml
 Sitemap: https://skale.dev/firmenindex/firma-sitemap.xml
+Sitemap: https://skale.dev/sitemap-apps.xml
 
