@@ -8,27 +8,79 @@ const all = await getCollection('blog', ({ data }) => (import.meta.env.PROD ? da
 const entry = all.find((p) => Array.isArray(p.data.skills) && p.data.skills.length);
 const skills = (entry?.data.skills ?? []).filter((s) => !s.hidden);
 
+// Where a skill installs, derived from the install format (no extra schema field):
+// pi-skill/pi-skillset → pi; npx skills → .agents/skills; npx impeccable → .agents.
+function envLabel(s: { install: string }): string | null {
+  const inst = String(s.install || '');
+  if (inst === 'pi-skill' || inst.startsWith('pi-skillset:')) return 'pi';
+  if (inst.includes('skills@latest')) return '.agents/skills';
+  if (inst.includes('impeccable')) return '.agents';
+  return null;
+}
+
 const title = 'Skills – skale.dev';
-const description = 'One-line install for recommended agent skills: curl -fsSL skale.dev/s/<name> | bash';
+const description = 'Agent-Skills mit Einzeiler-Install: curl -fsSL skale.dev/s/<name> | bash. Eigene pi-Skills und empfohlene Upstream-Skills.';
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Startseite', item: 'https://skale.dev/' },
+        { '@type': 'ListItem', position: 2, name: 'Skills', item: 'https://skale.dev/skills/' },
+      ],
+    },
+    {
+      '@type': 'CollectionPage',
+      name: 'Skills – skale.dev',
+      url: 'https://skale.dev/skills/',
+      description: 'Empfohlene Agent-Skills mit Einzeiler-Install über skale.dev/s/<slug>.',
+      isPartOf: { '@id': 'https://skale.dev/#website' },
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListElement: skills.map((s, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          item: {
+            '@type': 'SoftwareApplication',
+            name: s.slug,
+            applicationCategory: 'DeveloperApplication',
+            operatingSystem: 'Any',
+            url: new URL(`/s/${s.slug}`, 'https://skale.dev/').toString(),
+            description: s.desc,
+            publisher: { '@id': 'https://skale.dev/#organization' },
+          },
+        })),
+      },
+    },
+  ],
+};
 ---
 
 <BaseLayout title={title} description={description} path="/skills/">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
+  </Fragment>
+
   <section class="skills">
     <div class="container">
       <header class="section-head reveal">
         <span class="hero-badge reveal">skale.dev / skills</span>
-        <h1 class="section-title">Recommended skills.</h1>
+        <h1 class="section-title">Skills.</h1>
         <p class="section-sub">
-          Each installs with <code>curl -fsSL skale.dev/s/&lt;name&gt; | bash</code>.
-          Our own pi-skills enable via the package whitelist; external ones run their upstream installer.
-          Click <span class="chevron-inline">▸</span> on any card for the tech details.
+          Jeder Skill, ein Einzeiler: <code>curl -fsSL skale.dev/s/&lt;name&gt; | bash</code>.
+          Eigene pi-Skills aktivieren über die Paket-Whitelist, externe
+          über den Upstream-Installer. <span class="chevron-inline">▸</span> auf einer
+          Karte zeigt die technischen Details.
         </p>
         <div class="skill-source reveal">
-          <span>Our pi-skills live in <a class="skill-source__link" href="https://github.com/devskale/skale-skills" target="_blank" rel="noopener">github.com/devskale/skale-skills</a>. Install the whole package:</span>
+          <span>Die eigenen pi-Skills liegen in <a class="skill-source__link" href="https://github.com/devskale/skale-skills" target="_blank" rel="noopener">github.com/devskale/skale-skills</a>. Das Gesamtpaket installieren:</span>
           <div class="install-box">
-            <code tabindex="0">pi install git:github.com/devskale/skale-skills</code>
-            <button class="copy" type="button" data-copy="pi install git:github.com/devskale/skale-skills" aria-label="Copy install command">
-              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+            <code>pi install git:github.com/devskale/skale-skills</code>
+            <button class="copy" type="button" data-copy="pi install git:github.com/devskale/skale-skills" aria-label="Install-Befehl kopieren">
+              <svg class="icon-clip" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              <svg class="icon-check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
             </button>
           </div>
         </div>
@@ -38,26 +90,30 @@ const description = 'One-line install for recommended agent skills: curl -fsSL s
         {skills.map((s) => {
           const cmd = `curl -fsSL https://skale.dev/s/${s.slug} | bash`;
           const d = s.details;
+          const env = envLabel(s);
           return (
             <li class="skill-card reveal">
-              <h2 class="skill-card__title">{s.slug}</h2>
+              <div class="skill-card__title-row">
+                <h2 class="skill-card__title">{s.slug}</h2>
+                {env && <span class="skill-card__env">{env}</span>}
+              </div>
               <p class="skill-card__desc">{s.desc}</p>
               <div class="install-box">
-                <code tabindex="0">{cmd}</code>
-                <button class="copy" type="button" data-copy={cmd} aria-label="Copy install command">
-                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                <code>{cmd}</code>
+                <button class="copy" type="button" data-copy={cmd} aria-label="Install-Befehl kopieren">
+                  <svg class="icon-clip" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+                  <svg class="icon-check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
                 </button>
               </div>
               {d && (
                 <details class="skill-details">
                   <summary>
                     <svg class="chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
-                    <span>How it works</span>
+                    <span>Wie es funktioniert</span>
                   </summary>
                   <div class="skill-details__body">
-                    <p class="skill-details__what">{d.what}</p>
                     {d.how && (
-                      <p class="skill-details__how"><span class="skill-details__label">how</span> {d.how}</p>
+                      <p class="skill-details__how"><span class="skill-details__label">wie</span> {d.how}</p>
                     )}
                     {d.steps && (
                       <ol class="skill-details__steps">
@@ -71,6 +127,11 @@ const description = 'One-line install for recommended agent skills: curl -fsSL s
           );
         })}
       </ul>
+
+      <div class="skills-note reveal">
+        <span>Hintergründe und die Story zur improve-architecture-Familie: im Blogpost <a href="/blog/recommended-skills/">Recommended Skills</a>.</span>
+        <span>Für Agenten: <a href="/s/available">/s/available</a> listet die installierbaren Slugs als Text, <a href="/agents/">/agents/</a> ist der Feature-Index.</span>
+      </div>
     </div>
   </section>
 </BaseLayout>
@@ -85,7 +146,7 @@ const description = 'One-line install for recommended agent skills: curl -fsSL s
         const s = getSelection(); s.removeAllRanges(); s.addRange(r); document.execCommand('copy'); s.removeAllRanges();
       }
       b.classList.add('copied');
-      setTimeout(() => b.classList.remove('copied'), 1200);
+      setTimeout(() => b.classList.remove('copied'), 1400);
     });
   });
 </script>
@@ -93,23 +154,32 @@ const description = 'One-line install for recommended agent skills: curl -fsSL s
 <style>
   .skills { padding: 7rem 0 6rem; }
   .skill-grid { list-style: none; padding: 0; margin: 3rem 0 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
+  /* last card spans full width: no orphan half-row, the grid closes cleanly */
+  .skill-grid > li:last-child { grid-column: 1 / -1; }
   .skill-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 1.5rem; display: flex; flex-direction: column; gap: 0.85rem; }
-  .skill-card__title { font-family: 'JetBrains Mono', monospace; font-size: 1.15rem; font-weight: 600; color: var(--fg, #fff); margin: 0; }
-  .skill-card__desc { color: var(--muted, #aab); font-size: 0.92rem; line-height: 1.5; margin: 0; flex: 1; }
+  .skill-card__title-row { display: flex; align-items: center; gap: 0.55rem; flex-wrap: wrap; }
+  .skill-card__title { font-family: var(--mono); font-size: 1.15rem; font-weight: 600; color: var(--text-bright); margin: 0; }
+  .skill-card__env {
+    font-family: var(--mono); font-size: 0.66rem; color: var(--text-dim);
+    border: 1px solid var(--border); border-radius: 5px; padding: 2px 7px;
+    background: rgba(255,255,255,0.04); letter-spacing: 0.02em;
+  }
+  .skill-card__desc { color: var(--text-dim); font-size: 0.92rem; line-height: 1.5; margin: 0; flex: 1; }
   .install-box { display:flex; align-items:center; gap:.4rem; background:#050506; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:.7rem .85rem; }
-  .install-box code { font-family:'JetBrains Mono',monospace; font-size:.8rem; color:#7fe7c1; white-space:nowrap; overflow-x:auto; flex:1 1 auto; min-width:0; scrollbar-width:none; }
-  .install-box code::-webkit-scrollbar { display:none; }
-  /* scrollable region focusable — keyboard users must be able to scroll it (WCAG 2.1.1; axe scrollable-region-focusable) */
-  .install-box code:focus-visible { outline: 2px solid var(--red, #e53935); outline-offset: 2px; border-radius: 4px; }
-  .copy { flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; padding:0; background:transparent; color:var(--muted,#8a8a99); border:1px solid transparent; border-radius:6px; cursor:pointer; transition:color .15s, background .15s; }
-  .copy:hover { color:var(--fg,#fff); background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15); }
-  .copy.copied { color:#7fe7c1; }
+  /* wrap instead of scroll: the slug must stay visible on narrow screens (visual wrap only, paste intact) */
+  .install-box code { font-family:var(--mono); font-size:.8rem; color:var(--text-bright); white-space:pre-wrap; overflow-wrap:anywhere; flex:1 1 auto; min-width:0; }
+  .copy { flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; padding:0; background:transparent; color:var(--text-dim); border:1px solid transparent; border-radius:6px; cursor:pointer; transition:color .15s, background .15s; }
+  .copy:hover { color:var(--text-bright); background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15); }
+  .copy .icon-check { display: none; }
+  .copy.copied { color:#5fd068; }
+  .copy.copied .icon-clip { display: none; }
+  .copy.copied .icon-check { display: block; }
 
   /* source block — repo link + whole-package install command (reuses .install-box + .copy) */
   .skill-source { margin-top: 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; }
-  .skill-source > span { color: var(--text-dim, #8a8a94); font-size: 0.85rem; line-height: 1.6; }
-  .skill-source__link { color: var(--text-bright, #fafafa); text-decoration: none; border-bottom: 1px solid rgba(229,57,53,0.4); transition: border-color 0.15s; }
-  .skill-source__link:hover { border-color: var(--red, #e53935); }
+  .skill-source > span { color: var(--text-dim); font-size: 0.85rem; line-height: 1.6; }
+  .skill-source__link { color: var(--text-bright); text-decoration: none; border-bottom: 1px solid rgba(229,57,53,0.4); transition: border-color 0.15s; }
+  .skill-source__link:hover { border-color: var(--red); }
   .skill-source .install-box { max-width: 560px; }
 
   /* chevron disclosure — native <details>, zero JS, keyboard-accessible */
@@ -118,18 +188,18 @@ const description = 'One-line install for recommended agent skills: curl -fsSL s
     list-style: none; cursor: pointer;
     display: flex; align-items: center; gap: 0.5rem;
     padding: 0.35rem 0;
-    color: var(--text-dim, #8a8a94);
-    font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;
+    color: var(--text-dim);
+    font-family: var(--mono); font-size: 0.78rem;
     letter-spacing: 0.02em;
     transition: color 0.15s var(--ease, ease);
     user-select: none;
   }
   .skill-details > summary::-webkit-details-marker { display: none; }
-  .skill-details > summary:hover { color: var(--text-bright, #fafafa); }
-  .skill-details > summary:focus-visible { outline: 2px solid var(--red, #e53935); outline-offset: 3px; border-radius: 4px; }
-  .skill-details .chevron { flex: 0 0 auto; transition: transform 0.18s var(--ease, ease); color: var(--text-faint, #7a7a82); }
-  .skill-details[open] > summary .chevron { transform: rotate(90deg); color: var(--red, #e53935); }
-  .skill-details[open] > summary { color: var(--text-bright, #fafafa); }
+  .skill-details > summary:hover { color: var(--text-bright); }
+  .skill-details > summary:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 4px; }
+  .skill-details .chevron { flex: 0 0 auto; transition: transform 0.18s var(--ease, ease); color: var(--text-faint); }
+  .skill-details[open] > summary .chevron { transform: rotate(90deg); color: var(--red); }
+  .skill-details[open] > summary { color: var(--text-bright); }
 
   .skill-details__body {
     margin-top: 0.6rem; padding: 0.85rem 0.95rem;
@@ -138,27 +208,31 @@ const description = 'One-line install for recommended agent skills: curl -fsSL s
     border-radius: 9px;
     display: flex; flex-direction: column; gap: 0.6rem;
   }
-  .skill-details__what { margin: 0; color: var(--text, #d4d4d8); font-size: 0.84rem; line-height: 1.55; }
-  .skill-details__how { margin: 0; color: var(--text-dim, #8a8a94); font-size: 0.8rem; line-height: 1.6; }
+  .skill-details__how { margin: 0; color: var(--text-dim); font-size: 0.8rem; line-height: 1.6; }
   .skill-details__label {
-    font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
-    color: var(--text-faint, #7a7a82); text-transform: uppercase; letter-spacing: 0.1em;
+    font-family: var(--mono); font-size: 0.68rem;
+    color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.1em;
     margin-right: 0.35rem;
   }
   .skill-details__steps { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.55rem; counter-reset: step; }
   .skill-details__steps li {
     position: relative; padding-left: 1.7rem;
-    color: var(--text-dim, #8a8a94); font-size: 0.8rem; line-height: 1.6;
+    color: var(--text-dim); font-size: 0.8rem; line-height: 1.6;
     counter-increment: step;
   }
   .skill-details__steps li::before {
     content: counter(step);
     position: absolute; left: 0; top: 0;
-    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 600;
-    color: var(--red, #e53935);
+    font-family: var(--mono); font-size: 0.7rem; font-weight: 600;
+    color: var(--red);
     width: 1.2rem; height: 1.2rem; line-height: 1.2rem; text-align: center;
     border: 1px solid rgba(229, 57, 53, 0.3); border-radius: 4px;
   }
 
-  .chevron-inline { color: var(--red, #e53935); font-family: 'JetBrains Mono', monospace; }
+  .chevron-inline { color: var(--red); font-family: var(--mono); }
+
+  .skills-note { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 0.35rem; }
+  .skills-note span { color: var(--text-faint); font-size: 0.84rem; line-height: 1.6; }
+  .skills-note a { color: var(--text-dim); text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; transition: color 0.15s, text-decoration-color 0.15s; }
+  .skills-note a:hover { color: var(--red-bright); text-decoration-color: var(--red); }
 </style>

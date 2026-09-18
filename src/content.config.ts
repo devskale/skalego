@@ -19,9 +19,10 @@ const blog = defineCollection({
       install: z.string(),
       hidden: z.boolean().default(false),
       // Optional tech-architecture details shown via a chevron disclosure on /skills/.
-      // `what` = one-line pitch; `how` = mechanism under the hood; `steps` = ordered process.
+      // `what` = one-line pitch (only when it adds something beyond `desc`);
+      // `how` = mechanism under the hood; `steps` = ordered process.
       details: z.object({
-        what: z.string(),
+        what: z.string().optional(),
         how: z.string().optional(),
         steps: z.array(z.string()).optional(),
       }).optional(),

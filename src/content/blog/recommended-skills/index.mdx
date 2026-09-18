@@ -7,52 +7,45 @@ tags: [skills, agents, pi]
 draft: false
 skills:
   - slug: fetch-url
-    desc: "Fetch and extract readable text from any web page — articles, docs, Reddit, GitHub, StackOverflow."
+    desc: "Readable Text von jeder Webseite holen: Artikel, Docs, Reddit, GitHub, StackOverflow."
     install: pi-skill
     details:
-      what: "Extracts readable text from any web page — articles, docs, Reddit, GitHub, StackOverflow."
-      how: "Auto-selects the best backend per site: free local tools first (w3m, lynx), then free APIs (jina, markdown), then headless Chrome for Cloudflare/JS-protected pages. Ships a `fetch-url` CLI in ~/.local/bin; auto-updates every 7 days."
+      how: "Wählt je nach Seite das beste Backend: zuerst lokale, freie Tools (w3m, lynx), dann freie APIs (jina, markdown), dann Headless-Chrome für Cloudflare- und JS-geschützte Seiten. Installiert ein fetch-url-CLI in ~/.local/bin, das sich alle 7 Tage selbst aktualisiert."
   - slug: web-search
-    desc: "Web search via SearXNG + Duck API. Images, news, videos. Works out of the box."
+    desc: "Websuche über SearXNG und Duck API. Bilder, News, Videos. Funktioniert ohne Konfiguration."
     install: pi-skill
     details:
-      what: "Web search with automatic backend selection — works out of the box with public SearXNG."
-      how: "Picks SearXNG (free, no creds) or the Duck API (advanced filters: --site, --filetype, --inurl). Supports images/news/videos, time-range, region, JSON output. Optional private SearXNG via `credgoo searx`."
+      how: "Wählt das Backend automatisch: SearXNG (frei, ohne Credentials) oder die Duck API (erweiterte Filter: --site, --filetype, --inurl). Unterstützt Bilder, News, Videos, Zeitraum, Region und JSON-Ausgabe. Optionaler privater SearXNG via `credgoo searx`."
   - slug: surf
-    desc: "Drive your real, logged-in Google Chrome on macOS — scrape, click, fill, screenshot. No daemon, no debug port."
+    desc: "Dein echtes, eingeloggtes Chrome auf macOS steuern: scrapen, klicken, ausfüllen, Screenshots. Ohne Daemon, ohne Debug-Port."
     install: pi-skill
     details:
-      what: "Drive your real, logged-in Google Chrome from the CLI on macOS — scrape, click, fill, screenshot."
-      how: "macOS AppleScript + Chrome's 'Allow JavaScript from Apple Events'. No daemon, no debug port, no extension, no per-connection dialog. Cookies/sessions/tabs stay intact. Targets the active tab; `surf select w1.t3` pins a background tab."
-  - slug: web
-    desc: "The web research + browser bundle: fetch-url + web-search + surf. Installs all three."
-    install: "pi-skillset:fetch-url,web-search,surf"
-    details:
-      what: "The web research + browser bundle: fetch-url + web-search + surf in one install."
-      how: "Installs all three skills at once via pi's package whitelist. Together they cover fetch (read a page), search (find pages), and surf (drive your logged-in browser)."
+      how: "macOS AppleScript plus Chromes „Allow JavaScript from Apple Events“. Kein Daemon, kein Debug-Port, keine Extension, kein Verbindungsdialog. Cookies, Sessions und Tabs bleiben intakt. Ziel ist der aktive Tab; `surf select w1.t3` pinnt einen Hintergrund-Tab."
   - slug: impeccable
-    desc: "Design skill — shape, critique, harden, and polish frontend UI + anti-pattern detector. Cross-harness."
+    desc: "Design-Skill: Frontend-UI formen, kritisieren, härten und polieren, mit Anti-Pattern-Detektor. Cross-Harness."
     install: "command:npx impeccable install"
     details:
-      what: "Design skill — shape, critique, harden, and polish frontend UI + anti-pattern detector. Cross-harness."
-      how: "Reads a design-system JSON (tokens, components, anti-patterns) and runs critique/harden/live commands. By @pbakaus. Installs via `npx impeccable install` into .agents/."
+      how: "Liest ein Design-System-JSON (Tokens, Komponenten, Anti-Patterns) und steuert die Kommandos critique, harden und live. Von @pbakaus. Installiert über `npx impeccable install` nach .agents/."
   - slug: improve-architecture
-    desc: "Architecture review family — scan for deepening opportunities, HTML report, grill-through. Installs 7 skills (the family incl. batch-grill-me) into .agents/skills/. By @mattpocock."
+    desc: "Architektur-Review-Familie: Deepening-Chancen scannen, HTML-Report, Grill-Durchgang. Installiert 7 Skills (inkl. batch-grill-me) nach .agents/skills/. Von @mattpocock."
     install: "command:npx -y skills@latest add https://github.com/mattpocock/skills --skill improve-codebase-architecture codebase-design domain-modeling grilling grill-me grill-with-docs batch-grill-me -a codex -y </dev/null"
     details:
-      what: "Architecture review family — scan for deepening opportunities, HTML report, grill-through. 7 skills by @mattpocock."
       steps:
-        - "Explore — walk recent git history for hot spots; use a subagent to find shallow modules (interface as complex as implementation), missing locality, leaky seams. Apply the deletion test."
-        - "Present candidates — write a self-contained HTML report (Tailwind + Mermaid) to the OS temp dir, one card per candidate: files, problem, solution, benefits, before/after diagram, strength badge. Open it, then ask which to explore."
-        - "Grill — run the /grilling skill on the picked candidate (decision tree: constraints, dependencies, seam shape, surviving tests). Run /domain-modeling inline to keep CONTEXT.md and ADRs current as decisions crystallize."
+        - "Explore: die letzte Git-History nach Hot Spots abgehen; per Subagent flache Module finden (Interface so komplex wie die Implementierung), fehlende Lokalität, undichte Nähte. Deletion-Test anwenden."
+        - "Present candidates: eigenständigen HTML-Report (Tailwind + Mermaid) ins Temp-Verzeichnis schreiben, eine Karte pro Kandidat: Dateien, Problem, Lösung, Nutzen, Vorher/Nachher-Diagramm, Strength-Badge. Report öffnen, dann fragen, welcher Kandidat vertieft wird."
+        - "Grill: den /grilling-Skill auf den gewählten Kandidaten anwenden (Entscheidungsbaum: Constraints, Abhängigkeiten, Naht-Form, überlebende Tests). /domain-modeling inline laufen lassen, damit CONTEXT.md und ADRs aktuell bleiben."
   - slug: implement
-    desc: "Implement work from a spec or tickets — TDD at seams, typecheck as you go, /code-review at the end. Installs implement + tdd + code-review. By @mattpocock."
+    desc: "Arbeit aus Spec oder Tickets umsetzen: TDD an den Nähten, Typecheck unterwegs, /code-review am Ende. Installiert implement + tdd + code-review. Von @mattpocock."
     install: "command:npx -y skills@latest add https://github.com/mattpocock/skills --skill implement tdd code-review -a codex -y </dev/null"
     details:
-      what: "Implement a piece of work based on a spec or set of tickets. Installs the full set: implement + tdd + code-review."
-      how: "TDD at pre-agreed seams where possible. Runs typechecking regularly, single test files regularly, and the full suite once at the end. Finishes with /code-review, then commits to the current branch."
+      how: "TDD an vorab vereinbarten Nähten, wo möglich. Typprüfung regelmäßig, einzelne Testdateien häufig, die ganze Suite einmal am Ende. Schließt mit /code-review und committet auf den aktuellen Branch."
+  - slug: web
+    desc: "Das Web-Recherche-Bundle: fetch-url, web-search und surf in einem Install."
+    install: "pi-skillset:fetch-url,web-search,surf"
+    details:
+      how: "Installiert alle drei Skills auf einmal über die pi-Paket-Whitelist. Zusammen decken sie die Recherche-Kette ab: Seite lesen (fetch-url), Seiten finden (web-search), eigenen Browser steuern (surf)."
   - slug: gakefay
-    desc: "Test skill — does nothing. Used to verify the install flow end-to-end."
+    desc: "Test-Skill: macht nichts. Dient dem End-to-End-Test des Install-Flows."
     install: "command:echo '✓ gakefay installed (no-op test skill)'"
     hidden: true
 ---
