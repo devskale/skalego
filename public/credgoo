@@ -1,0 +1,15 @@
+# credgoo: secure credentials manager (encrypted Google Sheets backend).
+# This file is a valid pip/uv requirements file AND the agent-readable doc.
+#
+# Install from this file:
+#   uv pip install -r https://skale.dev/credgoo
+# Standalone CLI (no venv):
+#   uv tool install "credgoo @ git+https://github.com/devskale/python-openutils.git#subdirectory=packages/credgoo"
+# One-time setup:
+#   credgoo --setup
+# Library use:
+#   from credgoo import get_api_key
+#   key = get_api_key("openai")
+# Source: https://github.com/devskale/python-openutils (packages/credgoo, MIT)
+
+credgoo @ git+https://github.com/devskale/python-openutils.git#subdirectory=packages/credgoo

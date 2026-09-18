@@ -1,0 +1,176 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const title = 'skale.dev für Agenten';
+const description = 'Maschinenlesbarer Index der nutzbaren Features auf skale.dev: credgoo, throway, Firmenindex Österreich, Skills und Guides. Alle Endpoints ohne Login, mit Beispielen zum Direktaufruf.';
+---
+
+<BaseLayout title={title} description={description} path="/agents/">
+  <section class="ag-page">
+    <div class="container">
+      <a href="/" class="apps-back">← Zurück zur Startseite</a>
+
+      <header class="ag-head">
+        <h1>skale.dev für Agenten.</h1>
+        <p>
+          Index aller Features, die AI-Agenten direkt nutzen können.
+          Jeder Endpoint ohne Login, statisch ausgeliefert, mit Copy-paste-Beispielen.
+          Diese Seite ist der Einstieg; jedes Feature verlinkt seine eigene,
+          tiefere Doku.
+        </p>
+      </header>
+
+      <div class="ag-list">
+        <article class="ag-card" id="credgoo">
+          <h2>credgoo <span class="ag-what">Credentials-Manager</span></h2>
+          <p>
+            API-Keys und Secrets aus einem verschlüsselten Google-Sheets-Backend
+            holen. Ein Source of Truth für lokale, Dev- und Produktionsumgebungen.
+          </p>
+          <pre><code># installieren (dieser Endpoint ist die requirements-Datei)
+uv pip install -r https://skale.dev/credgoo
+
+# benutzen
+credgoo --setup
+from credgoo import get_api_key
+get_api_key("openai")</code></pre>
+          <p class="ag-more">
+            Mehr: <a href="/credgoo">/credgoo</a> (requirements + Doku in einer Datei) ·
+            <a href="https://github.com/devskale/python-openutils" target="_blank" rel="noopener">Source auf GitHub</a>
+          </p>
+        </article>
+
+        <article class="ag-card" id="throway">
+          <h2>throway <span class="ag-what">Wegwerf-Dateispeicher</span></h2>
+          <p>
+            Datei oder Bundle hochladen, kurze URL zurückbekommen. Alles läuft
+            nach 4 Stunden automatisch ab. Kein Login, kein Tracking.
+          </p>
+          <pre><code># Upload, Antwort ist die Kurz-URL
+curl -sT file.pdf "https://skale.dev/throway/?name=file.pdf"
+
+# Vollständige Doku als Text direkt am Endpoint
+curl -s https://skale.dev/throway/</code></pre>
+          <p class="ag-more">
+            Mehr: <a href="/throway/">/throway/</a> (Usage-Guide als Text) ·
+            <a href="/throway/api">/throway/api</a> (API-Index) ·
+            <a href="/throway/write_for_agents">/throway/write_for_agents</a> (Agenten-Guide)
+          </p>
+        </article>
+
+        <article class="ag-card" id="firmenindex">
+          <h2>Firmenindex Österreich <span class="ag-what">Firmensuche, 300k+ Einträge</span></h2>
+          <p>
+            Durchsuchbarer Index österreichischer Firmen: Firmenbuch (FN),
+            nicht-eingetragene Gewerbe, ÖNACE-klassifiziert. JSON-API ohne Auth.
+          </p>
+          <pre><code># Ein Muster für alle Endpoints
+curl "https://skale.dev/firmenindex/api?e=&lt;ENDPOINT&gt;&amp;&lt;PARAMS&gt;"</code></pre>
+          <p class="ag-more">
+            Mehr: <a href="/firmenindex/agents.html">/firmenindex/agents.html</a> (OpenAPI-Referenz, Query-Sprache, Deep-Links) ·
+            <a href="/firmenindex/">/firmenindex/</a> (Web-App)
+          </p>
+        </article>
+
+        <article class="ag-card" id="skills">
+          <h2>Skills <span class="ag-what">installierbare Agent-Skills</span></h2>
+          <p>
+            Das pi-Paket skale-skills als Einzelskill installierbar: Web-Suche,
+            URL-Extraktion, Headless-Browser und mehr.
+          </p>
+          <pre><code># Skill-Liste ansehen
+curl -s https://skale.dev/skills/
+
+# einen Skill installieren
+curl -fsSL https://skale.dev/s/fetch-url | bash</code></pre>
+          <p class="ag-more">
+            Mehr: <a href="/skills/">/skills/</a> (Liste) ·
+            <a href="/s/available">/s/available</a> (installierbare Slugs als Text)
+          </p>
+        </article>
+
+        <article class="ag-card" id="guides">
+          <h2>Guides <span class="ag-what">Best Practices für Agenten-Entwicklung</span></h2>
+          <p>
+            AGENTS.md-Struktur, das offene Agent-Skills-Format und
+            Pi-Extensions: drei tiefgehende Guides plus das Paket selbst.
+          </p>
+          <p class="ag-more">
+            Mehr: <a href="/agent-coding/">/agent-coding/</a> ·
+            <a href="/agentsmd">/agentsmd</a> ·
+            <a href="/agentskills">/agentskills</a> ·
+            <a href="/piextensions">/piextensions</a>
+          </p>
+        </article>
+      </div>
+
+      <div class="ag-note">
+        Diese Seite ist auch in <code>robots.txt</code> verlinkt. Für Änderungen:
+        <a href="mailto:dev@skale.dev">dev@skale.dev</a>.
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  .ag-page { padding: 120px 0 80px; }
+  .ag-page .container { max-width: 880px; }
+
+  .apps-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--text-dim); text-decoration: none;
+    font-size: 0.9rem; margin-bottom: 2rem; transition: color 0.2s;
+  }
+  .apps-back:hover { color: var(--red); }
+
+  .ag-head h1 {
+    font-size: 2.4rem; font-weight: 700; margin-bottom: 0.6rem;
+    color: var(--text-bright); letter-spacing: -0.5px;
+  }
+  .ag-head p { font-size: 1.05rem; color: var(--text-dim); max-width: 620px; line-height: 1.65; }
+
+  .ag-list { display: grid; gap: 16px; margin-top: 3rem; }
+  .ag-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px 26px;
+    scroll-margin-top: 90px;
+  }
+  .ag-card h2 {
+    font-family: var(--display); font-size: 1.2rem; font-weight: 700;
+    color: var(--text-bright); letter-spacing: -0.01em; margin-bottom: 8px;
+  }
+  .ag-what {
+    font-family: var(--mono); font-size: 0.74rem; font-weight: 500;
+    color: var(--text-dim); margin-left: 8px; letter-spacing: 0.02em;
+  }
+  .ag-card > p { font-size: 0.92rem; color: var(--text); line-height: 1.6; }
+  .ag-card pre {
+    margin: 12px 0; padding: 14px 16px; border-radius: var(--radius-sm);
+    background: var(--bg-alt); border: 1px solid var(--border); overflow-x: auto;
+  }
+  .ag-card pre code {
+    font-family: var(--mono); font-size: 0.84rem; line-height: 1.7;
+    color: var(--text-bright); white-space: pre;
+  }
+  .ag-more { font-size: 0.84rem; color: var(--text-faint); }
+  .ag-more a { color: var(--text-dim); text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
+  .ag-more a:hover { color: var(--red-bright); text-decoration-color: var(--red); }
+
+  .ag-note {
+    margin-top: 2.5rem; padding: 16px 20px; border-radius: var(--radius);
+    border: 1px solid var(--border); background: var(--bg-card);
+    font-size: 0.86rem; color: var(--text-dim); line-height: 1.6;
+  }
+  .ag-note code { font-family: var(--mono); font-size: 0.9em; }
+  .ag-note a { color: var(--text-dim); }
+  .ag-note a:hover { color: var(--red-bright); }
+
+  @media (max-width: 640px) {
+    .ag-page { padding: 96px 0 64px; }
+    .ag-head h1 { font-size: 1.9rem; }
+    .ag-card { padding: 18px 18px; }
+    .ag-what { display: block; margin: 4px 0 0; }
+    /* wrap long commands instead of clipping them (visual wrap only; paste stays intact) */
+    .ag-card pre code { white-space: pre-wrap; overflow-wrap: anywhere; }
+  }
+</style>

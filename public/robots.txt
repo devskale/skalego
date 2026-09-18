@@ -1,6 +1,10 @@
 # robots.txt — skale.dev
 # AI Engineering für Unternehmen
 
+# AI-Agenten: maschinenlesbarer Index aller nutzbaren Features
+# (credgoo, throway, firmenindex, skills, guides):
+# https://skale.dev/agents/
+
 User-agent: *
 # Content-Signal (contentsignals.org): was crawler mit den bytes dürfen —
 # search=suchergebnisse, ai-input=live-kontext in KI-antworten, ai-train=training
