@@ -30,7 +30,7 @@ export const apps = [
   },
   {
     name: 'ChopDok',
-    href: '/chopdok/',
+    href: '/chopdok',
     shot: '/logos/screenshot-chopdok.png',
     alt: 'Screenshot: ChopDok',
     short: 'PDF-Seiten aufteilen und neu anordnen',
