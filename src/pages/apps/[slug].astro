@@ -1,0 +1,218 @@
+---
+// App-Landing-Pages: /apps/<slug>/ — SEO-Content-Seiten für Apps, deren
+// Tool-URL selbst nur eine dünne JS-App ist. Content kommt aus der SSOT
+// (src/data/apps.js → a.page).
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { apps } from '@data/apps.js';
+
+export function getStaticPaths() {
+  return apps
+    .filter((a) => a.page)
+    .map((a) => ({
+      params: { slug: a.page.slug },
+      props: { app: a },
+    }));
+}
+
+const { app } = Astro.props;
+const page = app.page;
+const url = `https://skale.dev/apps/${page.slug}/`;
+const toolUrl = new URL(app.href, 'https://skale.dev/').toString();
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'SoftwareApplication',
+      name: app.name,
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Web',
+      url,
+      description: page.intro,
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR' },
+      publisher: { '@id': 'https://skale.dev/#organization' },
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: page.faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Startseite', item: 'https://skale.dev/' },
+        { '@type': 'ListItem', position: 2, name: 'Apps & Tools', item: 'https://skale.dev/apps/' },
+        { '@type': 'ListItem', position: 3, name: app.name, item: url },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout title={page.title} description={page.intro} path={`/apps/${page.slug}/`}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
+  </Fragment>
+
+  <section class="apps-page">
+    <div class="container">
+      <a href="/apps/" class="apps-back">← Apps &amp; Tools</a>
+
+      <header class="app-page-head">
+        <span class="app-page-kicker">App · Kostenlos · Ohne Upload</span>
+        <h1>{page.h1}</h1>
+        <p class="app-page-intro">{page.intro}</p>
+        <a href={toolUrl} class="btn btn-primary app-page-cta">{app.name} öffnen →</a>
+      </header>
+
+      <div class="app-page-shot">
+        <img src={app.shot} alt={app.alt} width="1280" height="800" />
+      </div>
+
+      <section class="app-page-features">
+        <h2>Was es kann</h2>
+        <div class="app-page-grid">
+          {page.features.map((f) => (
+            <div class="app-feature">
+              <h3>{f.name}</h3>
+              <p>{f.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="app-page-faq">
+        <h2>Häufige Fragen</h2>
+        {page.faqs.map((f) => (
+          <details class="app-faq-item">
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </section>
+
+      <section class="app-page-cta-final">
+        <h2>{app.name} verwenden</h2>
+        <p>Kein Konto, kein Upload, keine Warteschleife.</p>
+        <a href={toolUrl} class="btn btn-primary btn-lg">{app.name} öffnen →</a>
+      </section>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .app-page-head {
+    max-width: 640px;
+    padding: 40px 0 28px;
+  }
+  .app-page-kicker {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--red-bright);
+  }
+  .app-page-head h1 {
+    font-family: var(--display);
+    font-size: clamp(1.9rem, 4vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+    color: var(--text-bright);
+    margin: 10px 0 14px;
+    text-wrap: balance;
+  }
+  .app-page-intro {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 22px;
+  }
+  .app-page-cta { margin-bottom: 4px; }
+
+  .app-page-shot {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .app-page-shot img { width: 100%; height: auto; }
+
+  .app-page-features { padding: 44px 0 8px; }
+  .app-page-features h2,
+  .app-page-faq h2 {
+    font-family: var(--display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text-bright);
+    margin-bottom: 18px;
+  }
+  .app-page-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .app-feature {
+    background: var(--bg);
+    padding: 22px 20px;
+  }
+  .app-feature h3 {
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    margin-bottom: 6px;
+  }
+  .app-feature p {
+    font-size: 0.92rem;
+    color: var(--text-dim);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .app-page-faq { padding: 44px 0 8px; max-width: 720px; }
+  .app-faq-item {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 10px;
+    padding: 14px 18px;
+  }
+  .app-faq-item summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-bright);
+  }
+  .app-faq-item[open] summary { margin-bottom: 8px; }
+  .app-faq-item p {
+    color: var(--text-dim);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .app-page-cta-final {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-card);
+    padding: 34px 28px;
+    margin: 44px 0 60px;
+    max-width: 720px;
+  }
+  .app-page-cta-final h2 {
+    font-family: var(--display);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    margin-bottom: 6px;
+  }
+  .app-page-cta-final p {
+    color: var(--text-dim);
+    margin-bottom: 18px;
+  }
+</style>
