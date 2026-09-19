@@ -9,8 +9,8 @@ export const apps = [
     href: '/firmenindex/',
     shot: '/logos/screenshot-firmenindex.png',
     alt: 'Screenshot: Firmenindex Österreich',
-    short: 'Über 40.000 Unternehmen, Suche in Echtzeit',
-    desc: 'Firmensuche für Österreich mit über 40.000 Unternehmen. Suche nach Firma, Firmenbuchnummer (FN), Person oder Branche.',
+    short: 'Über 330.000 Unternehmen, Suche in Echtzeit',
+    desc: 'Firmensuche für Österreich mit über 330.000 Unternehmen. Suche nach Firma, Firmenbuchnummer (FN), Person oder Branche.',
   },
   {
     name: 'throway',
