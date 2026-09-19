@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { apps } from '@data/apps.js';
 
 // AI-Engineering-Landingpage (2026-09-19): Keyword-Fokus "AI Engineering" /
 // "KI-Entwicklung" — GSC 90d zeigte "artificial intelligence consulting" auf
@@ -246,6 +247,34 @@ const faqs = [
       </div>
     </section>
 
+    <!-- Tools von Skale (aus @data/apps.js — keine Duplikat-Texte) -->
+    <section class="section">
+      <div class="container">
+        <header class="section-head reveal">
+          <h2 class="section-title">Wir bauen selbst — und stellen es offen</h2>
+          <p class="section-sub">
+            AI Engineering endet nicht beim Kundenprojekt: Diese Tools
+            betreiben wir selbst, als Web-Apps, kostenlos und ohne Login.
+          </p>
+        </header>
+        <div class="bento reveal">
+          {apps.map((a) => (
+            <article class="bento-cell">
+              <span class="bento-kicker">Tool</span>
+              <h3><a href={a.href}>{a.name}</a></h3>
+              <p>{a.short}.</p>
+            </article>
+          ))}
+          <article class="bento-cell bento-wide">
+            <span class="bento-kicker">Alle</span>
+            <h3><a href="/apps/">Apps &amp; Tools im Überblick</a></h3>
+            <p>Vier Produkte, ein Ansatz: echte Arbeit im Browser —
+            ohne Registrierung, ohne Datensammeln.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <!-- CTA -->
     <section class="section">
       <div class="container">
@@ -302,4 +331,6 @@ const faqs = [
   .aie-reading { margin-top: 18px; font-size: 0.92rem; color: var(--text-dim); }
   .aie-reading a { color: var(--text-dim); text-decoration: underline; text-underline-offset: 3px; }
   .aie-reading a:hover { color: var(--text-bright); }
+  .bento-cell h3 a { color: inherit; }
+  .bento-cell h3 a:hover { color: var(--red-bright); }
 </style>

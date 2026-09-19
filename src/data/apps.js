@@ -22,7 +22,7 @@ export const apps = [
   },
   {
     name: 'PDF Annotator',
-    href: '/pdf-editor',
+    href: '/pdf-editor/',
     shot: '/logos/screenshot-pdfeditor.png',
     alt: 'Screenshot: PDF Annotator',
     short: 'Annotieren und bearbeiten, komplett im Browser',
@@ -30,7 +30,7 @@ export const apps = [
   },
   {
     name: 'ChopDok',
-    href: '/chopdok',
+    href: '/chopdok/',
     shot: '/logos/screenshot-chopdok.png',
     alt: 'Screenshot: ChopDok',
     short: 'PDF-Seiten aufteilen und neu anordnen',
