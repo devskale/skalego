@@ -135,6 +135,10 @@ function initScrollReveals() {
     els.forEach((el) => el.classList.add('is-visible'));
     return;
   }
+  // CSS scroll-driven animations (global.css) übernehmen die Sektion-Reveals,
+  // wo unterstützt — Observer nur als Fallback laufen lassen.
+  const cssReveals =
+    typeof CSS !== 'undefined' && CSS.supports('animation-timeline: view()');
   const obs = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -148,6 +152,7 @@ function initScrollReveals() {
   );
   els.forEach((el) => {
     if (el.closest('#hero')) return; // hero handled by revealHero()
+    if (cssReveals) return; // CSS übernimmt (animation überschreibt opacity/transform)
     obs.observe(el);
   });
 }
@@ -171,9 +176,10 @@ function initMobileMenu() {
   const links = document.querySelector('.nav-links');
   if (!toggle || !links) return;
 
-  const setOpen = (open) => {
+  const setOpen = (open, { returnFocus = false } = {}) => {
     links.classList.toggle('open', open);
     toggle.setAttribute('aria-expanded', String(open));
+    if (!open && returnFocus) toggle.focus();
   };
 
   toggle.addEventListener('click', () => {
@@ -182,6 +188,12 @@ function initMobileMenu() {
   links.querySelectorAll('a').forEach((a) =>
     a.addEventListener('click', () => setOpen(false))
   );
+  // BFSG/WCAG 2.1.2: Escape schließt das Menü, Fokus kehrt zum Toggle zurück
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && links.classList.contains('open')) {
+      setOpen(false, { returnFocus: true });
+    }
+  });
 }
 
 /* ---------- scrollspy: mark the nav link of the section in view ---------- */

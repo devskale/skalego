@@ -2,11 +2,11 @@
 // Clients belt — marquee of customer logos. Belt paused on hover (layout.css).
 // href optional — only linked clients get an <a> wrapper
 const logos = [
-  { src: '/sylents.png', alt: 'sylents', dark: true },
-  { src: '/wwhb.png', alt: 'Wiener Wohnen Hausbetreuung', dark: true, href: 'https://www.hausbetreuung-wien.at/' },
-  { src: '/meduni.png', alt: 'MedUni Wien', dark: true },
-  { src: '/gwenenergiespeicher.png', alt: 'gwen energiespeicher', dark: false },
-  { src: '/Vectacore.png', alt: 'Vectacore', dark: true },
+  { src: '/sylents.png', alt: 'sylents', dark: true, w: 300, h: 88 },
+  { src: '/wwhb.png', alt: 'Wiener Wohnen Hausbetreuung', dark: true, href: 'https://www.hausbetreuung-wien.at/', w: 300, h: 75 },
+  { src: '/meduni.png', alt: 'MedUni Wien', dark: true, w: 886, h: 214 },
+  { src: '/gwenenergiespeicher.png', alt: 'gwen energiespeicher', dark: false, w: 248, h: 78 },
+  { src: '/Vectacore.png', alt: 'Vectacore', dark: true, w: 500, h: 123 },
 ];
 ---
 
@@ -18,10 +18,10 @@ const logos = [
         {logos.map((l) =>
           l.href ? (
             <a href={l.href} target="_blank" rel="noopener">
-              <img src={l.src} alt={l.alt} class={`belt-logo ${l.dark ? 'belt-logo-dark' : ''}`} loading="lazy" />
+              <img src={l.src} alt={l.alt} width={l.w} height={l.h} class={`belt-logo ${l.dark ? 'belt-logo-dark' : ''}`} loading="lazy" />
             </a>
           ) : (
-            <img src={l.src} alt={l.alt} class={`belt-logo ${l.dark ? 'belt-logo-dark' : ''}`} loading="lazy" />
+            <img src={l.src} alt={l.alt} width={l.w} height={l.h} class={`belt-logo ${l.dark ? 'belt-logo-dark' : ''}`} loading="lazy" />
           )
         )}
       </div>
@@ -29,10 +29,10 @@ const logos = [
         {logos.map((l) =>
           l.href ? (
             <a href={l.href} tabindex="-1" aria-hidden="true">
-              <img src={l.src} alt="" class={`belt-logo ${l.dark ? 'belt-logo-dark' : ''}`} loading="lazy" />
+              <img src={l.src} alt="" width={l.w} height={l.h} class={`belt-logo ${l.dark ? 'belt-logo-dark' : ''}`} loading="lazy" />
             </a>
           ) : (
-            <img src={l.src} alt="" class={`belt-logo ${l.dark ? 'belt-logo-dark' : ''}`} loading="lazy" />
+            <img src={l.src} alt="" width={l.w} height={l.h} class={`belt-logo ${l.dark ? 'belt-logo-dark' : ''}`} loading="lazy" />
           )
         )}
       </div>

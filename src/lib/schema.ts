@@ -34,7 +34,7 @@ export function getBlogPostingSchema(post: CollectionEntry<'blog'>) {
     description: post.data.description,
     image: imageSchema,
     datePublished: post.data.date.toISOString(),
-    dateModified: post.data.date.toISOString(),
+    dateModified: (post.data.updatedDate ?? post.data.date).toISOString(),
     author: {
       '@type': 'Person',
       name: authorName(post.data.author) ?? organization.name,

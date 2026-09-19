@@ -65,9 +65,10 @@ const robots = noindex
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    <!-- Self-hosted fonts (DSGVO: no third-party CDN). Preload the two above-fold-critical weights. -->
-    <link rel="preload" href="/fonts/inter-tight-700.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Self-hosted variable fonts (DSGVO: no third-party CDN). One file per family,
+         all weights via wght axis. Preload the two above-fold-critical families. -->
+    <link rel="preload" href="/fonts/inter-tight-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin />
 
     <!-- gate scroll-reveal animations to JS-enabled clients (matches original) -->
     <script is:inline>document.documentElement.classList.add('js')</script>

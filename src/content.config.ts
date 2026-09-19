@@ -7,8 +7,11 @@ const blog = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
-    description: z.string().optional(),
+    description: z.string(),
     date: z.coerce.date(),
+    // Echtes Änderungsdatum — fließt als dateModified ins BlogPosting-Schema.
+    // Nur setzen, wenn ein Post wirklich überarbeitet wurde (ehrliches lastmod).
+    updatedDate: z.coerce.date().optional(),
     author: z.enum(['johann']).optional(),
     tags: z.array(z.string()).optional(),
     draft: z.boolean().default(false),
