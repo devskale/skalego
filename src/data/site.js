@@ -24,7 +24,7 @@ export const organization = {
     { '@type': 'Country', name: 'Deutschland' },
   ],
   founder: { '@type': 'Person', name: 'DI Johann Waldherr', jobTitle: 'AI Engineer' },
-  sameAs: ['https://github.com/devskale'],
+  sameAs: ['https://github.com/devskale', 'https://at.linkedin.com/in/johannwaldherr'],
   knowsAbout: [
     'AI Engineering',
     'On-Premise KI',

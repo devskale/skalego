@@ -18,8 +18,8 @@ function envLabel(s: { install: string }): string | null {
   return null;
 }
 
-const title = 'Skills – skale.dev';
-const description = 'Agent-Skills mit Einzeiler-Install: curl -fsSL skale.dev/s/<name> | bash. Eigene pi-Skills und empfohlene Upstream-Skills.';
+const title = 'Agent-Skills: Einzeiler-Install für Coding-Agenten – skale.dev';
+const description = 'Empfohlene Agent-Skills mit Einzeiler-Install: curl -fsSL skale.dev/s/<name> | bash — pi-Skills, Skillsets und Best-Practice-Guides von skale.dev.';
 
 const jsonld = {
   '@context': 'https://schema.org',
@@ -33,7 +33,7 @@ const jsonld = {
     },
     {
       '@type': 'CollectionPage',
-      name: 'Skills – skale.dev',
+      name: 'Agent-Skills: Einzeiler-Install für Coding-Agenten – skale.dev',
       url: 'https://skale.dev/skills/',
       description: 'Empfohlene Agent-Skills mit Einzeiler-Install über skale.dev/s/<slug>.',
       isPartOf: { '@id': 'https://skale.dev/#website' },
