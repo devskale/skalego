@@ -3,6 +3,8 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 
 const title = 'API-Endpunkte & Agent-Features ohne Login – skale.dev';
 const description = 'Maschinenlesbarer Index der Features auf skale.dev: credgoo, throway, Firmenindex Österreich, Skills und Guides — alle Endpoints ohne Login, mit Beispielen.';
+
+const clipIcon = '<svg class="icon-clip" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><svg class="icon-check" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
 ---
 
 <BaseLayout title={title} description={description} path="/agents/">
@@ -22,85 +24,124 @@ const description = 'Maschinenlesbarer Index der Features auf skale.dev: credgoo
 
       <div class="ag-list">
         <article class="ag-card" id="credgoo">
-          <h2>credgoo <span class="ag-what">Credentials-Manager</span></h2>
-          <p>
+          <div class="ag-title">
+            <h2>credgoo</h2>
+            <span class="ag-what">Credentials-Manager</span>
+          </div>
+          <p class="ag-desc">
             API-Keys und Secrets aus einem verschlüsselten Google-Sheets-Backend
             holen. Ein Source of Truth für lokale, Dev- und Produktionsumgebungen.
           </p>
-          <pre><code># installieren (dieser Endpoint ist die requirements-Datei)
+          <div class="ag-code">
+            <div class="ag-code__bar">
+              <span class="ag-code__lang">bash</span>
+              <button class="copy-btn" type="button" aria-label="Code in Zwischenablage kopieren"><Fragment set:html={clipIcon} /></button>
+            </div>
+            <pre><code><span class="c"># installieren (dieser Endpoint ist die requirements-Datei)</span>
 uv pip install -r https://skale.dev/credgoo
 
-# benutzen
+<span class="c"># benutzen</span>
 credgoo --setup
 from credgoo import get_api_key
 get_api_key("openai")</code></pre>
-          <p class="ag-more">
-            Mehr: <a href="/credgoo">/credgoo</a> (requirements + Doku in einer Datei) ·
-            <a href="https://github.com/devskale/python-openutils" target="_blank" rel="noopener">Source auf GitHub</a>
-          </p>
+          </div>
+          <div class="ag-chips">
+            <a class="ag-chip" href="/credgoo"><span class="ag-chip__path">/credgoo</span><span class="ag-chip__label">requirements + Doku</span></a>
+            <a class="ag-chip ag-chip--ext" href="https://github.com/devskale/python-openutils" target="_blank" rel="noopener"><span class="ag-chip__path">Source ↗</span><span class="ag-chip__label">GitHub</span></a>
+          </div>
         </article>
 
         <article class="ag-card" id="throway">
-          <h2>throway <span class="ag-what">Wegwerf-Dateispeicher</span></h2>
-          <p>
+          <div class="ag-title">
+            <h2>throway</h2>
+            <span class="ag-what">Wegwerf-Dateispeicher</span>
+          </div>
+          <p class="ag-desc">
             Datei oder Bundle hochladen, kurze URL zurückbekommen. Alles läuft
             nach 4 Stunden automatisch ab. Kein Login, kein Tracking.
           </p>
-          <pre><code># Upload, Antwort ist die Kurz-URL
+          <div class="ag-code">
+            <div class="ag-code__bar">
+              <span class="ag-code__lang">bash</span>
+              <button class="copy-btn" type="button" aria-label="Code in Zwischenablage kopieren"><Fragment set:html={clipIcon} /></button>
+            </div>
+            <pre><code><span class="c"># Upload, Antwort ist die Kurz-URL</span>
 curl -sT file.pdf "https://skale.dev/throway/?name=file.pdf"
 
-# Vollständige Doku als Text direkt am Endpoint
+<span class="c"># Vollständige Doku als Text direkt am Endpoint</span>
 curl -s https://skale.dev/throway/</code></pre>
-          <p class="ag-more">
-            Mehr: <a href="/throway/">/throway/</a> (Usage-Guide als Text) ·
-            <a href="/throway/api">/throway/api</a> (API-Index) ·
-            <a href="/throway/write_for_agents">/throway/write_for_agents</a> (Agenten-Guide)
-          </p>
+          </div>
+          <div class="ag-chips">
+            <a class="ag-chip" href="/throway/"><span class="ag-chip__path">/throway/</span><span class="ag-chip__label">Usage-Guide</span></a>
+            <a class="ag-chip" href="/throway/api"><span class="ag-chip__path">/throway/api</span><span class="ag-chip__label">API-Index</span></a>
+            <a class="ag-chip" href="/throway/write_for_agents"><span class="ag-chip__path">/throway/write_for_agents</span><span class="ag-chip__label">Agenten-Guide</span></a>
+          </div>
         </article>
 
         <article class="ag-card" id="firmenindex">
-          <h2>Firmenindex Österreich <span class="ag-what">Firmensuche, 300k+ Einträge</span></h2>
-          <p>
+          <div class="ag-title">
+            <h2>Firmenindex Österreich</h2>
+            <span class="ag-what">Firmensuche, 300k+ Einträge</span>
+          </div>
+          <p class="ag-desc">
             Durchsuchbarer Index österreichischer Firmen: Firmenbuch (FN),
             nicht-eingetragene Gewerbe, ÖNACE-klassifiziert. JSON-API ohne Auth.
           </p>
-          <pre><code># Ein Muster für alle Endpoints
+          <div class="ag-code">
+            <div class="ag-code__bar">
+              <span class="ag-code__lang">bash</span>
+              <button class="copy-btn" type="button" aria-label="Code in Zwischenablage kopieren"><Fragment set:html={clipIcon} /></button>
+            </div>
+            <pre><code><span class="c"># Ein Muster für alle Endpoints</span>
 curl "https://skale.dev/firmenindex/api?e=&lt;ENDPOINT&gt;&amp;&lt;PARAMS&gt;"</code></pre>
-          <p class="ag-more">
-            Mehr: <a href="/firmenindex/agents.html">/firmenindex/agents.html</a> (OpenAPI-Referenz, Query-Sprache, Deep-Links) ·
-            <a href="/firmenindex/">/firmenindex/</a> (Web-App)
-          </p>
+          </div>
+          <div class="ag-chips">
+            <a class="ag-chip" href="/firmenindex/agents.html"><span class="ag-chip__path">/firmenindex/agents.html</span><span class="ag-chip__label">OpenAPI-Referenz</span></a>
+            <a class="ag-chip" href="/firmenindex/"><span class="ag-chip__path">/firmenindex/</span><span class="ag-chip__label">Web-App</span></a>
+          </div>
         </article>
 
         <article class="ag-card" id="skills">
-          <h2>Skills <span class="ag-what">installierbare Agent-Skills</span></h2>
-          <p>
+          <div class="ag-title">
+            <h2>Skills</h2>
+            <span class="ag-what">installierbare Agent-Skills</span>
+          </div>
+          <p class="ag-desc">
             Das pi-Paket skale-skills als Einzelskill installierbar: Web-Suche,
             URL-Extraktion, Headless-Browser und mehr.
           </p>
-          <pre><code># Skill-Liste ansehen
+          <div class="ag-code">
+            <div class="ag-code__bar">
+              <span class="ag-code__lang">bash</span>
+              <button class="copy-btn" type="button" aria-label="Code in Zwischenablage kopieren"><Fragment set:html={clipIcon} /></button>
+            </div>
+            <pre><code><span class="c"># Skill-Liste ansehen</span>
 curl -s https://skale.dev/skills/
 
-# einen Skill installieren
+<span class="c"># einen Skill installieren</span>
 curl -fsSL https://skale.dev/s/fetch-url | bash</code></pre>
-          <p class="ag-more">
-            Mehr: <a href="/skills/">/skills/</a> (Liste) ·
-            <a href="/s/available">/s/available</a> (installierbare Slugs als Text)
-          </p>
+          </div>
+          <div class="ag-chips">
+            <a class="ag-chip" href="/skills/"><span class="ag-chip__path">/skills/</span><span class="ag-chip__label">Liste</span></a>
+            <a class="ag-chip" href="/s/available"><span class="ag-chip__path">/s/available</span><span class="ag-chip__label">installierbare Slugs</span></a>
+          </div>
         </article>
 
         <article class="ag-card" id="guides">
-          <h2>Guides <span class="ag-what">Best Practices für Agenten-Entwicklung</span></h2>
-          <p>
+          <div class="ag-title">
+            <h2>Guides</h2>
+            <span class="ag-what">Best Practices für Agenten-Entwicklung</span>
+          </div>
+          <p class="ag-desc">
             AGENTS.md-Struktur, das offene Agent-Skills-Format und
             Pi-Extensions: drei tiefgehende Guides plus das Paket selbst.
           </p>
-          <p class="ag-more">
-            Mehr: <a href="/agent-coding/">/agent-coding/</a> ·
-            <a href="/agentsmd">/agentsmd</a> ·
-            <a href="/agentskills">/agentskills</a> ·
-            <a href="/piextensions">/piextensions</a>
-          </p>
+          <div class="ag-chips">
+            <a class="ag-chip" href="/agent-coding/"><span class="ag-chip__path">/agent-coding/</span><span class="ag-chip__label">Übersicht</span></a>
+            <a class="ag-chip" href="/agentsmd"><span class="ag-chip__path">/agentsmd</span><span class="ag-chip__label">AGENTS.md</span></a>
+            <a class="ag-chip" href="/agentskills"><span class="ag-chip__path">/agentskills</span><span class="ag-chip__label">Agent Skills</span></a>
+            <a class="ag-chip" href="/piextensions"><span class="ag-chip__path">/piextensions</span><span class="ag-chip__label">Pi Extensions</span></a>
+          </div>
         </article>
       </div>
 
@@ -131,30 +172,84 @@ curl -fsSL https://skale.dev/s/fetch-url | bash</code></pre>
 
   .ag-list { display: grid; gap: 16px; margin-top: 3rem; }
   .ag-card {
-    background: var(--bg-card); border: 1px solid var(--border);
+    background: var(--bg-card); border: 1px solid var(--border-strong);
     border-radius: var(--radius); padding: 24px 26px;
-    scroll-margin-top: 90px;
+    scroll-margin-top: 122px;
+    transition: border-color 0.2s, transform 0.2s, background 0.2s;
   }
-  .ag-card h2 {
+  .ag-card:hover {
+    border-color: rgba(229, 57, 53, 0.35);
+    transform: translateY(-2px);
+    background: var(--bg-card-hover);
+  }
+
+  .ag-title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .ag-title h2 {
     font-family: var(--display); font-size: 1.2rem; font-weight: 700;
-    color: var(--text-bright); letter-spacing: -0.01em; margin-bottom: 8px;
+    color: var(--text-bright); letter-spacing: -0.01em;
   }
   .ag-what {
-    font-family: var(--mono); font-size: 0.74rem; font-weight: 500;
-    color: var(--text-dim); margin-left: 8px; letter-spacing: 0.02em;
+    font-family: var(--mono); font-size: 0.66rem; font-weight: 500;
+    color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border);
   }
-  .ag-card > p { font-size: 0.92rem; color: var(--text); line-height: 1.6; }
-  .ag-card pre {
-    margin: 12px 0; padding: 14px 16px; border-radius: var(--radius-sm);
-    background: var(--bg-alt); border: 1px solid var(--border); overflow-x: auto;
+
+  .ag-desc { font-size: 0.92rem; color: var(--text); line-height: 1.6; }
+
+  /* code block with header bar + copy button */
+  .ag-code {
+    margin: 14px 0 0; overflow: hidden;
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--bg-alt);
   }
-  .ag-card pre code {
+  .ag-code__bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 5px 7px 5px 14px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .ag-code__lang {
+    font-family: var(--mono); font-size: 0.66rem; color: var(--text-dim);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .ag-code pre { margin: 0; padding: 14px 16px; overflow-x: auto; }
+  .ag-code pre code {
     font-family: var(--mono); font-size: 0.84rem; line-height: 1.7;
     color: var(--text-bright); white-space: pre;
   }
-  .ag-more { font-size: 0.84rem; color: var(--text-faint); }
-  .ag-more a { color: var(--text-dim); text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
-  .ag-more a:hover { color: var(--red-bright); text-decoration-color: var(--red); }
+  .ag-code .c { color: var(--text-faint); }
+
+  /* endpoint chips */
+  .ag-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .ag-chip {
+    display: inline-flex; align-items: baseline; gap: 7px;
+    font-family: var(--mono); font-size: 0.72rem;
+    padding: 4px 11px; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border);
+    text-decoration: none;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .ag-chip:hover { border-color: rgba(229, 57, 53, 0.4); background: rgba(229, 57, 53, 0.05); }
+  .ag-chip:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+  .ag-chip__path { color: var(--text-bright); }
+  .ag-chip__label { color: var(--text-faint); font-size: 0.68rem; }
+
+  .copy-btn {
+    appearance: none; background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border); border-radius: 6px;
+    width: 28px; height: 28px;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--text-dim);
+    transition: color 0.15s, border-color 0.15s, background 0.15s; flex-shrink: 0;
+  }
+  .copy-btn:hover { color: var(--red-bright); border-color: rgba(229, 57, 53, 0.35); background: rgba(229, 57, 53, 0.06); }
+  .copy-btn:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+  .copy-btn svg { width: 13px; height: 13px; display: block; }
+  .copy-btn.copied { color: #5fd068; border-color: rgba(76, 175, 80, 0.4); background: rgba(76, 175, 80, 0.08); }
+  .copy-btn .icon-check { display: none; }
+  .copy-btn.copied .icon-clip { display: none; }
+  .copy-btn.copied .icon-check { display: block; }
 
   .ag-note {
     margin-top: 2.5rem; padding: 16px 20px; border-radius: var(--radius);
@@ -169,8 +264,45 @@ curl -fsSL https://skale.dev/s/fetch-url | bash</code></pre>
     .ag-page { padding: 96px 0 64px; }
     .ag-head h1 { font-size: 1.9rem; }
     .ag-card { padding: 18px 18px; }
-    .ag-what { display: block; margin: 4px 0 0; }
     /* wrap long commands instead of clipping them (visual wrap only; paste stays intact) */
-    .ag-card pre code { white-space: pre-wrap; overflow-wrap: anywhere; }
+    .ag-code pre code { white-space: pre-wrap; overflow-wrap: anywhere; }
   }
 </style>
+
+<script>
+  // Copy code block to clipboard (commands + comments are both shell-valid)
+  function flashCopied(btn: HTMLElement) {
+    btn.classList.add('copied');
+    btn.setAttribute('aria-label', 'Kopiert!');
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.setAttribute('aria-label', 'Code in Zwischenablage kopieren');
+    }, 1400);
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.ag-code .copy-btn').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const code = btn.closest('.ag-code')?.querySelector('code');
+      const text = code?.textContent ?? '';
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        flashCopied(btn);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand('copy');
+          flashCopied(btn);
+        } catch {
+          /* ignore */
+        }
+        document.body.removeChild(ta);
+      }
+    });
+  });
+</script>

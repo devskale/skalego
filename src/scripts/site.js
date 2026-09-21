@@ -125,12 +125,12 @@ function initHeroFeed() {
   const list = document.getElementById('hero-feed');
   if (!list) return;
   if (prefersReducedMotion) {
-    // show the first item statically, stop the CSS rotation
+    // stop the terminal scroll, show the first item statically
+    const track = list.querySelector('.feed-track');
+    if (track) track.style.animation = 'none';
     const items = list.querySelectorAll('.feed-item');
     items.forEach((it, i) => {
-      it.style.animation = 'none';
-      it.style.opacity = i === 0 ? '1' : '0';
-      it.style.transform = 'none';
+      it.style.display = i === 0 ? 'flex' : 'none';
     });
     return;
   }

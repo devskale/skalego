@@ -440,16 +440,19 @@ body {
     color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase;
 }
 .feed-list {
-    list-style: none; position: relative;
-    height: 78px; overflow: hidden;
+    list-style: none; height: 78px; overflow: hidden;
+    position: relative;
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+}
+.feed-track {
+    display: flex; flex-direction: column;
+    animation: feed-scroll 22s linear infinite;
 }
 .feed-item {
-    position: absolute; top: 0; left: 0; right: 0;
     display: flex; align-items: baseline; gap: 10px;
     font-size: 0.86rem; line-height: 1.5;
     color: var(--text); white-space: nowrap;
-    opacity: 0; transform: translateY(6px);
-    animation: feed-cycle 9s var(--ease) infinite;
 }
 .feed-actor {
     font-family: var(--mono); font-size: 0.74rem; font-weight: 600;
@@ -458,15 +461,9 @@ body {
 .feed-action {
     color: var(--text-dim); overflow: hidden; text-overflow: ellipsis;
 }
-.feed-item:nth-child(1) { animation-delay: 0s; }
-.feed-item:nth-child(2) { animation-delay: 1.8s; }
-.feed-item:nth-child(3) { animation-delay: 3.6s; }
-.feed-item:nth-child(4) { animation-delay: 5.4s; }
-.feed-item:nth-child(5) { animation-delay: 7.2s; }
-@keyframes feed-cycle {
-    0%, 18% { opacity: 1; transform: translateY(0); }
-    24%, 96% { opacity: 0; transform: translateY(-8px); }
-    100% { opacity: 0; transform: translateY(-8px); }
+@keyframes feed-scroll {
+    from { transform: translateY(0); }
+    to { transform: translateY(-50%); }
 }
 
 /* ---- SECTION SCAFFOLDING ---- */
