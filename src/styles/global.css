@@ -76,7 +76,7 @@
 
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 80px;
+    scroll-padding-top: 112px; /* 32px announcement + 68px nav + breathing room */
 }
 
 * { scrollbar-width: thin; scrollbar-color: var(--bg-alt) transparent; }
@@ -310,9 +310,25 @@ body {
    Nav, hero, section scaffolding, each content section, footer.
    ============================================================ */
 
+/* ---- ANNOUNCEMENT STRIP (Vercel-style persistent slim bar) ---- */
+.announcement {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1001;
+    height: 32px; display: flex; align-items: center; justify-content: center;
+    background: var(--bg-alt); border-bottom: 1px solid var(--border);
+    font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em;
+}
+.announcement a {
+    color: var(--text-dim); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    transition: color 0.18s var(--ease);
+}
+.announcement a:hover { color: var(--red-bright); }
+.announcement a:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 4px; }
+.announcement a::after { content: "→"; color: var(--red-bright); }
+
 /* ---- NAV ---- */
 #nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    position: fixed; top: 32px; left: 0; right: 0; z-index: 1000;
     background: rgba(8, 8, 10, 0.6);
     backdrop-filter: blur(16px) saturate(140%);
     -webkit-backdrop-filter: blur(16px) saturate(140%);
@@ -392,10 +408,71 @@ body {
 }
 .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 
+/* ---- HERO ACTIVITY FEED (Linear-style live product) ---- */
+.hero-feed {
+    margin: 44px auto 0;
+    width: min(560px, 100%);
+    text-align: left;
+    background: var(--bg-alt);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+.feed-head {
+    display: flex; align-items: center; gap: 8px;
+    padding-bottom: 12px; margin-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+}
+.feed-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--red-bright);
+    box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.5);
+    animation: feed-pulse 2.4s var(--ease) infinite;
+}
+@keyframes feed-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.5); }
+    70% { box-shadow: 0 0 0 9px rgba(229, 57, 53, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(229, 57, 53, 0); }
+}
+.feed-title {
+    font-family: var(--mono); font-size: 0.72rem; font-weight: 500;
+    color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase;
+}
+.feed-list {
+    list-style: none; position: relative;
+    height: 78px; overflow: hidden;
+}
+.feed-item {
+    position: absolute; top: 0; left: 0; right: 0;
+    display: flex; align-items: baseline; gap: 10px;
+    font-size: 0.86rem; line-height: 1.5;
+    color: var(--text); white-space: nowrap;
+    opacity: 0; transform: translateY(6px);
+    animation: feed-cycle 9s var(--ease) infinite;
+}
+.feed-actor {
+    font-family: var(--mono); font-size: 0.74rem; font-weight: 600;
+    color: var(--red-bright); flex-shrink: 0;
+}
+.feed-action {
+    color: var(--text-dim); overflow: hidden; text-overflow: ellipsis;
+}
+.feed-item:nth-child(1) { animation-delay: 0s; }
+.feed-item:nth-child(2) { animation-delay: 1.8s; }
+.feed-item:nth-child(3) { animation-delay: 3.6s; }
+.feed-item:nth-child(4) { animation-delay: 5.4s; }
+.feed-item:nth-child(5) { animation-delay: 7.2s; }
+@keyframes feed-cycle {
+    0%, 18% { opacity: 1; transform: translateY(0); }
+    24%, 96% { opacity: 0; transform: translateY(-8px); }
+    100% { opacity: 0; transform: translateY(-8px); }
+}
+
 /* ---- SECTION SCAFFOLDING ---- */
 section { padding: 132px 0; position: relative; }
-/* keep anchored sections clear of the fixed nav when jumping via #hash */
-section[id] { scroll-margin-top: 90px; }
+/* keep anchored sections clear of the fixed nav + announcement when jumping via #hash */
+section[id] { scroll-margin-top: 122px; }
 #hero { scroll-margin-top: 0; }
 section#clients { padding: 56px 0 64px; }
 
