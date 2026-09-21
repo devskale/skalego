@@ -440,31 +440,51 @@ body {
     color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase;
 }
 .feed-list {
-    list-style: none; height: 78px; overflow: hidden;
+    height: 78px; overflow: hidden;
     position: relative;
     -webkit-mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
     mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
 }
 .feed-track {
     display: flex; flex-direction: column;
-    animation: feed-scroll 22s linear infinite;
+    transition: transform 0.55s var(--ease);
+    will-change: transform;
 }
 .feed-item {
-    display: flex; align-items: baseline; gap: 10px;
+    display: flex; align-items: center; gap: 9px;
+    height: 26px; flex-shrink: 0;
     font-size: 0.86rem; line-height: 1.5;
     color: var(--text); white-space: nowrap;
+    animation: feed-in 0.35s ease;
 }
+.feed-icon {
+    width: 14px; height: 14px; flex-shrink: 0;
+    color: var(--text-dim); display: inline-flex;
+}
+.feed-icon svg { width: 100%; height: 100%; }
 .feed-actor {
     font-family: var(--mono); font-size: 0.74rem; font-weight: 600;
     color: var(--red-bright); flex-shrink: 0;
 }
 .feed-action {
-    color: var(--text-dim); overflow: hidden; text-overflow: ellipsis;
+    color: var(--text-dim); overflow: hidden; text-overflow: ellipsis; min-width: 0;
 }
-@keyframes feed-scroll {
-    from { transform: translateY(0); }
-    to { transform: translateY(-50%); }
+.feed-cursor {
+    color: var(--red-bright); font-weight: 700;
+    animation: feed-blink 0.9s steps(1) infinite;
 }
+.feed-time {
+    margin-left: auto; flex-shrink: 0;
+    font-family: var(--mono); font-size: 0.66rem; color: var(--text-faint);
+    font-variant-numeric: tabular-nums;
+}
+.feed-clock {
+    margin-left: auto;
+    font-family: var(--mono); font-size: 0.72rem; color: var(--text-faint);
+    font-variant-numeric: tabular-nums; letter-spacing: 0.03em;
+}
+@keyframes feed-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes feed-blink { 50% { opacity: 0; } }
 
 /* ---- SECTION SCAFFOLDING ---- */
 section { padding: 132px 0; position: relative; }
