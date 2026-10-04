@@ -9,7 +9,7 @@ export interface Author {
 }
 
 export const AUTHORS: Record<AuthorKey, Author> = {
-  johann: { key: 'johann', name: 'DI Johann Waldherr', role: 'AI Engineer' },
+  johann: { key: 'johann', name: 'DI Johann Waldherr', role: 'KI Engineer' },
 };
 
 export const AUTHOR_KEYS = Object.keys(AUTHORS) as AuthorKey[];

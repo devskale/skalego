@@ -70,7 +70,7 @@ Drei Fälle, in denen wir im Erstgespräch von einem KI-Projekt abraten:
 
 ## Von der Beratung zum System
 
-Beratung endet mit einer Empfehlung — [AI Engineering](/ai-engineering/)
+Beratung endet mit einer Empfehlung — [KI Engineering](/ai-engineering/)
 liefert das arbeitende System: Pipeline, Integration, Betrieb,
 Weiterentwicklung. Wenn Sie wissen wollen, wie das für Ihr Unternehmen
 aussieht: Das [Erstgespräch](/#contact) dauert 30 Minuten, ist

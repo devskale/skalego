@@ -1,7 +1,7 @@
 {
-  "name": "skale.dev – AI Engineering für Unternehmen",
+  "name": "skale.dev – KI Engineering für Unternehmen",
   "short_name": "skale.dev",
-  "description": "Individuelle KI-Systeme für Unternehmen. AI Engineering, on-premise und DSGVO-konform.",
+  "description": "Individuelle KI-Systeme für Unternehmen. KI Engineering, on-premise und DSGVO-konform.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

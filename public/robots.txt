@@ -1,7 +1,7 @@
 # robots.txt — skale.dev
-# AI Engineering für Unternehmen
+# KI Engineering für Unternehmen
 
-# AI-Agenten: maschinenlesbarer Index aller nutzbaren Features
+# KI-Agenten: maschinenlesbarer Index aller nutzbaren Features
 # (credgoo, throway, firmenindex, skills, guides):
 # https://skale.dev/agents/
 

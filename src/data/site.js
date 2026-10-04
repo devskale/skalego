@@ -6,7 +6,7 @@ export const organization = {
   name: 'skale.dev',
   alternateName: 'skale tech',
   description:
-    'Individuelle KI-Systeme für Unternehmen – AI Engineering, on-premise und DSGVO-konform.',
+    'Individuelle KI-Systeme für Unternehmen – KI Engineering, on-premise und DSGVO-konform.',
   email: 'dev@skale.dev',
   url: 'https://skale.dev/',
   logo: 'https://skale.dev/logos/skale-logo.png',
@@ -23,10 +23,10 @@ export const organization = {
     { '@type': 'Country', name: 'Österreich' },
     { '@type': 'Country', name: 'Deutschland' },
   ],
-  founder: { '@type': 'Person', name: 'DI Johann Waldherr', jobTitle: 'AI Engineer' },
+  founder: { '@type': 'Person', name: 'DI Johann Waldherr', jobTitle: 'KI Engineer' },
   sameAs: ['https://github.com/devskale', 'https://at.linkedin.com/in/johannwaldherr'],
   knowsAbout: [
-    'AI Engineering',
+    'KI Engineering',
     'On-Premise KI',
     'Large Language Models',
     'Retrieval-Augmented Generation',
