@@ -185,14 +185,14 @@ const jsonld = {
 <script is:inline>
   (() => {
     'use strict';
-    const API = 'https://api.github.com/repos/devskale/skale-skills/contents/watchlist.jsonl';
-    const TOKEN_KEY = 'skale_wl_token';
+    const GITHUB = 'https://api.github.com/repos/devskale/skale-skills/contents/watchlist.jsonl';
+    const WAPI = 'https://skale.dev/watchlist/api'; // server-side git writer (no GitHub token in the browser)
+    const TOKEN_KEY = 'skale_wl_key';
     const EMOJI = { watch: '👀', review: '🔍', adopted: '✅', rejected: '❌' };
     const $ = (id) => document.getElementById(id);
     const box = $('watchlist'); if (!box) return;
     const list = $('wl-list'), form = $('wl-form'), statusEl = $('wl-status');
 
-    const b64enc = (s) => btoa(String.fromCharCode(...new TextEncoder().encode(s)));
     const b64dec = (s) => new TextDecoder().decode(Uint8Array.from(atob(s), (c) => c.charCodeAt(0)));
     const getToken = () => localStorage.getItem(TOKEN_KEY) || '';
     const say = (msg, ok) => {
@@ -200,20 +200,26 @@ const jsonld = {
       statusEl.classList.toggle('wl-status--ok', !!ok);
     };
 
-    async function api(url, opts = {}) {
-      const headers = { Accept: 'application/vnd.github+json', ...opts.headers };
-      const tok = getToken();
-      if (tok) headers.Authorization = 'Bearer ' + tok;
-      const res = await fetch(url, { ...opts, headers });
-      if (res.status === 401) throw new Error('Token ungültig oder abgelaufen — 🔑 neu setzen');
-      if (res.status === 409 || res.status === 422) throw new Error('Datei wurde zwischenzeitlich geändert — nochmal versuchen');
-      if (!res.ok) throw new Error('GitHub API ' + res.status);
-      return res.json();
+    // Public read — no token. Contents API: always fresh, no CDN cache.
+    async function loadEntries() {
+      const res = await fetch(GITHUB, { headers: { Accept: 'application/vnd.github+json' } });
+      if (!res.ok) throw new Error('GitHub ' + res.status);
+      const d = await res.json();
+      return b64dec(d.content).split('\n').filter((l) => l.trim());
     }
 
-    async function loadEntries() {
-      const d = await api(API);
-      return b64dec(d.content).split('\n').filter((l) => l.trim());
+    // Write — via the watchlist writer on skale.dev (git push server-side).
+    async function addEntry(entry) {
+      const res = await fetch(WAPI, {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + getToken(), 'Content-Type': 'application/json' },
+        body: JSON.stringify(entry),
+      });
+      if (res.status === 401) throw new Error('Key ungültig — 🔑 neu setzen');
+      if (res.status === 409) throw new Error('Quelle ist schon auf der Liste.');
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || ('endpoint ' + res.status));
+      return data;
     }
 
     function render(lines) {
@@ -258,48 +264,29 @@ const jsonld = {
     $('wl-cancel').addEventListener('click', () => { form.hidden = true; });
 
     $('wl-token').addEventListener('click', async () => {
-      const t = prompt('Fine-grained GitHub-Token (Contents RW, nur devskale/skale-skills). Leer = löschen.');
+      const t = prompt('Watchlist-Key (selbst gewählt — liegt serverseitig im Service). Leer = löschen.');
       if (t === null) return;
-      if (!t.trim()) { localStorage.removeItem(TOKEN_KEY); say('Token entfernt — Lesen bleibt möglich, Hinzufügen deaktiviert.', true); return; }
+      if (!t.trim()) { localStorage.removeItem(TOKEN_KEY); say('Key entfernt — Lesen bleibt möglich, Hinzufügen deaktiviert.', true); return; }
       localStorage.setItem(TOKEN_KEY, t.trim());
-      try {
-        await api(API); // throws on bad credentials
-        say('Token gespeichert und verifiziert ✓', true);
-      } catch (err) { say('Token-Check fehlgeschlagen: ' + err.message, false); }
+      say('Key gespeichert — wird beim ersten Hinzufügen geprüft.', true);
     });
 
     form.addEventListener('submit', async (ev) => {
       ev.preventDefault();
-      if (!getToken()) { say('Zum Hinzufügen erst oben 🔑 Token setzen.', false); return; }
+      if (!getToken()) { say('Zum Hinzufügen erst oben 🔑 Key setzen.', false); return; }
       const fd = new FormData(form);
       const entry = {
-        status: 'watch',
         type: fd.get('type') || 'skill',
         name: String(fd.get('name') || '').trim(),
         source: String(fd.get('source') || '').trim(),
         why: String(fd.get('why') || '').trim(),
-        added: new Date().toISOString().slice(0, 10),
       };
       if (!entry.name || !entry.source || !entry.why) { say('Name, Quelle und Warum sind Pflicht.', false); return; }
       try {
         say('Speichere …', false);
-        const cur = await api(API);
-        const lines = b64dec(cur.content).split('\n').filter((l) => l.trim());
-        if (lines.some((l) => { try { return JSON.parse(l).source === entry.source; } catch { return false; } })) {
-          say('Quelle ist schon auf der Liste.', false); return;
-        }
-        lines.push(JSON.stringify(entry));
-        await api(API, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            message: 'watchlist: add ' + entry.name,
-            content: b64enc(lines.join('\n') + '\n'),
-            sha: cur.sha,
-          }),
-        });
+        await addEntry(entry);
         form.hidden = true;
-        render(lines);
+        await loadEntries().then(render);
         say('✓ hinzugefügt — „' + entry.name + '" ist committed.', true);
       } catch (err) { say('Fehlgeschlagen: ' + err.message, false); }
     });
