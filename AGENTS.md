@@ -9,7 +9,7 @@ Production branch: **`main`** · Live: **skale.dev**
 - **Astro reference**: [`astro_guide.md`](./astro_guide.md) — indexed map of all canonical doc pages on `docs.astro.build`. Best-practices guide (project structure, content collections, SEO, TS): [`../gwen.at/astro_guide.md`](../gwen.at/astro_guide.md).
 - **Hugo** (`config.toml` + `data/`) — legacy only; not part of the live build. The `themes/skalego_theme` submodule was **removed**.
 - **pnpm** lockfile present; all commands use `pnpm` (not npm).
-- **Hosting**: pure static — the web server just serves `dist/`. `api/` and `vercel.json` are legacy from a previous host; the live `/s/<slug>` install endpoints are **static files** generated at build time.
+- **Hosting**: pure static — the web server just serves `dist/`. Retired Vercel-era artifacts (`api/`, `vercel.json`, deploy docs) live in [`deprecated/`](deprecated/) — never extend or deploy them; the live `/s/<slug>` install endpoints are **static files** generated at build time.
 - **Language**: German (de) content; English code/comments.
 
 ## Commands
@@ -53,7 +53,7 @@ src/
   scripts/site.js       ← the ONE client script: hero canvas + reveals + nav + mobile menu
   data/site.js          ← single source of truth: organization, faqs, models (drives JSON-LD too)
   assets/seo/           ← SVG sources for OG image + PWA icons (rendered to PNG in public/)
-api/                    ← legacy functions from a previous host (not part of the static build)
+deprecated/             ← retired Vercel/Hugo-era artifacts, kept as backup (see deprecated/README.md)
 public/firmenindex/     ← Firmensuche sub-app (standalone HTML/JS, copied verbatim)
 public/                 ← served at site root: robots.txt, site.webmanifest,
                           og-image.png, logos/, screenshots, client PNGs — copied verbatim to dist/
@@ -97,7 +97,7 @@ recommended-skills.mdx  (frontmatter skills[])
    └── astro build → getCollection('blog') → src/pages/skills/index.astro  (the /skills/ list page)
 ```
 - No runtime backend: the web server serves the extensionless files directly. The script template shared with the legacy generator lives in `scripts/skills-lib.mjs`.
-- `package.json` `build` = `node scripts/gen-skills-json.mjs && astro build` — the gen step only emits the legacy `api/skills.registry.js` (gitignored). The live `/s/` files come from the integration, which runs on EVERY `astro build` (including the deploy script's direct build call).
+- `package.json` `build` = `astro build`. The live `/s/` files come from the `skillsStatic` integration, which runs on EVERY `astro build` (including the deploy script's direct build call). The Vercel-era prebuild (`gen-skills-json.mjs`) is retired into `deprecated/scripts/`.
 - **Add a skill:** edit the blog entry's `skills[]` → `./scripts/deploy-skale.sh --build` → live on `/skills/` + `/s/<slug>`.
 - **Install UX:** `curl -fsSL https://skale.dev/s/<slug> | bash`. Each card on `/skills/` has a copy-on-click icon (code scrolls internally; icon stays pinned).
 - `pi-skill`/`pi-skillset` installs edit `~/.pi/agent/settings.json` (idempotent whitelist-add); `command` runs whatever you specify. `npx skills`-style bundles install into `.agents/skills/` (use `-a codex` to keep it to `.agents/` only — no per-agent symlinks).
@@ -121,7 +121,7 @@ recommended-skills.mdx  (frontmatter skills[])
 - Verify after deploy: `curl -sI https://skale.dev/<file>` (200) and `curl -s https://skale.dev/s/fetch-url | head -3` (install script).
 - **Target sidefiles** — agents: read the one matching the live target before touching server config or endpoints:
   - [`deploy.oci.md`](deploy.oci.md) — **ACTIVE**: OCI VM, self-hosted nginx, pure static.
-  - [`deploy.vercel.md`](deploy.vercel.md) — **RETIRED**: history only; don't deploy there, endpoints documented there are dead.
+  - [`deprecated/deploy.vercel.md`](deprecated/deploy.vercel.md) — **RETIRED**: history only; don't deploy there, endpoints documented there are dead.
 
 Infrastructure details (server, paths, redirects, proxies) belong in the sidefiles + `deploy.config`/`scripts/deploy-skale.sh` — keep this file deploy-agnostic. Redirects/rewrites live in web-server config on the target, not in this repo.
 
@@ -149,11 +149,11 @@ Screenshots go in `./research/` (gitignored). Rodney skill: `~/.pi/agent/skills/
 ## Known Footguns
 
 - **Deploy ist der Script, nicht git push.** `./scripts/deploy-skale.sh --build` nach jedem Commit, der live gehen soll.
-- **Pure static.** No SSR adapter, no runtime backend — `/s/<slug>` is static files; the web server only serves files. **`api/` + `vercel.json` are legacy** — don't extend them, don't point users at endpoints that rely on a runtime.
+- **Pure static.** No SSR adapter, no runtime backend — `/s/<slug>` is static files; the web server only serves files. **Everything in `deprecated/` is retired** — don't extend it, don't point users at endpoints that rely on a runtime.
 - **No `pnpm-workspace.yaml`.** The lockfile is pnpm@9; pnpm 9 errors (`packages field missing or empty`) on a workspace file that lacks a `packages:` field, and the pnpm-10+ `allowBuilds` syntax is incompatible. (Locally pnpm 11 prints an "ignored build scripts" warning on fresh install — harmless, esbuild/sharp aren't invoked at build since we don't use `astro:assets`.)
 - **`public/firmenindex/` is a standalone sub-app** (own HTML/JS, query-param routing) copied verbatim. It is NOT an Astro page — edit its files directly under `public/`.
 - **Hugo legacy** (`config.toml`, `data/`, `static/`, `content/`) coexists but is never built. Changing it does nothing to the live site.
 - **The single client script is `src/scripts/site.js`** (hero particle canvas + scroll-reveal + nav + mobile menu). Astro inlines small scripts; check `dist/` if a feature seems missing.
 - **Blog = Astro Content Collections** (`src/content.config.ts` → `blog`). Add a post by creating `src/content/blog/<slug>/index.md(x)` with validated frontmatter; it auto-routes to `/blog/<slug>/`. **After adding an integration or a content collection, restart the dev server** (`pnpm dev`) — a running dev pane won't pick up new integrations (MDX/sitemap) or collections until restarted, so new routes 404 in dev while still building fine.
 - **German legal requirements**: Impressum (§ 5 TMG), Datenschutzerklärung (DSGVO), AGB (`tos.astro`) must stay accurate and accessible — all real Astro routes (`/impressum/`, `/datenschutz/`, `/tos/`).
-- **`research/`, `updateplan.md`, `skills-lock.json`, `tests/`, `screenshots/`, `api/skills.registry.js` are gitignored** — don't commit them. (`skills.registry.js` is generated by the prebuild from the blog entry.)
+- **`research/`, `updateplan.md`, `skills-lock.json`, `tests/`, `screenshots/`, `deprecated/api/skills.registry.js` are gitignored** — don't commit them.

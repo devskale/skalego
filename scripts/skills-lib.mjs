@@ -1,7 +1,7 @@
 // skills-lib.mjs — shared skills-registry logic.
 // Single source of truth: the `skills[]` array in the "recommended-skills"
 // blog entry's frontmatter. Used by:
-//   - scripts/gen-skills-json.mjs   (legacy Vercel registry, api/skills.registry.js)
+//   - (retired) gen-skills-json.mjs → api/skills.registry.js  [deprecated/scripts/]
 //   - astro.config.mjs              (static /s/<slug> files in dist/, amd2)
 //
 // Compact install format (in frontmatter) → expanded registry entry:
@@ -69,7 +69,7 @@ export function buildRegistry() {
 }
 
 // The bash install script for a registry entry — byte-identical to what the
-// retired Vercel function (api/skills.js) served at /s/<slug>.
+// retired Vercel function (now deprecated/api/skills.js) served at /s/<slug>.
 export function bashScript(skill, slug) {
   const head = `#!/usr/bin/env bash
 # ${slug} — ${skill.desc}
@@ -119,7 +119,7 @@ export function notFoundText(registry) {
   return (
     (visible.length
       ? `available: ${visible.join(', ')}\n`
-      : `(registry not generated — run: node scripts/gen-skills-json.mjs)\n`) +
+      : `(registry is empty — check the recommended-skills blog entry)\n`) +
     `browse: https://skale.dev/skills\n`
   );
 }

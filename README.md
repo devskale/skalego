@@ -2,10 +2,11 @@
 
 The website for **skale** — a German-language consultancy / agentic-coding site.
 Live at **[skale.dev](https://skale.dev)**, built with **Astro 7** (pure static
-output) and deployed on **Vercel**.
+output) deployed to whatever host `deploy.config` points at (currently the
+OCI VM `amd2` — nginx serving `dist/` statically).
 
 > This README is the quick-start. For the full project bible — routing rules,
-> skills system, SEO wiring, Vercel rewrites, boundaries, footguns — read
+> skills system, SEO wiring, deploy flow, boundaries, footguns — read
 > **[`AGENTS.md`](./AGENTS.md)**. It is authoritative whenever this file and
 > `AGENTS.md` disagree.
 
@@ -15,8 +16,12 @@ output) and deployed on **Vercel**.
   No framework runtime in production; ships plain HTML + one small client script
   (`src/scripts/site.js`).
 - **pnpm** for everything (lockfile is v9; locally pnpm 11 also works).
-- **Vercel** — Git push to `main` is the deploy. `dist/` is served statically;
-  `api/*.js` run as serverless functions; `vercel.json` applies rewrites.
+- **Deployment target** — defined in `deploy.config` (gitignored): SSH host,
+  webroot, dist dir. Currently the OCI VM (`amd2`), nginx serving `/var/www/skale.dev`.
+  Deploy = `./scripts/deploy-skale.sh --build` (astro build → rsync → smoke check).
+  Git push is NOT a deploy — see AGENTS.md. Retired Vercel-era artifacts live in
+  [`deprecated/`](deprecated/) (kept as backup; `/s/<slug>` is static files generated
+  at build time).
 - **Content Collections** (`src/content.config.ts` → `blog`) drive the blog and the
   skills registry.
 - **Keystatic** (dev-only) at `/keystatic` for visually editing blog posts —
@@ -40,7 +45,7 @@ pnpm run build      # regenerates the skills registry, then astro build → dist
 pnpm run preview    # serve the production build locally
 ```
 
-`pnpm run build` is exactly what Vercel runs: `node scripts/gen-skills-json.mjs && astro build`.
+`pnpm run build` is what `./scripts/deploy-skale.sh --build` runs: `astro build`.
 
 ## Project layout
 
@@ -56,7 +61,7 @@ src/
   styles/global.css     design system: tokens → base → components → layout
   scripts/site.js       the ONE client script (hero canvas, scroll-reveal, nav, mobile menu)
   data/site.js          single source of truth: org info, FAQs, models (drives JSON-LD too)
-api/                    Vercel serverless functions (credgoo, firmenindex-api, uniinfer, skills)
+deprecated/             retired artifacts (Vercel/Hugo era) — kept as backup, never deployed
 public/                 served at root verbatim (robots, sitemap, manifest, fonts, OG image, firmenindex/ sub-app)
 ```
 
@@ -84,12 +89,13 @@ for install formats (`pi-skill`, `pi-skillset:a,b,c`, `command:…`) and interna
 
 ## Deployment
 
-**Git push is the deploy — never use the `vercel` CLI.**
+**Deploy = `./scripts/deploy-skale.sh --build`** — never git push alone.
 
-- `main` → production at **skale.dev**
-- any other branch (e.g. `astro`) → auto-generated Vercel **preview** URL
+- builds `dist/`, rsyncs to the host/webroot from `deploy.config` (currently `amd2`),
+  then smoke-checks the live site (md5 diff, exit 1 on mismatch)
+- git push is **not** a deploy: commit → run the script → verify
 
-After pushing, verify with `curl -sI https://skale.dev/<file>` (200 = live).
+After deploying, verify with `curl -sI https://skale.dev/<file>` (200 = live).
 
 ## Conventions
 
