@@ -128,6 +128,37 @@ const jsonld = {
         })}
       </ul>
 
+      <div class="wl reveal" id="watchlist" hidden>
+        <div class="wl-head">
+          <h2 class="wl-title">Watchlist.</h2>
+          <div class="wl-actions">
+            <button class="wl-btn" id="wl-token" type="button" title="GitHub-Token setzen (nur fürs Hinzufügen nötig)">🔑 Token</button>
+            <button class="wl-btn wl-btn--add" id="wl-add" type="button">+ Eintrag</button>
+          </div>
+        </div>
+        <p class="wl-sub">
+          Persönliche Liste: Skills &amp; Extensions zum Reviewn und Installieren — Quelle ist
+          <code>watchlist.jsonl</code> im
+          <a href="https://github.com/devskale/skale-skills" target="_blank" rel="noopener">skale-skills-Repo</a>.
+          Tipp: <kbd>Strg</kbd>+<kbd>V</kbd> mit einer URL fügt direkt hinzu.
+        </p>
+        <form class="wl-form" id="wl-form" hidden>
+          <input name="source" placeholder="Quelle (github.com/org/repo)" required />
+          <input name="name" placeholder="Name" required />
+          <select name="type" title="Art">
+            <option value="skill">skill</option>
+            <option value="ext">ext</option>
+          </select>
+          <input name="why" placeholder="Warum lohnt sich das? (Pflicht)" required />
+          <div class="wl-form__row">
+            <button class="wl-btn wl-btn--add" type="submit">Hinzufügen</button>
+            <button class="wl-btn" type="button" id="wl-cancel">Abbrechen</button>
+          </div>
+        </form>
+        <p class="wl-status" id="wl-status" hidden></p>
+        <ul class="wl-list" id="wl-list"></ul>
+      </div>
+
       <div class="skills-note reveal">
         <span>Hintergründe und die Story zur improve-architecture-Familie: im Blogpost <a href="/blog/recommended-skills/">Recommended Skills</a>.</span>
         <span>Für Agenten: <a href="/s/available">/s/available</a> listet die installierbaren Slugs als Text, <a href="/agents/">/agents/</a> ist der Feature-Index.</span>
@@ -151,8 +182,151 @@ const jsonld = {
   });
 </script>
 
+<script is:inline>
+  (() => {
+    'use strict';
+    const API = 'https://api.github.com/repos/devskale/skale-skills/contents/watchlist.jsonl';
+    const TOKEN_KEY = 'skale_wl_token';
+    const EMOJI = { watch: '👀', review: '🔍', adopted: '✅', rejected: '❌' };
+    const $ = (id) => document.getElementById(id);
+    const box = $('watchlist'); if (!box) return;
+    const list = $('wl-list'), form = $('wl-form'), statusEl = $('wl-status');
+
+    const b64enc = (s) => btoa(String.fromCharCode(...new TextEncoder().encode(s)));
+    const b64dec = (s) => new TextDecoder().decode(Uint8Array.from(atob(s), (c) => c.charCodeAt(0)));
+    const getToken = () => localStorage.getItem(TOKEN_KEY) || '';
+    const say = (msg, ok) => {
+      statusEl.hidden = false; statusEl.textContent = msg;
+      statusEl.classList.toggle('wl-status--ok', !!ok);
+    };
+
+    async function api(url, opts = {}) {
+      const headers = { Accept: 'application/vnd.github+json', ...opts.headers };
+      const tok = getToken();
+      if (tok) headers.Authorization = 'Bearer ' + tok;
+      const res = await fetch(url, { ...opts, headers });
+      if (res.status === 401) throw new Error('Token ungültig oder abgelaufen — 🔑 neu setzen');
+      if (res.status === 409 || res.status === 422) throw new Error('Datei wurde zwischenzeitlich geändert — nochmal versuchen');
+      if (!res.ok) throw new Error('GitHub API ' + res.status);
+      return res.json();
+    }
+
+    async function loadEntries() {
+      const d = await api(API);
+      return b64dec(d.content).split('\n').filter((l) => l.trim());
+    }
+
+    function render(lines) {
+      const entries = lines.map((l) => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean);
+      list.innerHTML = '';
+      if (!entries.length) {
+        const li = document.createElement('li'); li.className = 'wl-item wl-item--empty';
+        li.textContent = 'Noch keine Einträge.';
+        list.appendChild(li); return;
+      }
+      entries.sort((a, b) => (b.added || '').localeCompare(a.added || ''));
+      for (const e of entries) {
+        const li = document.createElement('li'); li.className = 'wl-item wl-item--' + (e.status || 'watch');
+        const isUrl = /^https?:\/\//.test(e.source || '');
+        li.innerHTML =
+          '<span class="wl-item__status" title="' + (e.status || 'watch') + '">' + (EMOJI[e.status] || '👀') + '</span>' +
+          '<span class="wl-item__name"></span>' +
+          (isUrl
+            ? '<a class="wl-item__source" href="' + e.source + '" target="_blank" rel="noopener">' + e.source.replace(/^https?:\/\//, '') + '</a>'
+            : '<span class="wl-item__source"></span>') +
+          '<span class="wl-item__why"></span>' +
+          '<span class="wl-item__type">' + (e.type || 'skill') + '</span>' +
+          '<span class="wl-item__added">' + (e.added || '') + '</span>';
+        li.querySelector('.wl-item__name').textContent = e.name || '?';
+        if (!isUrl) li.querySelector('.wl-item__source').textContent = e.source || '';
+        li.querySelector('.wl-item__why').textContent = e.why || '';
+        list.appendChild(li);
+      }
+    }
+
+    function openForm(source, name) {
+      form.hidden = false;
+      if (source) form.elements.source.value = source;
+      if (name) form.elements.name.value = name;
+      form.elements.why.value = '';
+      form.elements.why.focus();
+    }
+
+    $('wl-add').addEventListener('click', () => {
+      if (form.hidden) openForm(); else form.hidden = true;
+    });
+    $('wl-cancel').addEventListener('click', () => { form.hidden = true; });
+
+    $('wl-token').addEventListener('click', async () => {
+      const t = prompt('Fine-grained GitHub-Token (Contents RW, nur devskale/skale-skills). Leer = löschen.');
+      if (t === null) return;
+      if (!t.trim()) { localStorage.removeItem(TOKEN_KEY); say('Token entfernt — Lesen bleibt möglich, Hinzufügen deaktiviert.', true); return; }
+      localStorage.setItem(TOKEN_KEY, t.trim());
+      try {
+        await api(API); // throws on bad credentials
+        say('Token gespeichert und verifiziert ✓', true);
+      } catch (err) { say('Token-Check fehlgeschlagen: ' + err.message, false); }
+    });
+
+    form.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      if (!getToken()) { say('Zum Hinzufügen erst oben 🔑 Token setzen.', false); return; }
+      const fd = new FormData(form);
+      const entry = {
+        status: 'watch',
+        type: fd.get('type') || 'skill',
+        name: String(fd.get('name') || '').trim(),
+        source: String(fd.get('source') || '').trim(),
+        why: String(fd.get('why') || '').trim(),
+        added: new Date().toISOString().slice(0, 10),
+      };
+      if (!entry.name || !entry.source || !entry.why) { say('Name, Quelle und Warum sind Pflicht.', false); return; }
+      try {
+        say('Speichere …', false);
+        const cur = await api(API);
+        const lines = b64dec(cur.content).split('\n').filter((l) => l.trim());
+        if (lines.some((l) => { try { return JSON.parse(l).source === entry.source; } catch { return false; } })) {
+          say('Quelle ist schon auf der Liste.', false); return;
+        }
+        lines.push(JSON.stringify(entry));
+        await api(API, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: 'watchlist: add ' + entry.name,
+            content: b64enc(lines.join('\n') + '\n'),
+            sha: cur.sha,
+          }),
+        });
+        form.hidden = true;
+        render(lines);
+        say('✓ hinzugefügt — „' + entry.name + '" ist committed.', true);
+      } catch (err) { say('Fehlgeschlagen: ' + err.message, false); }
+    });
+
+    // Ctrl+V a URL anywhere on the page → prefill the form
+    document.addEventListener('paste', (ev) => {
+      if (!box.hidden && form.hidden && ev.target.closest && !ev.target.closest('input,textarea,select')) {
+        const text = (ev.clipboardData || window.clipboardData).getData('text').trim();
+        let url;
+        try { url = new URL(text); } catch { return; }
+        if (!/^https?:$/.test(url.protocol)) return;
+        const gh = text.match(/github\.com\/([\w.-]+)\/([\w.-]+)/);
+        const source = gh ? 'github.com/' + gh[1] + '/' + gh[2] : url.hostname + url.pathname.replace(/\/$/, '');
+        openForm(source, gh ? gh[2] : url.hostname);
+        ev.preventDefault();
+      }
+    });
+
+    // Boot: read is public (no token needed) — always fresh via the Contents API.
+    loadEntries().then(render).catch(() => say('Watchlist konnte nicht geladen werden (offline oder GitHub down).', false));
+    box.hidden = false;
+  })();
+</script>
+
 <style>
   .skills { padding: 7rem 0 6rem; }
+  .wl { margin-top: 4.5rem; padding-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.08); }
   .skill-grid { list-style: none; padding: 0; margin: 3rem 0 0; display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); }
   /* last card spans full width: no orphan half-row, the grid closes cleanly */
   .skill-grid > li:last-child { grid-column: 1 / -1; }
@@ -235,4 +409,46 @@ const jsonld = {
   .skills-note span { color: var(--text-faint); font-size: 0.84rem; line-height: 1.6; }
   .skills-note a { color: var(--text-dim); text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; transition: color 0.15s, text-decoration-color 0.15s; }
   .skills-note a:hover { color: var(--red-bright); text-decoration-color: var(--red); }
+
+  /* ── Watchlist widget ── */
+  .wl-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .wl-title { font-family: var(--mono); font-size: 1.5rem; font-weight: 600; color: var(--text-bright); margin: 0; }
+  .wl-actions { display: flex; gap: 0.5rem; }
+  .wl-btn { font-family: var(--mono); font-size: 0.8rem; padding: 0.45rem 0.9rem; border-radius: 8px; border: 1px solid var(--border-strong); background: transparent; color: var(--text-dim); cursor: pointer; transition: color 0.15s, border-color 0.15s; }
+  .wl-btn:hover { color: var(--text-bright); border-color: var(--red); }
+  .wl-btn--add { color: var(--red-bright); border-color: var(--red); }
+  .wl-sub { color: var(--text-faint); font-size: 0.84rem; line-height: 1.6; margin: 0.6rem 0 0; }
+  .wl-sub code { font-size: 0.78rem; color: var(--text-dim); }
+  .wl-sub kbd { font-family: var(--mono); font-size: 0.72rem; border: 1px solid var(--border-strong); border-radius: 4px; padding: 0.05rem 0.35rem; }
+  .wl-form { display: grid; gap: 0.6rem; margin-top: 1.25rem; grid-template-columns: 1fr 1fr auto; }
+  .wl-form input, .wl-form select { font-family: var(--mono); font-size: 0.82rem; padding: 0.55rem 0.8rem; border-radius: 8px; border: 1px solid var(--border-strong); background: rgba(255,255,255,0.04); color: var(--text-bright); }
+  .wl-form input:focus, .wl-form select:focus { outline: none; border-color: var(--red); }
+  .wl-form input[name="why"] { grid-column: 1 / 3; }
+  .wl-form__row { grid-column: 3; display: flex; gap: 0.5rem; }
+  .wl-status { font-family: var(--mono); font-size: 0.78rem; color: var(--text-faint); margin: 0.9rem 0 0; }
+  .wl-status--ok { color: #7ec98f; }
+  .wl-list { list-style: none; padding: 0; margin: 1.25rem 0 0; display: flex; flex-direction: column; gap: 0.45rem; }
+  .wl-item { display: grid; grid-template-columns: 1.6rem minmax(8rem, auto) 1fr auto auto; gap: 0.8rem; align-items: baseline; padding: 0.55rem 0.8rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); font-size: 0.82rem; }
+  .wl-item--empty { color: var(--text-faint); grid-template-columns: 1fr; }
+  .wl-item__status { font-size: 0.9rem; }
+  .wl-item__name { font-family: var(--mono); font-weight: 600; color: var(--text-bright); }
+  .wl-item__source { font-family: var(--mono); color: var(--text-dim); text-decoration: none; }
+  .wl-item__source:hover { color: var(--red-bright); }
+  .wl-item__why { color: var(--text-dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .wl-item__type { font-family: var(--mono); font-size: 0.68rem; color: var(--text-faint); border: 1px solid var(--border-strong); border-radius: 4px; padding: 0.05rem 0.4rem; }
+  .wl-item__added { font-family: var(--mono); font-size: 0.7rem; color: var(--text-faint); }
+  .wl-item--adopted { border-color: rgba(126, 201, 143, 0.25); }
+  .wl-item--rejected { opacity: 0.55; }
+  @media (max-width: 720px) {
+    .wl-form { grid-template-columns: 1fr; }
+    .wl-form input[name="why"] { grid-column: 1; }
+    .wl-form__row { grid-column: 1; }
+    .wl-item { grid-template-columns: 1.6rem 1fr auto; grid-template-areas: 'status name type' 'source source source' 'why why why' 'added added added'; }
+    .wl-item__status { grid-area: status; }
+    .wl-item__name { grid-area: name; }
+    .wl-item__source { grid-area: source; }
+    .wl-item__why { grid-area: why; white-space: normal; }
+    .wl-item__type { grid-area: type; }
+    .wl-item__added { grid-area: added; }
+  }
 </style>
