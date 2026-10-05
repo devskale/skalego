@@ -90,7 +90,7 @@ set -euo pipefail
 SOURCE="${skill.source}"
 PKG="git:github.com/\${SOURCE}"
 SETTINGS="\$HOME/.pi/agent/settings.json"
-command -v pi >/dev/null 2>&1 || { echo "✗ pi not found — install it first: https://pi.farm" >&2; exit 1; }
+command -v pi >/dev/null 2>&1 || { echo "✗ pi not found — install it first: https://pi.dev" >&2; exit 1; }
 grep -q "\${SOURCE}" "\${SETTINGS}" 2>/dev/null || pi install "\${PKG}"
 python3 - '${namesJson}' "\${SOURCE}" <<'PY'
 import json, sys, pathlib
