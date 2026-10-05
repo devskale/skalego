@@ -568,6 +568,44 @@ section#clients { padding: 56px 0 64px; }
 .app-mini-desc { display: block; font-size: 0.82rem; color: var(--text-dim); line-height: 1.55; }
 
 /* ---- AGENTIC (home) ---- */
+/* hairline teaser — static server render, client re-renders on input */
+.agentic-teaser {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 22px 24px 24px; margin-bottom: 20px;
+}
+.agentic-teaser-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 14px; flex-wrap: wrap; margin-bottom: 14px;
+}
+.agentic-teaser-kicker {
+    font-family: var(--mono); font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--red-bright);
+}
+.agentic-teaser-hint { font-size: 0.84rem; color: var(--text-faint); }
+.agentic-stage {
+    background: #050506; border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 16px;
+}
+.agentic-stage svg { display: block; width: 100%; height: auto; }
+.agentic-controls { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: flex-end; }
+.agentic-field { display: flex; flex-direction: column; gap: 6px; }
+.agentic-field label {
+    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--text-dim);
+    display: inline-flex; gap: 8px; align-items: baseline;
+}
+.agentic-field output { color: var(--text-faint); text-transform: none; }
+.agentic-field input[type="text"] {
+    background: #050506; border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px; padding: 9px 12px; color: var(--text-bright);
+    font-family: var(--mono); font-size: 0.86rem; width: 220px;
+}
+.agentic-field input[type="text"]:focus-visible {
+    outline: 2px solid var(--red); outline-offset: 2px;
+}
+.agentic-field input[type="range"] { width: 130px; accent-color: var(--red); cursor: pointer; }
+.agentic-controls .btn { padding: 9px 16px; font-size: 0.84rem; }
+
 .agentic-split {
     display: grid; grid-template-columns: 1.15fr 1fr; gap: 20px;
     align-items: stretch;
@@ -629,15 +667,22 @@ section#clients { padding: 56px 0 64px; }
 }
 .agentic-skill-list { list-style: none; margin: 0; padding: 0; }
 .agentic-skill {
-    display: grid; grid-template-columns: 8.5rem 1fr; gap: 14px; align-items: baseline;
-    padding: 13px 0; border-bottom: 1px solid var(--border);
+    display: grid; grid-template-columns: 1fr; gap: 3px;
+    padding: 11px 0; border-bottom: 1px solid var(--border);
 }
 .agentic-skill:last-child { border-bottom: none; }
 .agentic-skill-name {
     font-family: var(--mono); font-size: 0.86rem; font-weight: 600;
     color: var(--text-bright);
+    display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap;
 }
-.agentic-skill-desc { font-size: 0.86rem; color: var(--text-dim); line-height: 1.55; }
+.agentic-skill-env {
+    font-family: var(--mono); font-size: 0.62rem; font-weight: 500;
+    color: var(--text-dim); border: 1px solid var(--border);
+    border-radius: 5px; padding: 1px 6px;
+    background: rgba(255, 255, 255, 0.04); letter-spacing: 0.02em;
+}
+.agentic-skill-desc { font-size: 0.84rem; color: var(--text-dim); line-height: 1.5; }
 .agentic-skills-foot {
     margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border);
     display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
