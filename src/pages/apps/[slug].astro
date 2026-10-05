@@ -105,6 +105,15 @@ const jsonld = {
 </BaseLayout>
 
 <style>
+  /* back-link styling shared with /apps/ + /agent-coding/ (class used by those pages too) */
+  .apps-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--text-dim); text-decoration: none;
+    font-size: 0.9rem; margin: 2rem 0 0; transition: color 0.2s;
+  }
+  .apps-back:hover { color: var(--red); }
+  .apps-back:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 4px; }
+
   .app-page-head {
     max-width: 640px;
     padding: 40px 0 28px;

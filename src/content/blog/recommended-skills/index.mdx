@@ -1,13 +1,13 @@
 ---
-title: "Recommended Agent Skills – One-Line Installs"
-description: "One-line installs for the agent skills we recommend: curl skale.dev/s/<name> | bash — pi-skills, skillsets and best-practice guides for coding agents."
+title: "Agent-Skills mit Einzeiler-Install"
+description: "Empfohlene Agent-Skills mit Einzeiler-Install: curl skale.dev/s/<name> | bash. Eigene pi-Skills, Skillsets und Best-Practice-Guides für Coding-Agenten."
 date: 2025-07-15
 author: johann
 tags: [skills, agents, pi]
 draft: false
 skills:
   - slug: fetch-url
-    desc: "Readable Text von jeder Webseite holen: Artikel, Docs, Reddit, GitHub, StackOverflow."
+    desc: "Lesbaren Text von jeder Webseite holen: Artikel, Docs, Reddit, GitHub, StackOverflow."
     install: pi-skill
     details:
       how: "Wählt je nach Seite das beste Backend: zuerst lokale, freie Tools (w3m, lynx), dann freie APIs (jina, markdown), dann Headless-Chrome für Cloudflare- und JS-geschützte Seiten. Installiert ein fetch-url-CLI in ~/.local/bin, das sich alle 7 Tage selbst aktualisiert."
@@ -50,43 +50,43 @@ skills:
     hidden: true
 ---
 
-We ship a small set of agent skills for [pi](https://pi.farm) and recommend a few
-from upstream. Each installs with one line:
+Wir pflegen einen kleinen Satz eigener Agent-Skills für [pi](https://pi.farm)
+und empfehlen einige aus Upstream. Jeder installiert sich mit einer Zeile:
 
 ```bash
 curl -fsSL https://skale.dev/s/<name> | bash
 ```
 
-Our own skills (`fetch-url`, `web-search`, `surf`) enable via pi's package
-whitelist; external ones (`impeccable`, …) run their upstream installer. Browse
-all installable skills on [**/skills**](/skills/).
+Die eigenen Skills (`fetch-url`, `web-search`, `surf`) aktivieren über die
+pi-Paket-Whitelist; externe (`impeccable`, …) über ihren Upstream-Installer.
+Alle installierbaren Skills: [**/skills**](/skills/).
 
-### `improve-architecture` — a 7-skill family
+### `improve-architecture`: eine 7-Skill-Familie
 
-One install pulls in [@mattpocock](https://github.com/mattpocock)'s architecture-review family — seven skills that work together:
+Ein Install zieht [@mattpocock](https://github.com/mattpocock)s Architektur-Review-Familie: sieben Skills, die zusammenarbeiten.
 
-- **`improve-codebase-architecture`** — scan for deepening opportunities, render an HTML report, then grill through the one you pick.
-- **`codebase-design`** — the shared deep-module vocabulary (module, interface, depth, seam, adapter) the others speak.
-- **`domain-modeling`** — maintain the project's domain model (`CONTEXT.md` terms, ADRs).
-- **`grilling`** — the relentless decision-tree interview at the core of the grill step.
-- **`grill-me`** — a relentless interview to sharpen a plan or design.
-- **`grill-with-docs`** — grilling + domain-modeling combined, writing ADRs/glossary as it goes.
-- **`batch-grill-me`** — a relentless interview that asks every frontier question at once, round by round.
+- **`improve-codebase-architecture`**: Deepening-Chancen scannen, HTML-Report erzeugen, den gewählten Kandidaten im Grill-Durchgang ausfragen.
+- **`codebase-design`**: das gemeinsame Deep-Module-Vokabular (Module, Interface, Tiefe, Seam, Adapter), das die anderen sprechen.
+- **`domain-modeling`**: das Domänenmodell des Projekts pflegen (`CONTEXT.md`-Begriffe, ADRs).
+- **`grilling`**: das kompromisslose Entscheidungsbaum-Interview im Kern des Grill-Schritts.
+- **`grill-me`**: ein kompromissloses Interview, um einen Plan oder ein Design zu schärfen.
+- **`grill-with-docs`**: Grilling plus Domain-Modeling, schreibt ADRs und Glossar nebenbei mit.
+- **`batch-grill-me`**: ein kompromissloses Interview, das alle Grenzfragen auf einmal stellt, Runde für Runde.
 
-Install all seven:
+Alle sieben installieren:
 
 ```bash
 curl -fsSL https://skale.dev/s/improve-architecture | bash
 ```
 
-They land in `.agents/skills/` (pi reads it automatically).
+Sie landen in `.agents/skills/` (pi liest das automatisch ein).
 
-### `implement` — spec/ticket → committed code
+### `implement`: von Spec/Ticket zum Commit
 
-Another [@mattpocock](https://github.com/mattpocock) skill: implement a piece of work from a spec or tickets. TDD at pre-agreed seams where possible, typecheck regularly, run the full suite once at the end, then `/code-review` and commit to the current branch.
+Ein weiterer [@mattpocock](https://github.com/mattpocock)-Skill: Arbeit aus einer Spec oder Tickets umsetzen. TDD an vorab vereinbarten Nähten, wo möglich; regelmäßig typechecken, die volle Suite einmal am Ende, dann `/code-review` und Commit auf den aktuellen Branch.
 
 ```bash
 curl -fsSL https://skale.dev/s/implement | bash
 ```
 
-Once installed, manage **skills and extensions** any time with `pi config` (interactive TUI — space toggles, Tab switches scope) or `pi config -l` (opens straight in project scope). No re-install needed to turn things on or off.
+Nach dem Install lassen sich **Skills und Extensions** jederzeit mit `pi config` verwalten (interaktive TUI, Leertaste schaltet um, Tab wechselt den Scope) oder `pi config -l` (öffnet direkt im Projekt-Scope). Ein- und Ausschalten braucht keinen Re-Install.
