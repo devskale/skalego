@@ -9,13 +9,14 @@ export function getStaticPaths() {
   return apps
     .filter((a) => a.page)
     .map((a) => ({
-      params: { slug: a.page.slug },
+      params: { slug: a.page!.slug },
       props: { app: a },
     }));
 }
 
 const { app } = Astro.props;
 const page = app.page;
+if (!page) throw new Error(`App "${app.name}" hat keine page-Definition, wird aber unter /apps/<slug>/ gerendert.`);
 const url = `https://skale.dev/apps/${page.slug}/`;
 const toolUrl = new URL(app.href, 'https://skale.dev/').toString();
 

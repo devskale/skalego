@@ -30,7 +30,7 @@ const jsonld = {
       address: { '@type': 'PostalAddress', ...organization.address },
       geo: { '@type': 'GeoCoordinates', ...organization.geo },
       areaServed: organization.areaServed,
-      founder: { '@type': 'Person', '@id': 'https://skale.dev/#founder', ...organization.founder },
+      founder: { ...organization.founder, '@id': 'https://skale.dev/#founder' },
       sameAs: organization.sameAs,
       knowsAbout: organization.knowsAbout,
     },

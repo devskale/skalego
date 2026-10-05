@@ -12,6 +12,7 @@ import { buildRegistry, bashScript, notFoundText } from './scripts/skills-lib.mj
 // at build done. Serves `curl -fsSL https://skale.dev/s/<slug> | bash` from plain
 // nginx (try_files) since the amd2 migration — no serverless runtime needed.
 // Hidden skills stay installable via /s/<slug>, matching the retired Vercel fn.
+/** @returns {import('astro').AstroIntegration} */
 function skillsStatic() {
   return {
     name: 'skills-static',
