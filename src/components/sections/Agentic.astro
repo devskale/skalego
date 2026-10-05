@@ -3,9 +3,10 @@
 // Die Skill-Liste kommt aus der Registry-SSOT (recommended-skills frontmatter,
 // gleiche Quelle wie /skills/), damit nichts driftet.
 //
-// Der Hairline-Teaser rendert Text als gestapelte Strich-Ebenen. Serverseitig
-// wird eine statische Version mit Default-Params ausgeliefert (Funktion ohne
-// JS), das client-Script rendert denselben Algorithmus bei Input neu.
+// Der Hairline-Teaser ist ein selbstständiges Skill-Artefakt
+// (public/hairline/agents.html — Kernel: hairline von Lucas Marques, MIT),
+// lazy per iframe eingebettet. Es bringt eigene Controls mit
+// (Intensitäts-Slider, Theme-Schalter, Read-out) und läuft ohne JS dieser Seite.
 import { getCollection } from 'astro:content';
 
 const all = await getCollection('blog', ({ data }) => (import.meta.env.PROD ? data.draft !== true : true));
@@ -23,40 +24,6 @@ function envLabel(s: { install: string }): string | null {
 }
 
 const install = 'pi install git:github.com/devskale/skale-skills';
-
-/* ---- hairline render (shared with the inline client script) ---- */
-const TEASER = { W: 1000, H: 280, text: 'skale.dev', layers: 18, jitter: 9, stroke: 0.55, seed: 7 };
-
-function mulberry32(a: number) {
-  return function () {
-    a |= 0; a = (a + 0x6d2b79f5) | 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-function hairlineLayers(text: string, layerCount: number, jitter: number, seed: number) {
-  const rnd = mulberry32(seed);
-  const fs = Math.max(48, Math.min(190, (TEASER.W * 1.7) / (Math.max(text.length, 3) + 0.6)));
-  const baseY = TEASER.H / 2 + fs * 0.34;
-  const out: { x: string; y: string; rot: string | null; op: string }[] = [];
-  for (let i = 0; i < layerCount; i++) {
-    const dx = i === 0 ? 0 : (rnd() * 2 - 1) * jitter;
-    const dy = i === 0 ? 0 : (rnd() * 2 - 1) * jitter;
-    const rot = i === 0 ? 0 : (rnd() * 2 - 1) * jitter * 0.16;
-    const op = i === 0 ? 0.95 : 0.18 + rnd() * 0.3;
-    out.push({
-      x: (TEASER.W / 2 + dx).toFixed(1),
-      y: (baseY + dy).toFixed(1),
-      rot: rot ? rot.toFixed(2) : null,
-      op: op.toFixed(2),
-    });
-  }
-  return { fs: fs.toFixed(1), baseY: baseY.toFixed(1), layers: out };
-}
-
-const teaser = hairlineLayers(TEASER.text, TEASER.layers, TEASER.jitter, TEASER.seed);
 ---
 
 <section id="agentic">
@@ -64,70 +31,56 @@ const teaser = hairlineLayers(TEASER.text, TEASER.layers, TEASER.jitter, TEASER.
     <header class="section-head reveal">
       <h2 class="section-title">Agentic Coding.</h2>
       <p class="section-sub">
-        Wir bauen täglich mit Coding-Agenten. Was dabei entsteht, fließt
-        in ein offenes Paket zurück: Skills, Extensions und Guides, frei nutzbar.
+        Agentic Engineering ist unser Kern: Wir entwickeln Skills und
+        Extensions für Coding-Agenten und bringen sie in Ihren
+        Entwicklungsalltag. Was dabei entsteht, fließt in ein offenes
+        Paket zurück.
       </p>
+      <div class="agentic-stack reveal">
+        <span class="agentic-stack-label">Stack</span>
+        <a class="agentic-stack-item" href="https://pi.dev" target="_blank" rel="noopener"><strong>pi</strong> pi.dev</a>
+        <span class="agentic-stack-plus" aria-hidden="true">+</span>
+        <a class="agentic-stack-item" href="https://herdr.dev" target="_blank" rel="noopener"><strong>Herdr</strong> herdr.dev</a>
+        <span class="agentic-stack-note">der Coding-Agent und die Runtime, auf der er läuft</span>
+      </div>
     </header>
 
-    <!-- HAIRLINE TEASER — static server render, interactive via client script -->
+    <!-- HAIRLINE FIGURE — self-contained skill artifact (public/hairline/agents.html), embedded lazy -->
     <div class="agentic-teaser reveal">
       <div class="agentic-teaser-head">
         <span class="agentic-teaser-kicker">Agentic Visual Skills</span>
-        <span class="agentic-teaser-hint">Text und Parameter ändern, der Render folgt.</span>
+        <span class="agentic-teaser-hint">Bewege den Zeiger über das Feld &mdash; die Figur antwortet.</span>
       </div>
       <div class="agentic-stage">
-        <svg id="agentic-hairline" viewBox={`0 0 ${TEASER.W} ${TEASER.H}`} role="img" aria-label={`Hairline-Render des Texts "${TEASER.text}"`}>
-          {teaser.layers.map((l) => (
-            <text
-              x={l.x}
-              y={l.y}
-              transform={l.rot ? `rotate(${l.rot} ${TEASER.W / 2} ${teaser.baseY})` : undefined}
-              text-anchor="middle"
-              font-family="var(--display)"
-              font-weight="700"
-              letter-spacing="-0.02em"
-              font-size={teaser.fs}
-              fill="none"
-              stroke="var(--red-bright)"
-              stroke-width={TEASER.stroke}
-              opacity={l.op}
-            >{TEASER.text}</text>
-          ))}
-        </svg>
+        <iframe
+          src="/hairline/agents.html?theme=dark"
+          title="Hairline-Figur »agents«: ein 3x3-Feld aus Agenten-Würfeln. Der Agent unter dem Zeiger hebt ab, seine Nachbarn steigen versetzt mit."
+          loading="lazy"></iframe>
       </div>
-      <div class="agentic-controls">
-        <div class="agentic-field agentic-field-text">
-          <label for="agentic-text">Text</label>
-          <input type="text" id="agentic-text" value={TEASER.text} maxlength="24" autocomplete="off" spellcheck="false" />
-        </div>
-        <div class="agentic-field">
-          <label for="agentic-layers">Ebenen <output id="agentic-out-layers">{TEASER.layers}</output></label>
-          <input type="range" id="agentic-layers" min="2" max="40" value={TEASER.layers} />
-        </div>
-        <div class="agentic-field">
-          <label for="agentic-jitter">Streuung <output id="agentic-out-jitter">{TEASER.jitter}</output></label>
-          <input type="range" id="agentic-jitter" min="0" max="30" value={TEASER.jitter} />
-        </div>
-        <div class="agentic-field">
-          <label for="agentic-stroke">Strich <output id="agentic-out-stroke">{TEASER.stroke}</output></label>
-          <input type="range" id="agentic-stroke" min="0.2" max="1.6" step="0.05" value={TEASER.stroke} />
-        </div>
-        <button type="button" id="agentic-reseed" class="btn btn-outline">Neu würfeln</button>
-      </div>
+      <p class="agentic-teaser-note">
+        Visualisierungs-Skills: diese Hairline-Figur &mdash; Kernel:
+        <a href="https://hairline.lucasmarkes.com" target="_blank" rel="noopener">hairline</a> (MIT, &copy; Lucas Marques) &mdash;
+        und <a href="https://github.com/devskale/skale-skills" target="_blank" rel="noopener">visualize</a>,
+        das aus einer Anfrage eine self-contained HTML mit teilbarer URL baut.
+      </p>
     </div>
 
     <div class="agentic-split">
       <article class="agentic-repo reveal">
-        <div class="agentic-repo-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-1.8c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 .1.8 1.7 2.6 1.2.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 4.6 18 4.9 18 4.9c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
-        </div>
+        <span class="agentic-dev-kicker">Entwicklung</span>
+        <h3 class="agentic-dev-title">Skill- &amp; Extension-Entwicklung</h3>
+        <p class="agentic-repo-desc">
+          Eigene Skills und pi-Extensions für Ihren Agenten-Stack,
+          abgestimmt auf Codebasis und Prozesse. Beispiel: unser
+          offenes Paket
+        </p>
+        <ul class="agentic-dev-list">
+          <li><strong>Skill-Entwicklung</strong><span>SKILL.md nach agentskills.io-Format</span></li>
+          <li><strong>Extension-Entwicklung</strong><span>pi-Extensions mit TypeBox-Schema</span></li>
+        </ul>
         <a class="agentic-repo-name" href="https://github.com/devskale/skale-skills" target="_blank" rel="noopener">
           devskale<span>/skale-skills</span>
         </a>
-        <p class="agentic-repo-desc">
-          Ein <code>pi</code>-Paket mit Skills, Extensions und Prompts für
-          Coding-Agenten. Funktioniert mit pi, Claude Code, Codex und anderen.
-        </p>
         <div class="install-box">
           <code>{install}</code>
           <button class="copy" type="button" data-copy={install} aria-label="Install-Befehl kopieren">
@@ -157,6 +110,11 @@ const teaser = hairlineLayers(TEASER.text, TEASER.layers, TEASER.jitter, TEASER.
           <a href="/skills/">Alle Skills ansehen <span aria-hidden="true">→</span></a>
           <span class="agentic-skill-count">{skills.length} Skills, je ein Einzeiler-Install</span>
         </div>
+        <p class="agentic-skills-ref">
+          Referenz für Skill-Design: die Familie von <a
+            href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">@mattpocock</a> (improve-architecture,
+            implement), in dieser Liste enthalten.
+        </p>
       </div>
     </div>
   </div>
@@ -164,54 +122,7 @@ const teaser = hairlineLayers(TEASER.text, TEASER.layers, TEASER.jitter, TEASER.
 
 <script is:inline>
   (function () {
-    var svg = document.getElementById('agentic-hairline');
-    if (!svg) return;
-    var byId = function (id) { return document.getElementById(id); };
-    var t = byId('agentic-text'), L = byId('agentic-layers'), J = byId('agentic-jitter'),
-        S = byId('agentic-stroke'), B = byId('agentic-reseed');
-    var W = 1000, H = 280, seed = 7;
-
-    function mulberry32(a) {
-      return function () {
-        a |= 0; a = (a + 0x6d2b79f5) | 0;
-        var t = Math.imul(a ^ (a >>> 15), 1 | a);
-        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-      };
-    }
-    function esc(s) {
-      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    }
-
-    function render() {
-      var text = (t.value.trim() || 'skale.dev').slice(0, 24);
-      var layers = +L.value, jitter = +J.value, stroke = +S.value;
-      byId('agentic-out-layers').value = layers;
-      byId('agentic-out-jitter').value = jitter;
-      byId('agentic-out-stroke').value = stroke.toFixed(2);
-      var rnd = mulberry32(seed);
-      var fs = Math.max(48, Math.min(190, (W * 1.7) / (Math.max(text.length, 3) + 0.6)));
-      var baseY = H / 2 + fs * 0.34;
-      var html = '';
-      for (var i = 0; i < layers; i++) {
-        var dx = i === 0 ? 0 : (rnd() * 2 - 1) * jitter;
-        var dy = i === 0 ? 0 : (rnd() * 2 - 1) * jitter;
-        var rot = i === 0 ? 0 : (rnd() * 2 - 1) * jitter * 0.16;
-        var op = i === 0 ? 0.95 : 0.18 + rnd() * 0.3;
-        html += '<text x="' + (W / 2 + dx).toFixed(1) + '" y="' + (baseY + dy).toFixed(1) + '"'
-          + (rot ? ' transform="rotate(' + rot.toFixed(2) + ' ' + W / 2 + ' ' + baseY.toFixed(1) + ')"' : '')
-          + ' text-anchor="middle" font-family="var(--display)" font-weight="700" letter-spacing="-0.02em"'
-          + ' font-size="' + fs.toFixed(1) + '" fill="none" stroke="var(--red-bright)"'
-          + ' stroke-width="' + stroke + '" opacity="' + op.toFixed(2) + '">' + esc(text) + '</text>';
-      }
-      svg.innerHTML = html;
-    }
-
-    [t, L, J, S].forEach(function (el) { el.addEventListener('input', render); });
-    B.addEventListener('click', function () { seed = (Math.random() * 1e9) | 0; render(); });
-    render();
-
-    /* copy button (repo card) */
+    /* copy button (dev card) */
     document.querySelectorAll('.agentic-repo .copy').forEach(function (b) {
       b.addEventListener('click', function () {
         var text = b.getAttribute('data-copy') || '';

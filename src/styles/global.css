@@ -155,7 +155,7 @@ body {
         transition-duration: 0.01ms !important; scroll-behavior: auto !important;
     }
     .reveal { opacity: 1 !important; transform: none !important; }
-    #hero-canvas, .hero-glow { display: none; }
+    .hero-glow { display: none; }
     .belt-track { animation: none; }
 }
 
@@ -378,21 +378,17 @@ body {
         radial-gradient(60% 50% at 50% 8%, rgba(229, 57, 53, 0.10), transparent 70%),
         radial-gradient(40% 30% at 50% 0%, rgba(229, 57, 53, 0.06), transparent 60%);
 }
-#hero-canvas {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 0; opacity: 0.32;
-}
 /* the serial skale-matrix char: a large, dimmed watermark centered behind the headline */
 .hero-matrix {
     position: absolute; inset: 0; z-index: 0;
     width: 100%; height: 100%;
-    opacity: 0.5;
+    opacity: 0.12;
     pointer-events: none;
 }
 .hero-matrix svg {
     position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%);
-    width: min(70vh, 92vw);
-    height: min(70vh, 92vw);
+    width: min(42vh, 60vw);
+    height: min(42vh, 60vw);
 }
 /* soft fade at the edges so the glyph melts into the background */
 .hero-matrix::after {
@@ -568,7 +564,7 @@ section#clients { padding: 56px 0 64px; }
 .app-mini-desc { display: block; font-size: 0.82rem; color: var(--text-dim); line-height: 1.55; }
 
 /* ---- AGENTIC (home) ---- */
-/* hairline teaser — static server render, client re-renders on input */
+/* hairline teaser — self-contained skill artifact (public/hairline/agents.html), lazy iframe */
 .agentic-teaser {
     background: var(--bg-card); border: 1px solid var(--border);
     border-radius: var(--radius); padding: 22px 24px 24px; margin-bottom: 20px;
@@ -586,25 +582,52 @@ section#clients { padding: 56px 0 64px; }
     background: #050506; border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 16px;
 }
-.agentic-stage svg { display: block; width: 100%; height: auto; }
-.agentic-controls { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: flex-end; }
-.agentic-field { display: flex; flex-direction: column; gap: 6px; }
-.agentic-field label {
-    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em;
-    text-transform: uppercase; color: var(--text-dim);
-    display: inline-flex; gap: 8px; align-items: baseline;
+.agentic-stage iframe { display: block; width: 100%; height: 700px; border: 0; }
+.agentic-teaser-note {
+    margin: 14px 0 0; font-size: 0.82rem; color: var(--text-faint); line-height: 1.6;
 }
-.agentic-field output { color: var(--text-faint); text-transform: none; }
-.agentic-field input[type="text"] {
-    background: #050506; border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 8px; padding: 9px 12px; color: var(--text-bright);
-    font-family: var(--mono); font-size: 0.86rem; width: 220px;
+.agentic-teaser-note a { color: var(--text-dim); text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
+.agentic-teaser-note a:hover { color: var(--red-bright); text-decoration-color: var(--red); }
+
+/* stack row */
+.agentic-stack {
+    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+    margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border);
 }
-.agentic-field input[type="text"]:focus-visible {
-    outline: 2px solid var(--red); outline-offset: 2px;
+.agentic-stack-label {
+    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--text-faint);
 }
-.agentic-field input[type="range"] { width: 130px; accent-color: var(--red); cursor: pointer; }
-.agentic-controls .btn { padding: 9px 16px; font-size: 0.84rem; }
+.agentic-stack-item {
+    font-family: var(--mono); font-size: 0.86rem; color: var(--text-dim);
+    text-decoration: none; padding: 4px 10px;
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.04); transition: color 0.18s var(--ease), border-color 0.18s var(--ease);
+}
+.agentic-stack-item strong { color: var(--text-bright); font-weight: 600; margin-right: 6px; }
+.agentic-stack-item:hover { color: var(--text-bright); border-color: rgba(229, 57, 53, 0.4); }
+.agentic-stack-plus { color: var(--red-bright); font-family: var(--mono); font-size: 0.86rem; }
+.agentic-stack-note { font-size: 0.8rem; color: var(--text-faint); }
+
+/* development card (left column) */
+.agentic-dev-kicker {
+    font-family: var(--mono); font-size: 0.68rem; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--red-bright);
+}
+.agentic-dev-title {
+    font-family: var(--display); font-size: 1.25rem; font-weight: 700;
+    color: var(--text-bright); letter-spacing: -0.02em; margin: 0;
+}
+.agentic-dev-list { list-style: none; margin: 0; padding: 0; width: 100%; }
+.agentic-dev-list li {
+    display: grid; grid-template-columns: 11rem 1fr; gap: 10px; align-items: baseline;
+    padding: 10px 0; border-top: 1px solid var(--border);
+    font-size: 0.8rem; color: var(--text-dim); line-height: 1.5;
+}
+.agentic-dev-list li strong {
+    font-family: var(--mono); font-size: 0.76rem; font-weight: 600;
+    color: var(--text-bright);
+}
 
 .agentic-split {
     display: grid; grid-template-columns: 1.15fr 1fr; gap: 20px;
@@ -653,7 +676,7 @@ section#clients { padding: 56px 0 64px; }
 .agentic-repo .copy.copied .icon-clip { display: none; }
 .agentic-repo .copy.copied .icon-check { display: block; }
 .agentic-repo-more {
-    margin-top: auto; font-size: 0.88rem; font-weight: 600;
+    margin-top: 6px; font-size: 0.88rem; font-weight: 600;
     color: var(--red-bright); text-decoration: none;
 }
 .agentic-repo-more:hover { color: var(--red); }
@@ -665,10 +688,17 @@ section#clients { padding: 56px 0 64px; }
     border-radius: var(--radius); padding: 20px 24px;
     display: flex; flex-direction: column;
 }
-.agentic-skill-list { list-style: none; margin: 0; padding: 0; }
+.agentic-skill-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0 26px; }
 .agentic-skill {
     display: grid; grid-template-columns: 1fr; gap: 3px;
     padding: 11px 0; border-bottom: 1px solid var(--border);
+}
+/* last grid row (up to 2 cells) carries no divider */
+.agentic-skill:nth-last-child(-n+2) { border-bottom: none; }
+@media (max-width: 720px) {
+    .agentic-skill-list { grid-template-columns: 1fr; }
+    /* back to one column: only the very last row is bare */
+    .agentic-skill:nth-last-child(2) { border-bottom: 1px solid var(--border); }
 }
 .agentic-skill:last-child { border-bottom: none; }
 .agentic-skill-name {
@@ -695,6 +725,12 @@ section#clients { padding: 56px 0 64px; }
 .agentic-skills-foot a span { transition: transform 0.2s var(--ease); display: inline-block; }
 .agentic-skills-foot a:hover span { transform: translateX(3px); }
 .agentic-skill-count { font-family: var(--mono); font-size: 0.72rem; color: var(--text-faint); text-align: right; }
+.agentic-skills-ref {
+    margin: 10px 0 0; padding-top: 12px; border-top: 1px solid var(--border);
+    font-size: 0.8rem; color: var(--text-faint); line-height: 1.6;
+}
+.agentic-skills-ref a { color: var(--text-dim); text-decoration: underline; text-decoration-color: var(--border-strong); text-underline-offset: 3px; }
+.agentic-skills-ref a:hover { color: var(--red-bright); text-decoration-color: var(--red); }
 
 /* ---- CONTACT / CTA ---- */
 #contact .container { max-width: 760px; }
@@ -729,6 +765,7 @@ section#clients { padding: 56px 0 64px; }
     .stepper::before { display: none; }
     .apps-grid { grid-template-columns: 1fr 1fr; }
     .agentic-split { grid-template-columns: 1fr; }
+    .agentic-stage iframe { height: 620px; }
 }
 @media (max-width: 760px) {
     /* nav collapses to off-canvas menu */
@@ -770,6 +807,7 @@ section#clients { padding: 56px 0 64px; }
     .case-grid { grid-template-columns: 1fr; }
     .apps-grid { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .agentic-stage iframe { height: 480px; }
 }
 @media (max-width: 480px) {
     .footer-grid { grid-template-columns: 1fr; }
