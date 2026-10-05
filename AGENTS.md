@@ -11,6 +11,7 @@ Production branch: **`main`** · Live: **skale.dev**
 - **pnpm** lockfile present; all commands use `pnpm` (not npm).
 - **Hosting**: pure static — the web server just serves `dist/`. Retired Vercel-era artifacts (`api/`, `vercel.json`, deploy docs) live in [`deprecated/`](deprecated/) — never extend or deploy them; the live `/s/<slug>` install endpoints are **static files** generated at build time.
 - **Language**: German (de) content; English code/comments.
+- **Visible copy lives in**: `src/components/**`, `src/pages/**`, `src/data/site.js`, `src/content/blog/**`, `public/*.{txt,webmanifest}`, `src/assets/seo/*.svg`. Code comments, URLs, and proper nouns (`Z AI`, `OpenAI`, `artificialanalysis.ai`) are **NOT** copy — leave them alone. A mechanical guardrail (`pnpm check:copy`) enforces the `KI`/`AI` register; run it before commit.
 
 ## Commands
 
@@ -27,6 +28,10 @@ pnpm run build
 
 # Preview the production build locally
 pnpm run preview
+
+# Guardrails (run before commit; also wired into git pre-commit)
+pnpm check          # astro check — type errors
+pnpm check:copy     # AI↔KI drift in visible German copy
 
 # Keystatic (dev-only): write/edit blog posts visually at http://localhost:4321/keystatic
 # (excluded from `astro build` → production stays pure static / zero-JS). Edits write
@@ -149,7 +154,6 @@ Screenshots go in `./research/` (gitignored). Rodney skill: `~/.pi/agent/skills/
 
 ## Known Footguns
 
-- **Deploy ist der Script, nicht git push.** `./scripts/deploy-skale.sh --build` nach jedem Commit, der live gehen soll.
 - **Pure static.** No SSR adapter, no runtime backend — `/s/<slug>` is static files; the web server only serves files. **Everything in `deprecated/` is retired** — don't extend it, don't point users at endpoints that rely on a runtime.
 - **No `pnpm-workspace.yaml`.** The lockfile is pnpm@9; pnpm 9 errors (`packages field missing or empty`) on a workspace file that lacks a `packages:` field, and the pnpm-10+ `allowBuilds` syntax is incompatible. (Locally pnpm 11 prints an "ignored build scripts" warning on fresh install — harmless, esbuild/sharp aren't invoked at build since we don't use `astro:assets`.)
 - **`public/firmenindex/` is a standalone sub-app** (own HTML/JS, query-param routing) copied verbatim. It is NOT an Astro page — edit its files directly under `public/`.
